@@ -1,0 +1,3 @@
+[run]
+source = kfhlog
+omit = kfhlog/test*
