@@ -17,5 +17,6 @@ Data.fs*
 .*.sw?
 .sw?
 .DS_Store
+.idea
 coverage
 test
