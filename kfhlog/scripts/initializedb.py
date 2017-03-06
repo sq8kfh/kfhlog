@@ -15,7 +15,7 @@ from ..models import (
     get_session_factory,
     get_tm_session,
     )
-from ..models import MyModel
+from ..models import Mode
 
 
 def usage(argv):
@@ -41,5 +41,14 @@ def main(argv=sys.argv):
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 
-        #model = MyModel(name='one', value=1)
-        #dbsession.add(model)
+        dbsession.add(Mode(mode='USB', rst='59'))
+        dbsession.add(Mode(mode='LSB', rst='59'))
+        dbsession.add(Mode(mode='RTTY', rst='599'))
+        dbsession.add(Mode(mode='CW', rst='599'))
+        dbsession.add(Mode(mode='JT65', rst=None))
+        dbsession.add(Mode(mode='PSK31', rst='599'))
+        dbsession.add(Mode(mode='PSK63', rst='599'))
+        dbsession.add(Mode(mode='PSK125', rst='599'))
+        dbsession.add(Mode(mode='HELL', rst='599'))
+        dbsession.add(Mode(mode='FM', rst='59'))
+
