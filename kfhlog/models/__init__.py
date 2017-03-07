@@ -11,6 +11,7 @@ from .dxcc import Dxcc
 from .profile import Profile
 from .group import Group
 from .qso import Qso
+from .user import User
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup

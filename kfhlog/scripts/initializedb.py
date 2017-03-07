@@ -1,6 +1,7 @@
 import os
 import sys
 import transaction
+import getpass
 
 from pyramid.paster import (
     get_appsettings,
@@ -23,6 +24,7 @@ from ..models import (
     Profile,
     Group,
     Qso,
+    User,
     )
 
 def usage(argv):
@@ -618,3 +620,9 @@ def main(argv=sys.argv):
         if not name:
             name = call + ' (default)'
         dbsession.add(Profile(id=0, name=name, callsign=call))
+
+        user = input('Login: ')
+        password = getpass.getpass("Password: ")
+        tmp = User(name=user)
+        tmp.set_password(password)
+        dbsession.add(tmp)

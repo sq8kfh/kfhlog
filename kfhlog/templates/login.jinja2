@@ -1,0 +1,11 @@
+{% extends "base.jinja2" %}
+
+{% block content %}
+{{message}}
+<form action="/login" method="post">
+    <input type="hidden" name="next" value="{{next_url}}" />
+    <input type="text" name="login" />
+    <input type="password" name="password" />
+    <input type="submit" value="Login" />
+</form>
+{% endblock content %}

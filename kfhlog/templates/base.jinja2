@@ -17,8 +17,14 @@
     <body>
         <header>
             <div class="usermenu">
-			    {% block usermenu %}{% endblock %}
-		    </div>
+                <ul class="usermenu">
+                {% if request.user is none %}
+                    <li><a href="{{request.route_url('login')}}"><span class="icon-login"></span> Login</a></li>
+                {% else %}
+                    <li><a title="Logout" href="{{request.route_url('logout')}}"><span class="icon-log-out"></span> {{request.user.name}}</a></li>
+                {% endif %}
+                </ul>
+            </div>
             <h1>KFHLog</h1>
             <nav>{% block menu %}{% endblock %}</nav>
         </header>

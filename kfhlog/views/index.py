@@ -1,11 +1,16 @@
+from pyramid.httpexceptions import HTTPForbidden
 from pyramid.response import Response
 from pyramid.view import view_config
 
 from sqlalchemy.exc import DBAPIError
 
 
-@view_config(route_name='index', renderer='../templates/index.jinja2')
+@view_config(route_name='index', renderer='index.jinja2')
 def index_view(request):
+    user = request.user
+    if user is None:
+        raise HTTPForbidden
+
     """try:
         query = request.dbsession.query(MyModel)
         one = query.filter(MyModel.name == 'one').first()
