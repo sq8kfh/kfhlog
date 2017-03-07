@@ -7,6 +7,10 @@ import zope.sqlalchemy
 # Base.metadata prior to any initialization routines
 from .mode import Mode
 from .band import Band
+from .dxcc import Dxcc
+from .profile import Profile
+from .group import Group
+from .qso import Qso
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
