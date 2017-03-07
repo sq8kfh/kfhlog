@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="pyramid web application" />
+        <meta name="author" content="SQ8KFH" />
+        <link rel="shortcut icon" href="{{request.static_url('kfhlog:static/pyramid-16x16.png')}}" />
+
+        <title>{% block title %}SQ8KFH{% endblock %} - KFH Logbook</title>
+
+        <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/theme.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/icomoon.css')}}" />
+
+        <script src="{{request.static_url('kfhlog:static/jquery.js')}}"></script>
+    </head>
+    <body>
+        <header>
+            <div class="usermenu">
+			    {% block usermenu %}{% endblock %}
+		    </div>
+            <h1>KFHLog</h1>
+            <nav>{% block menu %}{% endblock %}</nav>
+        </header>
+        <main>{% block content %}{% endblock %}</main>
+        <footer>
+            <p>Copyright 2017 by SQ8KFH. All Rights Reserved.</p>
+        </footer>
+    </body>
+</html>
