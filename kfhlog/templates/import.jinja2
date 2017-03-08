@@ -1,0 +1,9 @@
+{% extends "logged_base.jinja2" %}
+
+{% block content %}
+{{message}}
+<form action="/import" method="post" enctype="multipart/form-data">
+    <input type="file" id="file" name="file" />
+    <input type="submit" value="Import" />
+</form>
+{% endblock content %}

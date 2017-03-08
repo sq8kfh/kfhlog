@@ -1,0 +1,25 @@
+{% extends "base.jinja2" %}
+
+{% block usermenu %}
+<ul class="usermenu">
+    <li>
+        <a href="#"><span class="icon-user"></span> SQ8KFH</a>
+        <ul>
+            <li><a href="{{request.route_url('index')}}"><span class="icon-log-out"></span> Logout</a></li>
+        </ul>
+    </li>
+</ul>
+{% endblock %}
+
+
+{% block menu %}
+<ul class="mainmenu">
+    <li {% if request.matched_route.name == "index" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-home"></span> Home</a></li>
+    <li {% if request.matched_route.name == "new_qso" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-new-message"></span> New QSO</a></li>
+    <li {% if request.matched_route.name == "log" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-open-book"></span> Log</a></li>
+    <li {% if request.matched_route.name == "map" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-globe"></span> Map</a></li>
+    <li {% if request.matched_route.name == "awards" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-trophy"></span> Awards</a></li>
+    <li {% if request.matched_route.name == "import" %}class="active"{% endif %}><a href="{{request.route_url('import')}}"><span class="icon-download"></span> Import</a></li>
+    <li {% if request.matched_route.name == "settings" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-cog"></span> Settings</a></li>
+</ul>
+{% endblock %}
