@@ -4,7 +4,7 @@ from sqlalchemy import (
     Column,
     ForeignKey,
     Integer,
-    CHAR,
+    String,
     DateTime,
     Float,
     Enum,
@@ -35,11 +35,11 @@ class Qso(Base):
     qsoprofile = Column(ForeignKey('profile.id'), nullable=False)
     qsogroup = Column(ForeignKey('group.id'), nullable=False)
 
-    call = Column(CHAR(length=20), nullable=False)
+    call = Column(String(length=20), nullable=False)
     date_on = Column(DateTime(timezone=False), nullable=True)
     date_off = Column(DateTime(timezone=False), nullable=False)
-    rst_rcvd = Column(CHAR(length=10), nullable=False)
-    rst_sent = Column(CHAR(length=10), nullable=False)
+    rst_rcvd = Column(String(length=10), nullable=False)
+    rst_sent = Column(String(length=10), nullable=False)
 
     band = Column(ForeignKey('band.id'), nullable=False)
     band_rx = Column(ForeignKey('band.id'), nullable=True)
@@ -51,22 +51,22 @@ class Qso(Base):
 
     stx = Column(Integer)
     srx = Column(Integer)
-    stx_string = Column(CHAR(length=10))
-    srx_string = Column(CHAR(length=10))
+    stx_string = Column(String(length=10))
+    srx_string = Column(String(length=10))
 
-    name = Column(CHAR(length=40))
-    qth = Column(CHAR(length=60))
-    gridsquare = Column(CHAR(length=8))
+    name = Column(String(length=40))
+    qth = Column(String(length=60))
+    gridsquare = Column(String(length=8))
 
     dxcc = Column(ForeignKey('dxcc.id'))
     ituz = Column(Integer)
     cqz = Column(Integer)
 
-    iota = Column(CHAR(length=10))
-    sota_ref = Column(CHAR(length=10))
+    iota = Column(String(length=10))
+    sota_ref = Column(String(length=10))
 
-    state = Column(CHAR(length=4)) #Primary Administrative Subdivision (e.g. US State, JA Island, VE Province)
-    cnty= Column(CHAR(length=4)) #Secondary Administrative Subdivision of contacted station (e.g. US county, JA Gun)
+    state = Column(String(length=4)) #Primary Administrative Subdivision (e.g. US State, JA Island, VE Province)
+    cnty= Column(String(length=4)) #Secondary Administrative Subdivision of contacted station (e.g. US county, JA Gun)
 
     tx_pwr = Column(Float)
 
@@ -86,9 +86,9 @@ class Qso(Base):
     #qsl_rcvd_via
     qsl_sent = Column(Enum(Send_enum))
     #qsl_sent_via
-    qsl_via = Column(CHAR(length=30))
+    qsl_via = Column(String(length=30))
 
     a_index = Column(Integer)
     k_index = Column(Integer)
     sfi = Column(Integer)
-    comment = Column(CHAR(length=200)) #notes
+    comment = Column(String(length=200)) #notes
