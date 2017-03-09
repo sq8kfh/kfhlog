@@ -5,8 +5,22 @@
 {{message}}
 <form action="/import" method="post" enctype="multipart/form-data">
     <ul>
-    <li><input type="file" id="file" name="file" /></li>
-    <li><input type="submit" value="Import" /></li>
+        <li>
+            <label>Profile: <select name="qsoprofile">
+                {% for qsoprofile in qsoprofiles %}
+                <option value="{{ qsoprofile.id }}">{{ qsoprofile.name }}</option>
+                {% endfor %}
+            </select></label>
+        </li>
+        <li>
+            <label>Group: <select name="qsogroup">
+                {% for qsogroup in qsogroups %}
+                <option value="{{ qsogroup.id }}">{{ qsogroup.name }}</option>
+                {% endfor %}
+            </select></label>
+        </li>
+        <li><input type="file" id="file" name="file" /></li>
+        <li><input type="submit" value="Import" /></li>
     </ul>
 </form>
 </div>

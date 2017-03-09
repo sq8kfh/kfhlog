@@ -6,16 +6,16 @@ from hamtools import adif
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.view import view_config
 
-from ..models import Qso, Band, Mode, Dxcc
+from ..models import Qso, Band, Mode, Profile, Group
 
-def _adif2qso(adif, dbsession):
+def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
     mode_cache = {}
     band_cache = {}
     qsos = []
     for r in adif:
         qso_par = {}
-        qso_par['qsoprofile'] = 0
-        qso_par['qsogroup'] = 0
+        qso_par['qsoprofile'] = qsoprofile
+        qso_par['qsogroup'] = qsogroup
         if 'app_datetime_off' in r:
             qso_par['date_off'] = r['app_datetime_off']
         if 'app_datetime_on' in r:
@@ -51,7 +51,7 @@ def _adif2qso(adif, dbsession):
             if v in r:
                 qso_par[v] = r[v]
 
-        qsos.append(qso_par)
+        qsos.append(Qso(**qso_par))
     return qsos
 
 @view_config(route_name='import', renderer='import.jinja2')
@@ -60,7 +60,7 @@ def import_view(request):
     if user is None:
         raise HTTPForbidden
 
-    if 'file' in request.params:
+    if 'qsoprofile' in request.params and 'qsogroup' in request.params and 'file' in request.params:
         file = request.params['file'].file
 
         tmp_file_path = os.path.join('/tmp', '%s' % uuid.uuid4())
@@ -72,9 +72,10 @@ def import_view(request):
             adif_data = adif.Reader(adif_file)
             dbsession = request.dbsession
 
-            qsos = _adif2qso(adif_data, dbsession)
-            for q in qsos:
-                dbsession.add(Qso(**q))
+            qsos = _adif2qso(request.params['qsoprofile'], request.params['qsogroup'], adif_data, dbsession)
+            #for q in qsos:
+            #    dbsession.add(Qso(**q))
+            dbsession.add_all(qsos)
             #dbsession.bulk_insert_mappings(Qso, qsos) #nie commituje tranzakcji - dlaczego?
             #dbsession.flush()
-    return {}
+    return {'qsoprofiles': request.dbsession.query(Profile).all(), 'qsogroups': request.dbsession.query(Group).all()}
