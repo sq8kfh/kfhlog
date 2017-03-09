@@ -2,10 +2,14 @@
 
 {% block content %}
 {{message}}
+<div class="center">
 <form action="/login" method="post">
     <input type="hidden" name="next" value="{{next_url}}" />
-    <input type="text" name="login" />
-    <input type="password" name="password" />
-    <input type="submit" value="Login" />
+    <ul>
+        <li><input type="text" name="login" placeholder="Username" /></li>
+        <li><input type="password" name="password" placeholder="Password" /></li>
+        <li><input type="submit" value="Login" /></li>
+    </ul>
 </form>
+</div>
 {% endblock content %}
