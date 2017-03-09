@@ -1,5 +1,6 @@
 import enum
 
+from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
     ForeignKey,
@@ -42,9 +43,13 @@ class Qso(Base):
     rst_sent = Column(String(length=10), nullable=False)
 
     band = Column(ForeignKey('band.id'), nullable=False)
+    band_obj = relationship("Band", foreign_keys=band)
     band_rx = Column(ForeignKey('band.id'), nullable=True)
+    band_rx_obj = relationship("Band", foreign_keys=band_rx)
     mode = Column(ForeignKey('mode.id'), nullable=False)
+    mode_obj = relationship("Mode", foreign_keys=mode)
     mode_rx = Column(ForeignKey('mode.id'), nullable=True)
+    band_rx_obj = relationship("Mode", foreign_keys=mode_rx)
 
     freq = Column(Float) #MHz
     freq_rx = Column(Float)
@@ -59,6 +64,7 @@ class Qso(Base):
     gridsquare = Column(String(length=8))
 
     dxcc = Column(ForeignKey('dxcc.id'))
+    dxcc_obj = relationship("Dxcc", foreign_keys=dxcc)
     ituz = Column(Integer)
     cqz = Column(Integer)
 

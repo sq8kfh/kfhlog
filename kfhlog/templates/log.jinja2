@@ -1,0 +1,64 @@
+{% extends "base.jinja2" %}
+
+{% block head %}
+    <script src="{{request.static_url('kfhlog:static/jquery.tablesorter.js')}}"></script>
+    <script src="{{request.static_url('kfhlog:static/jquery.tablesorter.widgets.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/theme.table.css')}}" />
+    <script src="{{request.static_url('kfhlog:static/jquery.tablesorter.pager.js')}}"></script>
+    <script>
+    $(function(){
+      $("table")
+        .tablesorter({
+          sortList: [[1,1]],
+          widthFixed: true,
+          widgets: ['zebra', 'filter']
+        })
+        .tablesorterPager({
+          // target the pager markup - see the HTML block below
+          container: $(".pager"),
+          output: '{startRow} to {endRow} ({totalRows})'
+        });
+    });
+    </script>
+{% endblock %}
+
+{% block content %}
+<table class="tablesorter">
+    <thead>
+        <tr>
+            <th>Call</th>
+            <th>Date</th>
+            <th class="filter-select">Band</th>
+            <th class="filter-select filter-onlyAvail">Mode</th>
+            <th class="filter-false sorter-false">RST Rcvd</th>
+            <th class="filter-false sorter-false">RST Sent</th>
+            <th class="filter-select filter-onlyAvail">DXCC</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr class="dark-row">
+      <th colspan="7">
+        <div class="pager">
+          <button type="button" class="first"><<</button>
+          <button type="button" class="prev"><</button>
+          <span class="pagedisplay"></span>
+          <button type="button" class="next">></button>
+          <button type="button" class="last">>></button>
+          <select class="pagesize" title="Select page size">
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="75">75</option>
+            <option value="100">100</option>
+          </select>
+          <select class="gotoPage" title="Select page number"></select>
+        </div>
+      </th>
+    </tr>
+  </tfoot>
+    <tbody>
+        {% for qso in qsos %}
+            <tr><td>{{ qso.call }}</td><td>{{ qso.date_off }}</td><td>{{ qso.band_obj.band }}</td><td>{{ qso.mode_obj.mode }}</td><td>{{ qso.rst_rcvd }}</td><td>{{ qso.rst_sent }}</td><td>{{ qso.dxcc_obj.name }}</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
