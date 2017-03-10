@@ -37,8 +37,8 @@ class Qso(Base):
     qsogroup = Column(ForeignKey('group.id'), nullable=False)
 
     call = Column(String(length=20), nullable=False)
-    date_on = Column(DateTime(timezone=False), nullable=True)
-    date_off = Column(DateTime(timezone=False), nullable=False)
+    date_on = Column(DateTime(timezone=False), nullable=False)
+    date_off = Column(DateTime(timezone=False), nullable=True)
     rst_rcvd = Column(String(length=10), nullable=False)
     rst_sent = Column(String(length=10), nullable=False)
 
@@ -56,45 +56,45 @@ class Qso(Base):
 
     stx = Column(Integer)
     srx = Column(Integer)
-    stx_string = Column(String(length=10))
-    srx_string = Column(String(length=10))
+    stx_string = Column(String(length=10), nullable=False, server_default='')
+    srx_string = Column(String(length=10), nullable=False, server_default='')
 
-    name = Column(String(length=40))
-    qth = Column(String(length=60))
-    gridsquare = Column(String(length=8))
+    name = Column(String(length=40), nullable=False, server_default='')
+    qth = Column(String(length=60), nullable=False, server_default='')
+    gridsquare = Column(String(length=8), nullable=False, server_default='')
 
-    dxcc = Column(ForeignKey('dxcc.id'))
+    dxcc = Column(ForeignKey('dxcc.id'), nullable=True)
     dxcc_obj = relationship("Dxcc", foreign_keys=dxcc)
     ituz = Column(Integer)
     cqz = Column(Integer)
 
-    iota = Column(String(length=10))
-    sota_ref = Column(String(length=10))
+    iota = Column(String(length=10), nullable=False, server_default='')
+    sota_ref = Column(String(length=10), nullable=False, server_default='')
 
-    state = Column(String(length=4)) #Primary Administrative Subdivision (e.g. US State, JA Island, VE Province)
-    cnty= Column(String(length=4)) #Secondary Administrative Subdivision of contacted station (e.g. US county, JA Gun)
+    state = Column(String(length=4), nullable=False, server_default='') #Primary Administrative Subdivision (e.g. US State, JA Island, VE Province)
+    cnty= Column(String(length=4), nullable=False, server_default='') #Secondary Administrative Subdivision of contacted station (e.g. US county, JA Gun)
 
     tx_pwr = Column(Float)
 
     lotw_qslrdate = Column(DateTime(timezone=False))
     lotw_qslsdate = Column(DateTime(timezone=False))
-    lotw_qsl_rcvd = Column(Enum(Rcvd_enum))
-    lotw_qsl_sent = Column(Enum(Send_enum))
+    lotw_qsl_rcvd = Column(Enum(Rcvd_enum), nullable=False, server_default='N')
+    lotw_qsl_sent = Column(Enum(Send_enum), nullable=False, server_default='N')
 
     eqsl_qslrdate = Column(DateTime(timezone=False))
     eqsl_qslsdate = Column(DateTime(timezone=False))
-    eqsl_qsl_rcvd = Column(Enum(Rcvd_enum))
-    eqsl_qsl_sent = Column(Enum(Send_enum))
+    eqsl_qsl_rcvd = Column(Enum(Rcvd_enum), nullable=False, server_default='N')
+    eqsl_qsl_sent = Column(Enum(Send_enum), nullable=False, server_default='N')
 
     qslrdate = Column(DateTime(timezone=False))
     qslsdate = Column(DateTime(timezone=False))
-    qsl_rcvd = Column(Enum(Rcvd_enum))
+    qsl_rcvd = Column(Enum(Rcvd_enum), nullable=False, server_default='N')
     #qsl_rcvd_via
-    qsl_sent = Column(Enum(Send_enum))
+    qsl_sent = Column(Enum(Send_enum), nullable=False, server_default='N')
     #qsl_sent_via
-    qsl_via = Column(String(length=30))
+    qsl_via = Column(String(length=30), nullable=False, server_default='')
 
     a_index = Column(Integer)
     k_index = Column(Integer)
     sfi = Column(Integer)
-    comment = Column(String(length=200)) #notes
+    comment = Column(String(length=200), nullable=False, server_default='') #notes

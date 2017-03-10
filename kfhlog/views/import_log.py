@@ -24,7 +24,7 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
             tmp = r['band'].lower()
             print(tmp, band_cache)
             if tmp not in band_cache:
-                band_cache[tmp] = dbsession.query(Band).filter_by(band=tmp).first().id
+                band_cache[tmp] = dbsession.query(Band).filter_by(name=tmp).first().id
             qso_par['band'] = band_cache[tmp]
         elif 'freq' in r:
             freq = r['freq']
@@ -32,7 +32,7 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
         if 'band_rx' in r:
             tmp = r['band_rx'].lower()
             if tmp not in band_cache:
-                band_cache[tmp] = dbsession.query(Band).filter_by(band=tmp).first().id
+                band_cache[tmp] = dbsession.query(Band).filter_by(name=tmp).first().id
             qso_par['band_rx'] = band_cache[tmp]
         elif 'freq_rx' in r:
             freq = r['freq_rx']
@@ -40,12 +40,12 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
         if 'mode' in r:
             tmp = r['mode']
             if tmp not in mode_cache:
-                mode_cache[tmp] = dbsession.query(Mode).filter_by(mode=tmp).first().id
+                mode_cache[tmp] = dbsession.query(Mode).filter_by(name=tmp).first().id
             qso_par['mode'] = mode_cache[tmp]
         if 'mode_rx' in r:
             tmp = r['mode_rx']
             if tmp not in mode_cache:
-                mode_cache[tmp] = dbsession.query(Mode).filter_by(mode=tmp).first().id
+                mode_cache[tmp] = dbsession.query(Mode).filter_by(name=tmp).first().id
             qso_par['mode_rx'] = mode_cache[tmp]
         for v in ('call', 'rst_rcvd', 'rst_sent', 'freq', 'freq_rx', 'stx', 'srx', 'stx_string', 'srx_string', 'name', 'qth', 'gridsquare', 'dxcc', 'ituz', 'cqz', 'iota', 'sota_ref', 'state', 'cnty', 'tx_pwr', 'lotw_qslrdate', 'lotw_qslsdate', 'lotw_qsl_rcvd', 'lotw_qsl_sent', 'eqsl_qslrdate', 'eqsl_qslsdate', 'eqsl_qsl_rcvd', 'eqsl_qsl_sent', 'qslrdate', 'qslsdate', 'qsl_rcvd', 'qsl_sent', 'qsl_via', 'a_index', 'k_index', 'sfi', 'comment'):
             if v in r:

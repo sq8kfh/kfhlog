@@ -57,7 +57,7 @@
   </tfoot>
     <tbody>
         {% for qso in qsos %}
-            <tr><td>{{ qso.call }}</td><td>{{ qso.date_off }}</td><td>{{ qso.band_obj.band }}</td><td>{{ qso.mode_obj.mode }}</td><td>{{ qso.rst_rcvd }}</td><td>{{ qso.rst_sent }}</td><td>{{ qso.dxcc_obj.name }}</td></tr>
+            <tr><td>{{ qso.call }}</td><td>{{ qso.date_off }}</td><td>{{ qso.band_obj.name }}</td><td>{{ qso.mode_obj.mode }}</td><td>{{ qso.rst_rcvd }}</td><td>{{ qso.rst_sent }}</td><td>{{ qso.dxcc_obj.name }}</td></tr>
         {% endfor %}
     </tbody>
 </table>
