@@ -12,4 +12,4 @@ class Group(Base):
     __tablename__ = 'group'
     id = Column(Integer, primary_key=True)
     name = Column(String(length=100), nullable=False)
-    remarks = Column(Text, nullable=False, server_default='')
+    comment = Column(Text, nullable=False, server_default='')

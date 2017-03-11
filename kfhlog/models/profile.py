@@ -16,4 +16,4 @@ class Profile(Base):
     locator = Column(String(length=8), nullable=False, server_default='')
     qth = Column(String(length=60), nullable=False, server_default='')
     rig = Column(String(length=250), nullable=False, server_default='')
-    remarks = Column(Text, nullable=False, server_default='')
+    comment = Column(Text, nullable=False, server_default='')

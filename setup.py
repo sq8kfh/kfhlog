@@ -56,6 +56,7 @@ setup(
         ],
         'console_scripts': [
             'initialize_kfhlog_db = kfhlog.scripts.initializedb:main',
+            'load_country_files = kfhlog.scripts.loadcountryfiles:main',
         ],
     },
 )

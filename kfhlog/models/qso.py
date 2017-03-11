@@ -21,7 +21,6 @@ class Rcvd_enum(enum.Enum):
     I = 4
     V = 5
 
-
 class Send_enum(enum.Enum):
     Y = 1
     N = 2
