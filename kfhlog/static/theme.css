@@ -161,3 +161,29 @@ div.document h1.title {
 div.document ul.simple {
     margin-left: 2em;
 }
+
+/*check*/
+table.checkresult {
+    border-collapse: collapse;
+}
+
+table.checkresult th, table.checkresult td {
+    border-style: solid;
+    border-width: 1px;
+    padding: 3px;
+    text-align: center;
+}
+
+table.checkresult th {
+    background-color: #ddd;
+}
+
+table.checkresult a:link, table.checkresult a:visited, table.checkresult a:active  {
+    color: #4d4d4d;
+    text-decoration: none;
+}
+
+table.checkresult a:hover {
+    color: #d64635;
+    text-decoration: none;
+}

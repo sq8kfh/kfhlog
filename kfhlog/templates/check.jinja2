@@ -1,0 +1,43 @@
+{% extends "base.jinja2" %}
+
+{% block content %}
+{% if res%}
+<table class="checkresult">
+    <tbody>
+        <tr>
+            <th>{{ name }}</th>
+            {% for c in colh %}
+            <th>{{ c }}</th>
+            {% endfor %}
+        </tr>
+        {% for r in row %}
+        <tr>
+            {% if addrowlink %}
+            <th><a href="{{request.route_url('check')}}?profile={{r}}&call={{call}}">{{ rowh[r] }}</a></th>
+            {% else %}
+            <th>{{ rowh[r] }}</th>
+            {% endif %}
+            {% for c in col %}
+                <td>
+                    {% if res[(r,c)]%}
+                    <span class="icon-check"></span>
+                    {% endif %}
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br />
+{% elif message %}
+{{ message }}
+{% endif %}
+<div class="center">
+    <form action="{{request.path}}" method="get">
+        <ul>
+            <li><input type="text" name="call" placeholder="Your call" /></li>
+            <li><input type="submit" value="Check" /></li>
+        </ul>
+    </form>
+</div>
+{% endblock content %}

@@ -30,7 +30,7 @@
             <nav>
             <ul class="mainmenu">
                 {% if request.user is none %}
-                    <li {% if request.matched_route.name == "check" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-check"></span> Check</a></li>
+                    <li {% if request.matched_route.name == "check" %}class="active"{% endif %}><a href="{{request.route_url('check')}}"><span class="icon-check"></span> Check</a></li>
                 {% else %}
                     <li {% if request.matched_route.name == "index" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-home"></span> Home</a></li>
                     <li {% if request.matched_route.name == "new_qso" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-new-message"></span> New QSO</a></li>
