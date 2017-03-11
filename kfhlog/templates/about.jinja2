@@ -1,0 +1,15 @@
+{% extends "base.jinja2" %}
+
+{% block content %}
+
+<h1>KFHLog</h1>
+<h4>Version: {{ version }}</h4><br />
+Amateur radio logging program by SQ8KFH.<br />
+<br />
+<h3>Changes:</h3>
+{{ changes|safe }}
+<br />
+<a href="https://trypyramid.com/"><img src="{{request.static_url('kfhlog:static/pyramid_powered_148x45.png')}}" /></a>
+<a href="https://www.python.org/"><img src="{{request.static_url('kfhlog:static/python-powered-w-100x40.png')}}" /></a>
+<a href="https://www.sqlalchemy.org/"><img src="{{request.static_url('kfhlog:static/sqlalchemy.png')}}" /></a>
+{% endblock content %}

@@ -2,6 +2,8 @@ import os
 
 from setuptools import setup, find_packages
 
+from kfhlog import __version__
+
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.txt')) as f:
     README = f.read()
@@ -20,6 +22,7 @@ requires = [
     'waitress',
     'bcrypt',
     'hamtools',
+    'docutils',
 ]
 
 tests_require = [
@@ -30,13 +33,14 @@ tests_require = [
 
 setup(
     name='kfhlog',
-    version='0.0',
-    description='kfhlog is amateur radio logging software',
+    version=__version__,
+    description='Amateur radio logging program',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
         'Programming Language :: Python',
         'Framework :: Pyramid',
-        'Topic :: Internet :: WWW/HTTP',
+        'Intended Audience :: End Users/Desktop',
+        'Topic :: Communications :: Ham Radio',
         'Topic :: Internet :: WWW/HTTP :: WSGI :: Application',
     ],
     author='SQ8KFH',

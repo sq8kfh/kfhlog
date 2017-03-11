@@ -40,13 +40,13 @@
                     <li {% if request.matched_route.name == "import" %}class="active"{% endif %}><a href="{{request.route_url('import')}}"><span class="icon-download"></span> Import</a></li>
                     <li {% if request.matched_route.name == "settings" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-cog"></span> Settings</a></li>
                 {% endif %}
-                <li {% if request.matched_route.name == "about" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-info-with-circle"></span> About</a></li>
+                <li {% if request.matched_route.name == "about" %}class="active"{% endif %}><a href="{{request.route_url('about')}}"><span class="icon-info-with-circle"></span> About</a></li>
             </ul>
             </nav>
         </header>
         <main>{% block content %}{% endblock %}</main>
         <footer>
-            <p>Copyright 2017 by SQ8KFH. All Rights Reserved.</p>
+            <p>Copyright © 2017 SQ8KFH</p>
         </footer>
     </body>
 </html>
