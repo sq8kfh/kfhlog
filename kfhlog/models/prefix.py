@@ -5,8 +5,9 @@ from sqlalchemy import (
     ForeignKey,
     Enum,
 )
-from .dxcc import Continent_enum
+
 from .meta import Base
+from .tools import datatypes
 
 class Prefix(Base):
     """ The SQLAlchemy declarative model class for a DXCC object. """
@@ -16,5 +17,5 @@ class Prefix(Base):
     #dxcc_obj = relationship("Dxcc", foreign_keys=dxcc)
     ituz = Column(Integer, nullable=False)
     cqz = Column(Integer, nullable=False)
-    continent = Column(Enum(Continent_enum))
+    continent = Column(Enum(datatypes.Continent_enum))
     comment = Column(String(length=100), nullable=False, server_default='')

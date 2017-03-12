@@ -1,5 +1,4 @@
-import enum
-
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
 from sqlalchemy import (
     Column,
@@ -12,21 +11,8 @@ from sqlalchemy import (
 )
 
 from .meta import Base
-
-
-class Rcvd_enum(enum.Enum):
-    Y = 1
-    N = 2
-    R = 3
-    I = 4
-    V = 5
-
-class Send_enum(enum.Enum):
-    Y = 1
-    N = 2
-    R = 3
-    Q = 4
-    I = 5
+from .tools import datatypes
+from .tools import formatters
 
 class Qso(Base):
     """ The SQLAlchemy declarative model class for a Qso object. """
@@ -35,7 +21,16 @@ class Qso(Base):
     qsoprofile = Column(ForeignKey('profile.id'), nullable=False)
     qsogroup = Column(ForeignKey('group.id'), nullable=False)
 
-    call = Column(String(length=20), nullable=False)
+    _call = Column('call', String(length=20), nullable=False)
+
+    @hybrid_property
+    def call(self):
+        return self._call
+
+    @call.setter
+    def call(self, value):
+        self._call = formatters.call_formatter(value)
+
     date_on = Column(DateTime(timezone=False), nullable=False)
     date_off = Column(DateTime(timezone=False), nullable=True)
     rst_rcvd = Column(String(length=10), nullable=False)
@@ -60,7 +55,16 @@ class Qso(Base):
 
     name = Column(String(length=40), nullable=False, server_default='')
     qth = Column(String(length=60), nullable=False, server_default='')
-    gridsquare = Column(String(length=8), nullable=False, server_default='')
+
+    _gridsquare = Column('gridsquare', String(length=8), nullable=False, server_default='')
+
+    @hybrid_property
+    def gridsquare(self):
+        return self._gridsquare
+
+    @gridsquare.setter
+    def gridsquare(self, value):
+        self._gridsquare = formatters.gridsquare_formatter(value)
 
     dxcc = Column(ForeignKey('dxcc.id'), nullable=True)
     dxcc_obj = relationship("Dxcc", foreign_keys=dxcc)
@@ -77,19 +81,19 @@ class Qso(Base):
 
     lotw_qslrdate = Column(DateTime(timezone=False))
     lotw_qslsdate = Column(DateTime(timezone=False))
-    lotw_qsl_rcvd = Column(Enum(Rcvd_enum), nullable=False, server_default='N')
-    lotw_qsl_sent = Column(Enum(Send_enum), nullable=False, server_default='N')
+    lotw_qsl_rcvd = Column(Enum(datatypes.Rcvd_enum), nullable=False, server_default='N')
+    lotw_qsl_sent = Column(Enum(datatypes.Send_enum), nullable=False, server_default='N')
 
     eqsl_qslrdate = Column(DateTime(timezone=False))
     eqsl_qslsdate = Column(DateTime(timezone=False))
-    eqsl_qsl_rcvd = Column(Enum(Rcvd_enum), nullable=False, server_default='N')
-    eqsl_qsl_sent = Column(Enum(Send_enum), nullable=False, server_default='N')
+    eqsl_qsl_rcvd = Column(Enum(datatypes.Rcvd_enum), nullable=False, server_default='N')
+    eqsl_qsl_sent = Column(Enum(datatypes.Send_enum), nullable=False, server_default='N')
 
     qslrdate = Column(DateTime(timezone=False))
     qslsdate = Column(DateTime(timezone=False))
-    qsl_rcvd = Column(Enum(Rcvd_enum), nullable=False, server_default='N')
+    qsl_rcvd = Column(Enum(datatypes.Rcvd_enum), nullable=False, server_default='N')
     #qsl_rcvd_via
-    qsl_sent = Column(Enum(Send_enum), nullable=False, server_default='N')
+    qsl_sent = Column(Enum(datatypes.Send_enum), nullable=False, server_default='N')
     #qsl_sent_via
     qsl_via = Column(String(length=30), nullable=False, server_default='')
 

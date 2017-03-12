@@ -619,7 +619,7 @@ def main(argv=sys.argv):
         name = input('Name [%s(default)]: ' % call)
         if not name:
             name = call + ' (default)'
-        dbsession.add(Profile(id=0, name=name, callsign=call))
+        dbsession.add(Profile(id=0, name=name, call=call))
 
         user = input('Login: ')
         password = getpass.getpass("Password: ")
