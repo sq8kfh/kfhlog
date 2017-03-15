@@ -19,9 +19,9 @@ def login_view(request):
     if 'login' in request.params and 'password' in request.params:
         login = request.params['login']
         password = request.params['password']
-        user = request.dbsession.query(User).filter_by(name=login).first()
+        user = request.dbsession.query(User).get(login)
         if user is not None and user.check_password(password):
-            headers = remember(request, user.id)
+            headers = remember(request, user.name)
             return HTTPFound(location=next_url, headers=headers)
         message = 'Failed login'
     return {'message': message, 'next_url': next_url}

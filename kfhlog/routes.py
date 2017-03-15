@@ -1,10 +1,13 @@
 def includeme(config):
     config.add_static_view('static', 'static', cache_max_age=3600)
+    config.add_route('api', '/api/{api_func}')
+    config.add_route('mapi', '/api')
     config.add_route('checkwp', '/check/{qsoprofile:[0-9]+}')
     config.add_route('check', '/check')
     config.add_route('index', '/')
     config.add_route('login', '/login')
     config.add_route('logout', '/logout')
+    config.add_route('newqso', '/newqso')
     config.add_route('log', '/log')
     config.add_route('import', '/import')
     config.add_route('about', '/about')

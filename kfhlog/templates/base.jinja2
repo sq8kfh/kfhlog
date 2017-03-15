@@ -12,7 +12,7 @@
         <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/theme.css')}}" />
         <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/icomoon.css')}}" />
 
-        <script src="{{request.static_url('kfhlog:static/jquery.js')}}"></script>
+        <script src="{{request.static_url('kfhlog:static/jquery.min.js')}}"></script>
         {% block head %}{% endblock %}
     </head>
     <body>
@@ -33,7 +33,7 @@
                     <li {% if request.matched_route.name == "check" %}class="active"{% endif %}><a href="{{request.route_url('check')}}"><span class="icon-check"></span> Check</a></li>
                 {% else %}
                     <li {% if request.matched_route.name == "index" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-home"></span> Home</a></li>
-                    <li {% if request.matched_route.name == "new_qso" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-new-message"></span> New QSO</a></li>
+                    <li {% if request.matched_route.name == "newqso" %}class="active"{% endif %}><a href="{{request.route_url('newqso')}}"><span class="icon-new-message"></span> New QSO</a></li>
                     <li {% if request.matched_route.name == "log" %}class="active"{% endif %}><a href="{{request.route_url('log')}}"><span class="icon-open-book"></span> Log</a></li>
                     <li {% if request.matched_route.name == "map" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-globe"></span> Map</a></li>
                     <li {% if request.matched_route.name == "awards" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-trophy"></span> Awards</a></li>

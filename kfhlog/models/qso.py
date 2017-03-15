@@ -8,6 +8,7 @@ from sqlalchemy import (
     DateTime,
     Float,
     Enum,
+    Text,
 )
 
 from .meta import Base
@@ -53,8 +54,8 @@ class Qso(Base):
     stx_string = Column(String(length=10), nullable=False, server_default='')
     srx_string = Column(String(length=10), nullable=False, server_default='')
 
-    name = Column(String(length=40), nullable=False, server_default='')
-    qth = Column(String(length=60), nullable=False, server_default='')
+    name = Column(Text, nullable=False, server_default='')
+    qth = Column(Text, nullable=False, server_default='')
 
     _gridsquare = Column('gridsquare', String(length=8), nullable=False, server_default='')
 
@@ -100,4 +101,4 @@ class Qso(Base):
     a_index = Column(Integer)
     k_index = Column(Integer)
     sfi = Column(Integer)
-    comment = Column(String(length=200), nullable=False, server_default='') #notes
+    comment = Column(Text, nullable=False, server_default='') #notes

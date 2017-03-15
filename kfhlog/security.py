@@ -7,7 +7,7 @@ class KFHLogAuthenticationPolicy(AuthTktAuthenticationPolicy):
     def authenticated_userid(self, request):
         user = request.user
         if user is not None:
-            return user.id
+            return user.name
 
 def get_user(request):
     user_id = request.unauthenticated_userid
