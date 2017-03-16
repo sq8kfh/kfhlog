@@ -8,7 +8,7 @@ from pyramid.view import view_config
 from sqlalchemy.sql.expression import func
 from sqlalchemy.sql import text
 
-from ..models import Qso, Band, Mode, Profile, Group, Prefix, tools
+from ..models import Qso, Band, Mode, Profile, Group, Prefix, dbtools
 
 def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
     mode_cache = {}
@@ -16,12 +16,12 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
     qsos = []
     for r in adif:
         qso_par = {}
-        qso_par['qsoprofile'] = qsoprofile
-        qso_par['qsogroup'] = qsogroup
+        qso_par['profile'] = qsoprofile
+        qso_par['group'] = qsogroup
         if 'app_datetime_off' in r:
-            qso_par['date_off'] = r['app_datetime_off']
+            qso_par['datetime_off'] = r['app_datetime_off']
         if 'app_datetime_on' in r:
-            qso_par['date_on'] = r['app_datetime_on']
+            qso_par['datetime_on'] = r['app_datetime_on']
         if 'band' in r:
             tmp = r['band'].lower()
             print(tmp, band_cache)
@@ -62,15 +62,15 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
                 elif v == 'dxcc':
                     qso_par[v] = int(r[v]) if int(r[v]) else None
                     if not qso_par[v]:
-                        call = tools.formatters.call_formatter(r['call'])
+                        call = dbtools.formatters.call_formatter(r['call'])
                         prefix = dbsession.query(Prefix.dxcc).filter(text(':param_call LIKE %s' % Prefix.prefix.name)).params(param_call=call).order_by(func.length(Prefix.prefix).desc()).first()
                         if prefix:
                             qso_par[v] = prefix.dxcc
                 elif v == 'call':
-                    call = tools.formatters.call_formatter(r['call'])
+                    call = dbtools.formatters.call_formatter(r['call'])
                     qso_par[v] = call
                 elif v == 'gridsquare':
-                    qso_par[v] = tools.formatters.gridsquare_formatter(r['gridsquare'])
+                    qso_par[v] = dbtools.formatters.gridsquare_formatter(r['gridsquare'])
                 else:
                     qso_par[v] = r[v]
 
@@ -83,7 +83,7 @@ def import_view(request):
     if user is None:
         raise HTTPForbidden
 
-    if 'qsoprofile' in request.params and 'qsogroup' in request.params and 'file' in request.params:
+    if 'profile' in request.params and 'group' in request.params and 'file' in request.params:
         file = request.params['file'].file
 
         tmp_file_path = os.path.join('/tmp', '%s' % uuid.uuid4())
@@ -95,10 +95,10 @@ def import_view(request):
             adif_data = adif.Reader(adif_file)
             dbsession = request.dbsession
 
-            qsos = _adif2qso(request.params['qsoprofile'], request.params['qsogroup'], adif_data, dbsession)
+            qsos = _adif2qso(request.params['profile'], request.params['group'], adif_data, dbsession)
             #for q in qsos:
             #    dbsession.add(Qso(**q))
             dbsession.add_all(qsos)
             #dbsession.bulk_insert_mappings(Qso, qsos) #nie commituje tranzakcji - dlaczego?
             #dbsession.flush()
-    return {'qsoprofiles': request.dbsession.query(Profile).all(), 'qsogroups': request.dbsession.query(Group).all()}
+    return {'profiles': request.dbsession.query(Profile).all(), 'groups': request.dbsession.query(Group).all()}

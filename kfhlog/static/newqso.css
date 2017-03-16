@@ -1,0 +1,72 @@
+#col1, #col2, #col3 {
+    //border: 1px solid #999999;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+}
+
+.divTable{
+	display: table;
+	//width: 100%;
+}
+.tr, .trc {
+	display: table-row;
+	height: 33px;
+}
+
+.trc {
+	height: 99px;
+}
+
+.tdl, .tdr {
+	//border: 1px solid #999999;
+	display: table-cell;
+	padding: 3px 10px;
+	vertical-align: middle;
+}
+
+.tdl {
+	text-align: right;
+}
+
+div#col1 > div > div > div > input[type=number], div#col1 > div > div > div > input[type=text] {
+    width: 227px;
+    //box-shadow: 0 0 1.5px 1px red;
+}
+
+#date_on {
+    width: 113px;
+}
+
+#time_on {
+    width: 86px;
+}
+
+#date_on_button {
+    width: 25px;
+}
+
+div#col1 > div > div > div > #rst_sent[type=text],
+div#col1 > div > div > div > #rst_rcvd[type=text] {
+    width: 80px;
+}
+
+div#col1 > div > div > div > #stx_string[type=text],
+div#col1 > div > div > div > #srx_string[type=text] {
+    width: 131px;
+    margin-left: 10px;
+}
+
+div#col2 > div > div > div > input[type=number], div#col2 > div > div > div > input[type=text] {
+    width: 134px;
+}
+
+textarea {
+  width: 230px;
+  height: 84px;
+  resize: none;
+}
+
+.error {
+    box-shadow: 0 0 1.5px 1px red;
+}

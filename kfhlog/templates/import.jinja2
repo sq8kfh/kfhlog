@@ -6,16 +6,16 @@
 <form action="/import" method="post" enctype="multipart/form-data">
     <ul>
         <li>
-            <label>Profile: <select name="qsoprofile">
-                {% for qsoprofile in qsoprofiles %}
-                <option value="{{ qsoprofile.id }}">{{ qsoprofile.name }}</option>
+            <label>Profile: <select name="profile">
+                {% for profile in profiles %}
+                <option value="{{ profile.id }}">{{ profile.name }}</option>
                 {% endfor %}
             </select></label>
         </li>
         <li>
-            <label>Group: <select name="qsogroup">
-                {% for qsogroup in qsogroups %}
-                <option value="{{ qsogroup.id }}">{{ qsogroup.name }}</option>
+            <label>Group: <select name="group">
+                {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
                 {% endfor %}
             </select></label>
         </li>

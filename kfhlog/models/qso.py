@@ -12,15 +12,15 @@ from sqlalchemy import (
 )
 
 from .meta import Base
-from .tools import datatypes
-from .tools import formatters
+from .dbtools import datatypes
+from .dbtools import formatters
 
 class Qso(Base):
     """ The SQLAlchemy declarative model class for a Qso object. """
     __tablename__ = 'qso'
     id = Column(Integer, primary_key=True)
-    qsoprofile = Column(ForeignKey('profile.id'), nullable=False)
-    qsogroup = Column(ForeignKey('group.id'), nullable=False)
+    profile = Column(ForeignKey('profile.id'), nullable=False)
+    group = Column(ForeignKey('group.id'), nullable=False)
 
     _call = Column('call', String(length=20), nullable=False)
 
@@ -32,8 +32,8 @@ class Qso(Base):
     def call(self, value):
         self._call = formatters.call_formatter(value)
 
-    date_on = Column(DateTime(timezone=False), nullable=False)
-    date_off = Column(DateTime(timezone=False), nullable=True)
+    datetime_on = Column(DateTime(timezone=False), nullable=False)
+    datetime_off = Column(DateTime(timezone=False), nullable=True)
     rst_rcvd = Column(String(length=10), nullable=False)
     rst_sent = Column(String(length=10), nullable=False)
 

@@ -23,7 +23,6 @@ requires = [
     'bcrypt',
     'hamtools',
     'docutils',
-    'colander',
 ]
 
 tests_require = [

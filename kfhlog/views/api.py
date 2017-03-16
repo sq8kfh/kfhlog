@@ -4,8 +4,10 @@ from pyramid.view import view_config
 from sqlalchemy.sql.expression import func
 from sqlalchemy.sql import text
 
-from ..models import tools
+from ..models import dbtools
 from ..models import Qso, Mode, Band, Prefix
+
+from ..tools import datahelpers
 
 def _get_band(dbsession, data):
     freq = data['freq']
@@ -15,20 +17,20 @@ def _get_band(dbsession, data):
     return {'status': 'error', 'response': 'band not found'}
 
 def _get_previous(dbsession, data):
-    call = tools.formatters.call_formatter(data['call'])
-    qso = dbsession.query(Qso.date_on, Band.name, Mode.name)
+    call = dbtools.formatters.call_formatter(data['call'])
+    qso = dbsession.query(Qso.datetime_on, Band.name, Mode.name)
     if 'profile' in data:
-        qso = qso.filter_by(qsoprofile = data['profile'])
+        qso = qso.filter_by(profile = data['profile'])
     if 'group' in data:
-        qso = qso.filter_by(qsogroup = data['group'])
+        qso = qso.filter_by(group = data['group'])
     qso = qso.filter_by(call = call).join(Band, Qso.band == Band.id).\
-        join(Mode, Qso.mode == Mode.id).order_by(Qso.date_on).all()
+        join(Mode, Qso.mode == Mode.id).order_by(Qso.datetime_on).all()
     if qso:
         return {'status': 'ok', 'qso': qso}
     return {'status': 'ok', 'qso': []}
 
 def _find_prefix(dbsession, data):
-    call = tools.formatters.call_formatter(data['call'])
+    call = dbtools.formatters.call_formatter(data['call'])
     prefix = dbsession.query(Prefix.dxcc, Prefix.ituz, Prefix.cqz, Prefix.continent).\
         filter(text(':param_call LIKE %s' % Prefix.prefix.name)).\
         params(param_call=call).order_by(func.length(Prefix.prefix).desc()).first()
@@ -41,10 +43,24 @@ def _find_prefix(dbsession, data):
                 'continent': prefix.continent}
     return {'status': 'error', 'response': 'prefix not match'}
 
+def _addqso(dbsession, data):
+    #print(data)
+    qsoh = datahelpers.QsoHelper(data)
+
+    qsoh.validate()
+    print(qsoh.native())
+
+    q = Qso(**qsoh.native())
+
+    dbsession.add(q)
+
+    return {'status': 'error', 'wrong_values': ['call', 'band']}
+
 _function_dic = {
+    'get_band': _get_band,
     'get_previous': _get_previous,
     'find_prefix': _find_prefix,
-    'get_band': _get_band,
+    'addqso': _addqso,
 }
 
 @view_config(route_name='api', request_method='POST', renderer='extjson')

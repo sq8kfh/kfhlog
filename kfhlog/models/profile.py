@@ -7,7 +7,7 @@ from sqlalchemy import (
 )
 
 from .meta import Base
-from .tools import formatters
+from .dbtools import formatters
 
 class Profile(Base):
     """ The SQLAlchemy declarative model class for a Profile object. """

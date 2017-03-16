@@ -3,10 +3,10 @@ import os
 from pyramid.httpexceptions import HTTPNotFound
 from pyramid.view import view_config
 
-from ..models import Qso, Band, Mode, Profile, tools
+from ..models import Qso, Band, Mode, Profile, dbtools
 
 def _check(dbsession, call, profile = None):
-    call = tools.formatters.call_formatter(call)
+    call = dbtools.formatters.call_formatter(call)
     tmp = None
     req_type = None
     addrowlink = False

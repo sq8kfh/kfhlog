@@ -7,7 +7,7 @@ from sqlalchemy import (
 )
 
 from .meta import Base
-from .tools import datatypes
+from .dbtools import datatypes
 
 class Prefix(Base):
     """ The SQLAlchemy declarative model class for a DXCC object. """
