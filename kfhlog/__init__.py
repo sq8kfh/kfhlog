@@ -4,7 +4,8 @@ from pyramid.renderers import JSON
 from datetime import datetime
 from enum import Enum
 
-__version__ = "0.0.0" #http://semver.org/
+__version__ = "0.0.0"  # http://semver.org/
+
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.

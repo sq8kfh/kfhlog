@@ -3,17 +3,20 @@ from pyramid.authorization import ACLAuthorizationPolicy
 
 from .models import User
 
+
 class KFHLogAuthenticationPolicy(AuthTktAuthenticationPolicy):
     def authenticated_userid(self, request):
         user = request.user
         if user is not None:
             return user.name
 
+
 def get_user(request):
     user_id = request.unauthenticated_userid
     if user_id is not None:
         user = request.dbsession.query(User).get(user_id)
         return user
+
 
 def includeme(config):
     settings = config.get_settings()

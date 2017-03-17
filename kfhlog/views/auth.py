@@ -10,6 +10,7 @@ from pyramid.view import (
 
 from ..models import User
 
+
 @view_config(route_name='login', renderer='login.jinja2')
 def login_view(request):
     next_url = request.params.get('next')
@@ -26,11 +27,13 @@ def login_view(request):
         message = 'Failed login'
     return {'message': message, 'next_url': next_url}
 
+
 @view_config(route_name='logout')
 def logout_view(request):
     headers = forget(request)
     next_url = request.route_url('login')
     return HTTPFound(location=next_url, headers=headers)
+
 
 @forbidden_view_config()
 def forbidden_view(request):

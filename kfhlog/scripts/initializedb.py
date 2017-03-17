@@ -23,9 +23,9 @@ from ..models import (
     Dxcc,
     Profile,
     Group,
-    Qso,
     User,
     )
+
 
 def usage(argv):
     cmd = os.path.basename(argv[0])

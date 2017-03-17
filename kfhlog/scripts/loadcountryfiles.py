@@ -11,7 +11,6 @@ from pyramid.paster import (
 
 from pyramid.scripts.common import parse_vars
 
-from ..models.meta import Base
 from ..models import (
     get_engine,
     get_session_factory,
@@ -26,6 +25,7 @@ from ..models import (
 _byname = 0
 _bypref = 0
 _nomatch = 0
+
 
 def _finddx(dxcc, prefix, dbsession):
     global _byname, _bypref, _nomatch
@@ -63,11 +63,13 @@ def _finddx(dxcc, prefix, dbsession):
         _nomatch += 1
         return None
 
+
 def usage(argv):
     cmd = os.path.basename(argv[0])
     print('usage: %s <config_uri> [var=value]\n'
           '(example: "%s development.ini")' % (cmd, cmd))
     sys.exit(1)
+
 
 def main(argv=sys.argv):
     if len(argv) < 2:
@@ -88,7 +90,7 @@ def main(argv=sys.argv):
 
         for line in cty:
             str_line = line.decode("utf-8")
-            #dxcc = map(str.strip, str(line).strip().split(":")[:-1])
+
             dxcc = [x.strip() for x in str_line.strip().split(":")[:-1]]
             dxcc[1] = int(dxcc[1])
             dxcc[2] = int(dxcc[2])
@@ -107,9 +109,9 @@ def main(argv=sys.argv):
                 if str_prefix[-1] == ';':
                     break
                 str_prefix = next(cty).strip().decode("utf-8")
-            #print(prefixlist)
+            # print(prefixlist)
 
-            if dxcc[0] == 'Shetland Islands': #powoduje dwuznaczność ze szkocja
+            if dxcc[0] == 'Shetland Islands':  # powoduje dwuznaczność ze szkocja
                 continue
 
             if dxcc_id:
@@ -140,5 +142,4 @@ def main(argv=sys.argv):
                             dbsession.add(Prefix(prefix=tmp, ituz=itu, cqz=cq, dxcc=dxcc_id, continent=dxcc[3]))
                         else:
                             print('Error: parse prefix: ' + p)
-        #dbsession.add(Dxcc(name='AM', hide=False))
         print("Name match: %s\nPrefix match: %s\nNOT MATCH: %s" % (_byname, _bypref, _nomatch))

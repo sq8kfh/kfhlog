@@ -7,6 +7,7 @@ from sqlalchemy import (
 
 from .meta import Base
 
+
 class Group(Base):
     """ The SQLAlchemy declarative model class for a Group object. """
     __tablename__ = 'group'

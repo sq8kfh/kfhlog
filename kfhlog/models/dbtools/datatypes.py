@@ -1,7 +1,7 @@
 import enum
 
 
-class Rcvd_enum(enum.Enum):
+class RcvdEnum(enum.Enum):
     Y = 1
     N = 2
     R = 3
@@ -9,7 +9,7 @@ class Rcvd_enum(enum.Enum):
     V = 5
 
 
-class Send_enum(enum.Enum):
+class SendEnum(enum.Enum):
     Y = 1
     N = 2
     R = 3
@@ -17,7 +17,7 @@ class Send_enum(enum.Enum):
     I = 5
 
 
-class Continent_enum(enum.Enum):
+class ContinentEnum(enum.Enum):
     NA = 1
     SA = 2
     EU = 3

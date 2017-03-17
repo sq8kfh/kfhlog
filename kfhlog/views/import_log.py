@@ -66,8 +66,8 @@ def import_view(request):
             qsos = _adif2qso(request.params['profile'], request.params['group'], adif_data, dbsession)
 
             dbsession.add_all(qsos[0])
-#            dbsession.bulk_insert_mappings(Qso, qsos) #nie commituje tranzakcji - dlaczego?
-#            dbsession.flush()
+            # dbsession.bulk_insert_mappings(Qso, qsos) #nie commituje tranzakcji - dlaczego?
+            # dbsession.flush()
         return {'message': qsos[1], 'profiles': request.dbsession.query(Profile).all(),
                 'groups': request.dbsession.query(Group).all()}
     return {'profiles': request.dbsession.query(Profile).all(), 'groups': request.dbsession.query(Group).all()}

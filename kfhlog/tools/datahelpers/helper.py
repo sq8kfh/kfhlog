@@ -35,7 +35,7 @@ class BaseType(object):
         if self.name in raw:
             tmp = raw[self.name]
             if not isinstance(tmp, self._vtype):
-               tmp = self._cast(raw[self.name])
+                tmp = self._cast(raw[self.name])
             if self._data_formatter:
                 tmp = self._data_formatter(tmp)
             data[self.name] = tmp

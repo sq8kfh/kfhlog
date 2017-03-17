@@ -15,6 +15,7 @@ from .meta import Base
 from .dbtools import datatypes
 from .dbtools import formatters
 
+
 class Qso(Base):
     """ The SQLAlchemy declarative model class for a Qso object. """
     __tablename__ = 'qso'
@@ -46,7 +47,7 @@ class Qso(Base):
     mode_rx = Column(ForeignKey('mode.id'), nullable=True)
     band_rx_obj = relationship("Mode", foreign_keys=mode_rx)
 
-    freq = Column(Float) #MHz
+    freq = Column(Float)  # MHz
     freq_rx = Column(Float)
 
     stx = Column(Integer)
@@ -75,30 +76,30 @@ class Qso(Base):
     iota = Column(String(length=10), nullable=False, server_default='')
     sota_ref = Column(String(length=10), nullable=False, server_default='')
 
-    state = Column(String(length=4), nullable=False, server_default='') #Primary Administrative Subdivision (e.g. US State, JA Island, VE Province)
-    cnty= Column(String(length=4), nullable=False, server_default='') #Secondary Administrative Subdivision of contacted station (e.g. US county, JA Gun)
+    # Primary Administrative Subdivision (e.g. US State, JA Island, VE Province)
+    state = Column(String(length=4), nullable=False, server_default='')
+    # Secondary Administrative Subdivision of contacted station (e.g. US county, JA Gun)
+    cnty = Column(String(length=4), nullable=False, server_default='')
 
     tx_pwr = Column(Float)
 
     lotw_qslrdate = Column(DateTime(timezone=False))
     lotw_qslsdate = Column(DateTime(timezone=False))
-    lotw_qsl_rcvd = Column(Enum(datatypes.Rcvd_enum), nullable=False, server_default='N')
-    lotw_qsl_sent = Column(Enum(datatypes.Send_enum), nullable=False, server_default='N')
+    lotw_qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
+    lotw_qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
 
     eqsl_qslrdate = Column(DateTime(timezone=False))
     eqsl_qslsdate = Column(DateTime(timezone=False))
-    eqsl_qsl_rcvd = Column(Enum(datatypes.Rcvd_enum), nullable=False, server_default='N')
-    eqsl_qsl_sent = Column(Enum(datatypes.Send_enum), nullable=False, server_default='N')
+    eqsl_qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
+    eqsl_qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
 
     qslrdate = Column(DateTime(timezone=False))
     qslsdate = Column(DateTime(timezone=False))
-    qsl_rcvd = Column(Enum(datatypes.Rcvd_enum), nullable=False, server_default='N')
-    #qsl_rcvd_via
-    qsl_sent = Column(Enum(datatypes.Send_enum), nullable=False, server_default='N')
-    #qsl_sent_via
+    qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
+    qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
     qsl_via = Column(String(length=30), nullable=False, server_default='')
 
     a_index = Column(Integer)
     k_index = Column(Integer)
     sfi = Column(Integer)
-    comment = Column(Text, nullable=False, server_default='') #notes
+    comment = Column(Text, nullable=False, server_default='')  # notes

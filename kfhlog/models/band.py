@@ -8,6 +8,7 @@ from sqlalchemy import (
 
 from .meta import Base
 
+
 class Band(Base):
     """ The SQLAlchemy declarative model class for a Band object. """
     __tablename__ = 'band'
@@ -15,4 +16,4 @@ class Band(Base):
     name = Column(String(length=20), nullable=False, unique=True)
     lowerfreq = Column(Float, nullable=False)
     upperfreq = Column(Float, nullable=False)
-    hide =  Column(Boolean, nullable=False, server_default='False')
+    hide = Column(Boolean, nullable=False, server_default='False')

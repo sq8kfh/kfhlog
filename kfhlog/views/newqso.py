@@ -3,6 +3,7 @@ from pyramid.view import view_config
 
 from ..models import Profile, Group, Mode, Band, Dxcc
 
+
 @view_config(route_name='newqso', renderer='newqso.jinja2')
 def newqso_view(request):
     user = request.user
