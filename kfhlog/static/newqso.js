@@ -35,7 +35,10 @@ function update_date_on() {
 
 function call_change() {
     call = $("#call").val().trim();
-    if(!call) return;
+    if(!call) {
+        $("#previou_table > tbody").empty();
+        return;
+    }
     $.ajax({
 	    type:'POST',
 		url: '/api',
@@ -73,10 +76,10 @@ function freq_change() {
 
 function form_to_json() {
     var obj = {};
-    if($("#profile").val().trim() != "")
-        obj["profile"] = $("#profile").val();
-    if($("#group").val().trim() != "")
-        obj["group"] = $("#group").val();
+    if(parseInt($("#profile").val().trim()) >= 0)
+        obj["profile"] = parseInt($("#profile").val().trim());
+    if(parseInt($("#group").val().trim()) >= 0)
+        obj["group"] = parseInt($("#group").val().trim());
     if($("#call").val().trim() != "")
         obj["call"] = $("#call").val().trim();
     if($("#date_on").val().trim() != "" && $("#time_on").val().trim() != "")
@@ -120,10 +123,93 @@ function form_to_json() {
     if($("#qsl_via").val().trim() != "")
         obj["qsl_via"] = $("#qsl_via").val().trim();
     if(parseInt($("#profile").val().trim()))
-        obj["profile"] = parseInt($("#profil").val().trim());
-    if(parseInt($("#group").val().trim()))
-        obj["group"] = parseInt($("#group").val().trim());
+        obj["profiles"] = parseInt($("#profile").val().trim());
     return JSON.stringify(obj);
+}
+
+function reset_form(preset = {}) {
+    if(preset["profile"]) $("#profile").val(preset["profile"]);
+    else $("#profile").val(0);
+    $("#profile").removeClass("error")
+    $("#profile").trigger("chosen:updated");
+    if(preset["group"]) $("#group").val(preset["group"]);
+    else $("#group").val(0);
+    $("#group").removeClass("error")
+    $("#group").trigger("chosen:updated");
+    if(preset["call"]) $("#call").val(preset["call"]);
+    else $("#call").val(null)
+    $("#call").removeClass("error")
+    if(preset["datetime_on"]) {
+	    var d=new Date(preset["datetime_on"]);
+	    $("#date_on").val(d.getUTCFullYear() + '-' + pad(1+d.getUTCMonth(),2) + '-' + pad(d.getUTCDate(),2));
+	    $("#time_on").val(pad(d.getUTCHours(),2) + ':' + pad(d.getUTCMinutes(),2) + ':' +pad(d.getUTCSeconds(),2));
+    }
+    else {
+        $("#date_on").val(null);
+        $("#time_on").val(null);
+    }
+    $("#date_on").removeClass("error")
+    $("#time_on").removeClass("error")
+    if(preset["rst_sent"]) $("#rst_sent").val(preset["rst_sent"]);
+    else $("#rst_sent").val(null);
+    $("#rst_sent").removeClass("error")
+    if(preset["stx_string"]) $("#stx_string").val(preset["stx_string"]);
+    else $("#stx_string").val(null);
+    $("#stx_string").removeClass("error")
+    if(preset["rst_rcvd"]) $("#rst_rcvd").val(preset["rst_rcvd"]);
+    else $("#rst_rcvd").val(null);
+    $("#rst_rcvd").removeClass("error")
+    if(preset["srx_string"]) $("#srx_string").val(preset["srx_string"]);
+    else $("#srx_string").val(null);
+    $("#srx_string").removeClass("error")
+    if(preset["gridsquare"]) $("#gridsquare").val(preset["gridsquare"]);
+    else $("#gridsquare").val(null);
+    $("#gridsquare").removeClass("error")
+    if(preset["dxcc"]) $("#dxcc").val(preset["dxcc"]);
+    else $("#dxcc").val(null);
+    $("#dxcc").removeClass("error")
+    $("#dxcc").trigger("chosen:updated");
+    if(preset["name"]) $("#name").val(preset["name"]);
+    else $("#name").val(null);
+    $("#name").removeClass("error")
+    if(preset["qth"]) $("#qth").val(preset["qth"]);
+    else $("#qth").val(null);
+    $("#qth").removeClass("error")
+    if(preset["comment"]) $("#comment").val(preset["comment"]);
+    else $("#comment").val(null);
+    $("#comment").removeClass("error")
+    if(preset["mode"]) $("#mode").val(preset["mode"]);
+    else $("#mode").val(null);
+    $("#mode").removeClass("error")
+    $("#mode").trigger("chosen:updated");
+    if(preset["band"]) $("#band").val(preset["band"]);
+    else $("#band").val(null);
+    $("#band").removeClass("error")
+    $("#band").trigger("chosen:updated");
+    if(preset["freq"]) $("#freq").val(preset["freq"]);
+    else $("#freq").val(null);
+    $("#freq").removeClass("error")
+    if(preset["state"]) $("#state").val(preset["state"]);
+    else $("#state").val(null);
+    $("#state").removeClass("error")
+    if(preset["cnty"]) $("#cnty").val(preset["cnty"]);
+    else $("#cnty").val(null);
+    $("#cnty").removeClass("error")
+    if(preset["cqz"]) $("#cqz").val(preset["cqz"]);
+    else $("#cqz").val(null);
+    $("#cqz").removeClass("error")
+    if(preset["ituz"]) $("#ituz").val(preset["ituz"]);
+    else $("#ituz").val(null);
+    $("#ituz").removeClass("error")
+    if(preset["iota"]) $("#iota").val(preset["iota"]);
+    else $("#iota").val(null);
+    $("#iota").removeClass("error")
+    if(preset["sota_ref"]) $("#sota_ref").val(preset["sota_ref"]);
+    else $("#sota_ref").val(null);
+    $("#sota_ref").removeClass("error")
+    if(preset["qsl_via"]) $("#qsl_via").val(preset["qsl_via"]);
+    else $("#qsl_via").val(null);
+    $("#qsl_via").removeClass("error")
 }
 
 function qso_add(set_dxcc=false) {
@@ -136,13 +222,11 @@ function qso_add(set_dxcc=false) {
 		    console.log("Add QSO: " + jsn.status);
 			if( jsn.status != 'ok') {
 			    $.each(jsn.wrong_values, function(i, item) {
-			        //alert('#' + item)
 			        $('#' + item).addClass('error');
-			        $("#band_chosen").addClass('error');
-			        //$('#' + item).css({"box-shadow": "0 0 1.5px 1px red"});
 			    });
 	            return;
 	        }
+	        reset_form(jsn.preset);
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
       		alert( "Bad request: " + jqXHR.responseText);

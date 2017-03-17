@@ -14,6 +14,7 @@ from .qso import Qso
 from .user import User
 from .prefix import Prefix
 
+__all__ = ['dbtools']
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup

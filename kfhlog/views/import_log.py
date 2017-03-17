@@ -5,77 +5,45 @@ from hamtools import adif
 
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.view import view_config
-from sqlalchemy.sql.expression import func
-from sqlalchemy.sql import text
 
-from ..models import Qso, Band, Mode, Profile, Group, Prefix, dbtools
+from ..models import Qso, Profile, Group
+from ..models.dbtools import dbhelpers
+import kfhlog.tools.datahelpers
+
+import logging
+log = logging.getLogger(__name__)
+
 
 def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
-    mode_cache = {}
-    band_cache = {}
     qsos = []
+    wqso = []
     for r in adif:
-        qso_par = {}
-        qso_par['profile'] = qsoprofile
-        qso_par['group'] = qsogroup
-        if 'app_datetime_off' in r:
-            qso_par['datetime_off'] = r['app_datetime_off']
-        if 'app_datetime_on' in r:
-            qso_par['datetime_on'] = r['app_datetime_on']
+        data = dict(r)
         if 'band' in r:
-            tmp = r['band'].lower()
-            print(tmp, band_cache)
-            if tmp not in band_cache:
-                band_cache[tmp] = dbsession.query(Band).filter_by(name=tmp).first().id
-            qso_par['band'] = band_cache[tmp]
-        elif 'freq' in r:
-            freq = r['freq']
-            qso_par['band'] = dbsession.query(Band).filter(Band.lowerfreq <= freq, Band.upperfreq >= freq).first().id
+            data['band'] = dbhelpers.band_id_by_name(r['band'], dbsession)
         if 'band_rx' in r:
-            tmp = r['band_rx'].lower()
-            if tmp not in band_cache:
-                band_cache[tmp] = dbsession.query(Band).filter_by(name=tmp).first().id
-            qso_par['band_rx'] = band_cache[tmp]
-        elif 'freq_rx' in r:
-            freq = r['freq_rx']
-            qso_par['band'] = dbsession.query(Band).filter(Band.lowerfreq <= freq, Band.upperfreq >= freq).first().id
+            data['band_rx'] = dbhelpers.band_id_by_name(r['band_rx'], dbsession)
         if 'mode' in r:
-            tmp = r['mode']
-            if tmp not in mode_cache:
-                mode_cache[tmp] = dbsession.query(Mode).filter_by(name=tmp).first().id
-            qso_par['mode'] = mode_cache[tmp]
+            data['mode'] = dbhelpers.mode_id_by_name(r['mode'], dbsession)
         if 'mode_rx' in r:
-            tmp = r['mode_rx']
-            if tmp not in mode_cache:
-                mode_cache[tmp] = dbsession.query(Mode).filter_by(name=tmp).first().id
-            qso_par['mode_rx'] = mode_cache[tmp]
-        for v in ('call', 'rst_rcvd', 'rst_sent', 'freq', 'freq_rx', 'stx', 'srx', 'stx_string', 'srx_string', 'name', 'qth', 'gridsquare', 'dxcc', 'ituz', 'cqz', 'iota', 'sota_ref', 'state', 'cnty', 'tx_pwr', 'lotw_qslrdate', 'lotw_qslsdate', 'lotw_qsl_rcvd', 'lotw_qsl_sent', 'eqsl_qslrdate', 'eqsl_qslsdate', 'eqsl_qsl_rcvd', 'eqsl_qsl_sent', 'qslrdate', 'qslsdate', 'qsl_rcvd', 'qsl_sent', 'qsl_via', 'a_index', 'k_index', 'sfi', 'comment'):
-            if v in r:
-                if v == 'a_index':
-                    qso_par[v] = int(float(r[v])) if float(r[v]) else None
-                elif v == 'k_index':
-                    qso_par[v] = int(float(r[v])) if float(r[v]) else None
-                elif v == 'sfi':
-                    qso_par[v] = int(float(r[v])) if float(r[v]) else None
-                elif v == 'tx_pwr':
-                    qso_par[v] = float(r[v]) if float(r[v]) else None
-                elif v == 'dxcc':
-                    qso_par[v] = int(r[v]) if int(r[v]) else None
-                    if not qso_par[v]:
-                        call = dbtools.formatters.call_formatter(r['call'])
-                        prefix = dbsession.query(Prefix.dxcc).filter(text(':param_call LIKE %s' % Prefix.prefix.name)).params(param_call=call).order_by(func.length(Prefix.prefix).desc()).first()
-                        if prefix:
-                            qso_par[v] = prefix.dxcc
-                elif v == 'call':
-                    call = dbtools.formatters.call_formatter(r['call'])
-                    qso_par[v] = call
-                elif v == 'gridsquare':
-                    qso_par[v] = dbtools.formatters.gridsquare_formatter(r['gridsquare'])
-                else:
-                    qso_par[v] = r[v]
+            data['mode_rx'] = dbhelpers.mode_id_by_name(r['mode_rx'], dbsession)
+        qh = kfhlog.tools.datahelpers.QsoHelper(data,
+                                                profile=qsoprofile,
+                                                group=qsogroup,
+                                                datetime_on=r['app_datetime_on'],
+                                                datetime_off=r['app_datetime_off'])
+        res = qh.validate(delete_incorrect=True)
+        qh.autocomplete(dbsession)
+        if res['error']:
+            wqso.append((qh.native(), res['error']))
+            log.error("Import error %s, %s - %s", qh.native()['call'], qh.native()['datetime_on'], res['error'])
+        else:
+            if res['warning']:
+                log.warning("Import %s, %s - %s", qh.native()['call'], qh.native()['datetime_on'], res['warning'])
+            print(qh.native())
+            qsos.append(Qso(**qh.native()))
+    return qsos, wqso
 
-        qsos.append(Qso(**qso_par))
-    return qsos
 
 @view_config(route_name='import', renderer='import.jinja2')
 def import_view(request):
@@ -96,9 +64,10 @@ def import_view(request):
             dbsession = request.dbsession
 
             qsos = _adif2qso(request.params['profile'], request.params['group'], adif_data, dbsession)
-            #for q in qsos:
-            #    dbsession.add(Qso(**q))
-            dbsession.add_all(qsos)
-            #dbsession.bulk_insert_mappings(Qso, qsos) #nie commituje tranzakcji - dlaczego?
-            #dbsession.flush()
+
+            dbsession.add_all(qsos[0])
+#            dbsession.bulk_insert_mappings(Qso, qsos) #nie commituje tranzakcji - dlaczego?
+#            dbsession.flush()
+        return {'message': qsos[1], 'profiles': request.dbsession.query(Profile).all(),
+                'groups': request.dbsession.query(Group).all()}
     return {'profiles': request.dbsession.query(Profile).all(), 'groups': request.dbsession.query(Group).all()}

@@ -1,5 +1,6 @@
 import enum
 
+
 class Rcvd_enum(enum.Enum):
     Y = 1
     N = 2
@@ -7,12 +8,14 @@ class Rcvd_enum(enum.Enum):
     I = 4
     V = 5
 
+
 class Send_enum(enum.Enum):
     Y = 1
     N = 2
     R = 3
     Q = 4
     I = 5
+
 
 class Continent_enum(enum.Enum):
     NA = 1
