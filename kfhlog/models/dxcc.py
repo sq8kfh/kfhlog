@@ -16,7 +16,7 @@ class Dxcc(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(length=100), nullable=False)
     prefix = Column(String(length=20), nullable=False, server_default='')
-    deleted = Column(Boolean, nullable=False)
+    deleted = Column(Boolean(name='ck_dxcc_deleted'), nullable=False)
     continent = Column(Enum(datatypes.ContinentEnum))
     # utc = Column(String(length=10), nullable=False)
     # lat = Column(String(length=10), nullable=False)

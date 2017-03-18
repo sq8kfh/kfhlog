@@ -13,4 +13,4 @@ class Mode(Base):
     __tablename__ = 'mode'
     id = Column(Integer, primary_key=True)
     name = Column(String(length=30), nullable=False, unique=True)
-    hide = Column(Boolean, nullable=False, server_default='False')
+    hide = Column(Boolean(name='ck_mode_hide'), nullable=False, server_default='False')
