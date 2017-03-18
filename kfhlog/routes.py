@@ -1,7 +1,14 @@
+from pyramid_rpc.xmlrpc import XMLRPCRenderer
+
+
 def includeme(config):
     config.add_static_view('static', 'static', cache_max_age=3600)
-    config.add_route('api', '/api/{api_func}')
-    config.add_route('mapi', '/api')
+
+    config.add_xmlrpc_endpoint('xmlrpc', '/xmlrpc/{uid:[0-9]+}', request_method='POST')
+
+    config.add_route('api', '/api/{api_func}', request_method='POST')
+    config.add_route('mapi', '/api', request_method='POST')
+
     config.add_route('checkwp', '/check/{qsoprofile:[0-9]+}')
     config.add_route('check', '/check')
     config.add_route('index', '/')

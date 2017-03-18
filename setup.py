@@ -23,6 +23,7 @@ requires = [
     'bcrypt',
     'hamtools',
     'docutils',
+    'pyramid_rpc',
 ]
 
 tests_require = [

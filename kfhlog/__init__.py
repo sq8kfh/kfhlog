@@ -19,6 +19,8 @@ def main(global_config, **settings):
     renderer.add_adapter(Enum, lambda obj, request: obj.name)
     config.add_renderer('extjson', renderer)
 
+    config.include('pyramid_rpc.xmlrpc')
+
     config.include('.models')
     config.include('.routes')
     config.include('.security')
