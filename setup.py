@@ -2,8 +2,6 @@ import os
 
 from setuptools import setup, find_packages
 
-from kfhlog import __version__
-
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.txt')) as f:
     README = f.read()
@@ -34,7 +32,7 @@ tests_require = [
 
 setup(
     name='kfhlog',
-    version=__version__,
+    version='0.0.0',
     description='Amateur radio logging program',
     long_description=README + '\n\n' + CHANGES,
     classifiers=[
