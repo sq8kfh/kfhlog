@@ -9,7 +9,7 @@ def includeme(config):
     config.add_route('api', '/api/{api_func}', request_method='POST')
     config.add_route('mapi', '/api', request_method='POST')
 
-    config.add_route('checkwp', '/check/{qsoprofile:[0-9]+}')
+    config.add_route('checkwp', '/check/{profile:[0-9]+}')
     config.add_route('check', '/check')
     config.add_route('index', '/')
     config.add_route('login', '/login')
