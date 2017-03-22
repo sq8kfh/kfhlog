@@ -1,6 +1,5 @@
 from .helper import BaseHelper, DatetimeType, IntType, FloatType, StrType
-from kfhlog.models.dbtools import formatters, dbhelpers
-
+from kfhlog.models.dbtools import formatters, dbhelpers, datatypes
 
 def _dxcc_autocomplete(data, dbsession):
     if 'call' in data:
@@ -52,6 +51,7 @@ class QsoHelper(BaseHelper):
     dxcc = IntType(min_value=1, autocomplete_func=_dxcc_autocomplete)
     ituz = IntType(min_value=1, max_value=75)
     cqz = IntType(min_value=1, max_value=40)
+    cont = StrType(one_of=[a.name for a in datatypes.ContinentEnum])
 
     iota = StrType(length=6)
     sota_ref = StrType(min_length=8, max_length=10)
@@ -63,18 +63,18 @@ class QsoHelper(BaseHelper):
 
     lotw_qslrdate = DatetimeType()
     lotw_qslsdate = DatetimeType()
-    lotw_qsl_rcvd = StrType(one_of=('Y', 'N', 'R', 'I', 'V'))
-    lotw_qsl_sent = StrType(one_of=('Y', 'N', 'R', 'Q', 'I'))
+    lotw_qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
+    lotw_qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
 
     eqsl_qslrdate = DatetimeType()
     eqsl_qslsdate = DatetimeType()
-    eqsl_qsl_rcvd = StrType(one_of=('Y', 'N', 'R', 'I', 'V'))
-    eqsl_qsl_sent = StrType(one_of=('Y', 'N', 'R', 'Q', 'I'))
+    eqsl_qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
+    eqsl_qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
 
     qslrdate = DatetimeType()
     qslsdate = DatetimeType()
-    qsl_rcvd = StrType(one_of=('Y', 'N', 'R', 'I', 'V'))
-    qsl_sent = StrType(one_of=('Y', 'N', 'R', 'Q', 'I'))
+    qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
+    qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
     qsl_via = StrType()
 
     a_index = IntType(min_value=0)
