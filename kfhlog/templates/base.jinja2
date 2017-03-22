@@ -9,10 +9,10 @@
 
         <title>{% block title %}SQ8KFH{% endblock %} - KFH Logbook</title>
 
-        <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/theme.css')}}" />
-        <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/icomoon.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/theme.css')}}" />
+        <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/icomoon.css')}}" />
 
-        <script src="{{request.static_url('kfhlog:static/jquery.min.js')}}"></script>
+        <script src="{{request.static_url('kfhlog:static/js/jquery.min.js')}}"></script>
         {% block head %}{% endblock %}
     </head>
     <body>
@@ -20,9 +20,9 @@
             <div class="usermenu">
                 <ul class="usermenu">
                 {% if request.user is none %}
-                    <li><a href="{{request.route_url('login')}}"><span class="icon-login"></span> Login</a></li>
+                    <li><a href="{{request.route_url('login')}}"><span class="icon-enter"></span> Login</a></li>
                 {% else %}
-                    <li><a title="Logout" href="{{request.route_url('logout')}}"><span class="icon-log-out"></span> {{request.user.name}}</a></li>
+                    <li><a title="Logout" href="{{request.route_url('logout')}}"><span class="icon-exit"></span> {{request.user.name}}</a></li>
                 {% endif %}
                 </ul>
             </div>
@@ -38,7 +38,7 @@
                     <li {% if request.matched_route.name == "map" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-globe"></span> Map</a></li>
                     <li {% if request.matched_route.name == "awards" %}class="active"{% endif %}><a href="{{request.route_url('awards')}}"><span class="icon-trophy"></span> Awards</a></li>
                     <li {% if request.matched_route.name == "import" %}class="active"{% endif %}><a href="{{request.route_url('import')}}"><span class="icon-download"></span> Import</a></li>
-                    <li {% if request.matched_route.name == "settings" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-cog"></span> Settings</a></li>
+                    <li {% if request.matched_route.name == "settings" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-cogs"></span> Settings</a></li>
                 {% endif %}
                 <li {% if request.matched_route.name == "about" %}class="active"{% endif %}><a href="{{request.route_url('about')}}"><span class="icon-info-with-circle"></span> About</a></li>
             </ul>
