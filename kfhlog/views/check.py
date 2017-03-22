@@ -14,11 +14,11 @@ def _check(dbsession, call, profile=None):
         req_type = Mode
         name = dbsession.query(Profile).get(profile).name
         tmp = dbsession.query(Qso.mode, Qso.band).group_by(Qso.mode, Qso.band).\
-            filter_by(call=call, qsoprofile=profile).all()
+            filter_by(call=call, profile=profile).all()
     else:
         req_type = Profile
         addrowlink = True
-        tmp = dbsession.query(Qso.qsoprofile, Qso.band).group_by(Qso.qsoprofile, Qso.band).filter_by(call=call).all() #filter_by(call='SP3CFM').all()
+        tmp = dbsession.query(Qso.profile, Qso.band).group_by(Qso.profile, Qso.band).filter_by(call=call).all() #filter_by(call='SP3CFM').all()
     if not tmp:
         return {'message': 'Call %s is not in the log...' % call}
     col = {x[1] for x in tmp}
@@ -38,13 +38,13 @@ def _check(dbsession, call, profile=None):
 
 @view_config(route_name='checkwp', renderer='check.jinja2')
 def checkwp_view(request):
-    qsoprofile = request.matchdict['qsoprofile']
-    tmp = request.dbsession.query(Profile).get(qsoprofile)
+    profile = request.matchdict['profile']
+    tmp = request.dbsession.query(Profile).get(profile)
     if not tmp:
         raise HTTPNotFound()
     if 'call' in request.params:
         call = request.params['call']
-        return _check(request.dbsession, call, qsoprofile)
+        return _check(request.dbsession, call, profile)
     return {}
 
 

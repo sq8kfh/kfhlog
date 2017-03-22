@@ -25,3 +25,9 @@ class ContinentEnum(enum.Enum):
     OC = 5
     AS = 6
     AN = 7
+
+
+class ModeEnum(enum.Enum):
+    CW = 1
+    PHONE = 2
+    DIGITAL = 3

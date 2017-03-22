@@ -1,0 +1,118 @@
+{% extends "base.jinja2" %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/awards.css')}}" />
+    <script src="{{request.static_url('kfhlog:static/awards.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="column">
+    <ul class="submenu">
+        <li>
+            <label for="profile">Profile:</label>
+        </li>
+        <li>
+            <select id="profile">
+                <option value="">All</option>
+                {% for profile in profiles %}
+                <option value="{{ profile.id }}">{{ profile.name }}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li>
+            <label for="group">Group:</label>
+        </li>
+        <li>
+            <select id="group">
+                <option value="">All</option>
+                {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li><a href="#" onclick="open_tab('general')"><span class="icon-check"></span> General</a></li>
+        <li><a href="#" onclick="open_tab('dxcc')"><span class="icon-check"></span> DXCC</a></li>
+        <li><a href="#" onclick="open_tab('cq')"><span class="icon-check"></span> CQ</a></li>
+        <li><a href="#" onclick="open_tab('itu')"><span class="icon-check"></span> ITU</a></li>
+        <li><a href="#" onclick="open_tab('iota')"><span class="icon-check"></span> IOTA</a></li>
+        <li><a href="#" onclick="open_tab('sota')"><span class="icon-check"></span> SOTA</a></li>
+    </ul>
+</div>
+<div id="tabs" class="column">
+    <div id="general">
+        <table class="checkresult">
+            <thead>
+                <tr>
+                    <th>Cont</th>
+                    {% for band in bands %}
+                    <th>{{ band.name }}</th>
+                    {% endfor %}
+                    <th>CW</th>
+                    <th>Phone</th>
+                    <th>Digital</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="dxcc">
+        <table class="checkresult">
+            <thead>
+                <tr>
+                    <th>DXCC</th>
+                    <th>Name</th>
+                    {% for band in bands %}
+                    <th>{{ band.name }}</th>
+                    {% endfor %}
+                    <th>CW</th>
+                    <th>Phone</th>
+                    <th>Digital</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="cq">
+        <table class="checkresult">
+            <thead>
+                <tr>
+                    <th>CQ</th>
+                    {% for band in bands %}
+                    <th>{{ band.name }}</th>
+                    {% endfor %}
+                    <th>CW</th>
+                    <th>Phone</th>
+                    <th>Digital</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="itu">
+        <table class="checkresult">
+            <thead>
+                <tr>
+                    <th>ITU</th>
+                    {% for band in bands %}
+                    <th>{{ band.name }}</th>
+                    {% endfor %}
+                    <th>CW</th>
+                    <th>Phone</th>
+                    <th>Digital</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="iota">
+        iota
+    </div>
+    <div id="sota">
+        sota
+    </div>
+</div>
+{% endblock content %}

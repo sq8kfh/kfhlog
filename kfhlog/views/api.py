@@ -12,6 +12,17 @@ from ..models import Qso, Mode, Band, Prefix
 from ..tools import datahelpers
 
 
+_function_dic = {}
+
+
+def json_api_config(*, name):
+    def decorator(func):
+        _function_dic[name] = func
+        return func
+    return decorator
+
+
+@json_api_config(name='get_band')
 def _get_band(dbsession, data):
     freq = data['freq']
     band = dbsession.query(Band).filter(Band.lowerfreq <= freq, Band.upperfreq >= freq).first()
@@ -20,6 +31,7 @@ def _get_band(dbsession, data):
     return {'status': 'error', 'response': 'band not found'}
 
 
+@json_api_config(name='get_previous')
 def _get_previous(dbsession, data):
     call = dbtools.formatters.call_formatter(data['call'])
     qso = dbsession.query(Qso.datetime_on, Band.name, Mode.name)
@@ -34,6 +46,7 @@ def _get_previous(dbsession, data):
     return {'status': 'ok', 'qso': []}
 
 
+@json_api_config(name='find_prefix')
 def _find_prefix(dbsession, data):
     call = dbtools.formatters.call_formatter(data['call'])
     prefix = dbsession.query(Prefix.dxcc, Prefix.ituz, Prefix.cqz, Prefix.continent).\
@@ -49,6 +62,7 @@ def _find_prefix(dbsession, data):
     return {'status': 'error', 'response': 'prefix not match'}
 
 
+@json_api_config(name='addqso')
 def _addqso(dbsession, data):
     stx_string_org = None
     if 'stx_string' in data:
@@ -89,13 +103,6 @@ def _addqso(dbsession, data):
         preset['freq'] = qn['freq']
 
     return {'status': 'ok', 'preset': preset}
-
-_function_dic = {
-    'get_band': _get_band,
-    'get_previous': _get_previous,
-    'find_prefix': _find_prefix,
-    'addqso': _addqso,
-}
 
 
 @view_config(route_name='api', request_method='POST', renderer='extjson')

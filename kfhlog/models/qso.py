@@ -72,6 +72,7 @@ class Qso(Base):
     dxcc_obj = relationship("Dxcc", foreign_keys=dxcc)
     ituz = Column(Integer)
     cqz = Column(Integer)
+    cont = Column(Enum(datatypes.ContinentEnum))
 
     iota = Column(String(length=10), nullable=False, server_default='')
     sota_ref = Column(String(length=10), nullable=False, server_default='')
