@@ -37,8 +37,10 @@ function call_change() {
     call = $("#call").val().trim();
     if(!call) {
         $("#previou_table > tbody").empty();
+        $("a#qrz").attr("href", "https://www.qrz.com/db/")
         return;
     }
+    $("a#qrz").attr("href", "https://www.qrz.com/db/" + call)
     $.ajax({
 	    type:'POST',
 		url: '/api',

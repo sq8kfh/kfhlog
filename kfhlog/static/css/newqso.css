@@ -39,11 +39,11 @@ div#col1 > div > div > div > input[type=number], div#col1 > div > div > div > in
 }
 
 #time_on {
-    width: 86px;
+    width: 87px;
 }
 
-#date_on_button {
-    width: 25px;
+div#col1 > div > div > div > #call {
+    width: 210px;
 }
 
 div#col1 > div > div > div > #rst_sent[type=text],

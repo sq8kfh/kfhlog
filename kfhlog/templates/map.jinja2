@@ -1,0 +1,12 @@
+{% extends "base.jinja2" %}
+
+{% block head %}
+    <script src="{{request.static_url('kfhlog:static/js/map.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+    <label for="itu_zone">ITU zone: </label><output id="itu_zone"></output>
+    <div class="center">
+        <object id="map" onload="map_load()" data="{{request.static_url('kfhlog:static/map/itu.svg')}}" type="image/svg+xml"></object>
+    </div>
+{% endblock content %}

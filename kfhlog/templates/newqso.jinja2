@@ -1,10 +1,10 @@
 {% extends "base.jinja2" %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/chosen.min.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/newqso.css')}}" />
-    <script src="{{request.static_url('kfhlog:static/chosen.jquery.min.js')}}"></script>
-    <script src="{{request.static_url('kfhlog:static/newqso.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/chosen.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/newqso.css')}}" />
+    <script src="{{request.static_url('kfhlog:static/js/chosen.jquery.min.js')}}"></script>
+    <script src="{{request.static_url('kfhlog:static/js/newqso.js')}}"></script>
 {% endblock %}
 
 {% block content %}
@@ -15,13 +15,13 @@
         <div class="tr">
             <div class="tdl"><label for="call">Call:</label></div>
             <div class="tdr">
-                <input type="text" id="call" maxlength="20" size="20" />
+                <input type="text" id="call" maxlength="20" size="20" /> <a id="qrz" href="https://www.qrz.com/db/" target="_blank"><span class="icon-link"></span></a>
             </div>
         </div>
         <div class="tr">
             <div class="tdl"><label for="date_on">Date:</label></div>
             <div class="tdr">
-                <input type="date" id="date_on" size="10" placeholder="yyyy-mm-dd" /><input type="time" id="time_on" size="8" placeholder="hh:mm[:ss]" /><input id="date_on_button" type="button" value="<"/>
+                <input type="date" id="date_on" size="10" placeholder="yyyy-mm-dd" /> <input type="time" id="time_on" size="8" placeholder="hh:mm[:ss]" /> <a id="date_on_button" href="javascript:void(0)"><span class="icon-clock"></span></a>
             </div>
         </div>
         <div class="tr">
