@@ -16,6 +16,7 @@ def includeme(config):
     config.add_route('logout', '/logout')
     config.add_route('newqso', '/newqso')
     config.add_route('log', '/log')
+    config.add_route('map', '/map')
     config.add_route('awards', '/awards')
     config.add_route('import', '/import')
     config.add_route('about', '/about')

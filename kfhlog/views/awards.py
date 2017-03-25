@@ -283,7 +283,7 @@ def _award_itu(dbsession, data):
 
     qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
         group_by(Qso.ituz, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd).all()
-    ituz = list(range(1, 76))
+    ituz = list(range(1, 91))
 
     res = OrderedDict()
 

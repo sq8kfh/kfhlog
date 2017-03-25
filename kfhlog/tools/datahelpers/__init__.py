@@ -49,7 +49,7 @@ class QsoHelper(BaseHelper):
     gridsquare = StrType(min_length=2, max_length=8, data_formatter=formatters.gridsquare_formatter)
 
     dxcc = IntType(min_value=1, autocomplete_func=_dxcc_autocomplete)
-    ituz = IntType(min_value=1, max_value=75)
+    ituz = IntType(min_value=1, max_value=90)
     cqz = IntType(min_value=1, max_value=40)
     cont = StrType(one_of=[a.name for a in datatypes.ContinentEnum])
 
@@ -59,7 +59,7 @@ class QsoHelper(BaseHelper):
     state = StrType()
     cnty = StrType()
 
-    tx_pwr = FloatType()
+    tx_pwr = FloatType(min_value=0.001)
 
     lotw_qslrdate = DatetimeType()
     lotw_qslsdate = DatetimeType()

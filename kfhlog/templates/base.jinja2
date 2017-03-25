@@ -35,7 +35,7 @@
                     <li {% if request.matched_route.name == "index" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-home"></span> Home</a></li>
                     <li {% if request.matched_route.name == "newqso" %}class="active"{% endif %}><a href="{{request.route_url('newqso')}}"><span class="icon-new-message"></span> New QSO</a></li>
                     <li {% if request.matched_route.name == "log" %}class="active"{% endif %}><a href="{{request.route_url('log')}}"><span class="icon-open-book"></span> Log</a></li>
-                    <li {% if request.matched_route.name == "map" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-globe"></span> Map</a></li>
+                    <li {% if request.matched_route.name == "map" %}class="active"{% endif %}><a href="{{request.route_url('map')}}"><span class="icon-globe"></span> Map</a></li>
                     <li {% if request.matched_route.name == "awards" %}class="active"{% endif %}><a href="{{request.route_url('awards')}}"><span class="icon-trophy"></span> Awards</a></li>
                     <li {% if request.matched_route.name == "import" %}class="active"{% endif %}><a href="{{request.route_url('import')}}"><span class="icon-download"></span> Import</a></li>
                     <li {% if request.matched_route.name == "settings" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-cogs"></span> Settings</a></li>
