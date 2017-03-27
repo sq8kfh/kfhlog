@@ -1,5 +1,6 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm import class_mapper
 from sqlalchemy import (
     Column,
     ForeignKey,
@@ -104,3 +105,6 @@ class Qso(Base):
     k_index = Column(Integer)
     sfi = Column(Integer)
     comment = Column(Text, nullable=False, server_default='')  # notes
+
+    def to_dict(self):
+        return dict((col.name, getattr(self, col.name)) for col in class_mapper(self.__class__).mapped_table.c)

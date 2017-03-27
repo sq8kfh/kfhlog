@@ -129,7 +129,7 @@ def main(argv=sys.argv):
                             if result.group(1) == 'MZ':
                                 continue
                             tmp = result.group(1) + '%'
-                            dbsession.add(Prefix(prefix=tmp, ituz=itu, cqz=cq, dxcc=dxcc_id, continent=dxcc[3]))
+                            dbsession.add(Prefix(prefix=tmp, ituz=itu, cqz=cq, dxcc=dxcc_id, cont=dxcc[3]))
                     else:
                         result = re.match('=([A-Z0-9/]+)(\([0-9]+\))*(\[[0-9]+\])*', p)
                         (cq, itu) = key
@@ -139,7 +139,7 @@ def main(argv=sys.argv):
                             itu = int(result.group(3)[1:-1])
                         if result.group(1):
                             tmp = result.group(1)
-                            dbsession.add(Prefix(prefix=tmp, ituz=itu, cqz=cq, dxcc=dxcc_id, continent=dxcc[3]))
+                            dbsession.add(Prefix(prefix=tmp, ituz=itu, cqz=cq, dxcc=dxcc_id, cont=dxcc[3]))
                         else:
                             print('Error: parse prefix: ' + p)
         print("Name match: %s\nPrefix match: %s\nNOT MATCH: %s" % (_byname, _bypref, _nomatch))

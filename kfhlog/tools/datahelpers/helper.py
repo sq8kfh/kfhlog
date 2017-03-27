@@ -34,17 +34,20 @@ class BaseType(object):
     def tonative(self, data, raw):
         if self.name in raw:
             tmp = raw[self.name]
-            if not isinstance(tmp, self._vtype):
-                tmp = self._cast(raw[self.name])
-            if self._data_formatter:
+            if not isinstance(tmp, self._vtype) and tmp is not None:
+                tmp = self._cast(tmp)
+            if self._data_formatter and tmp is not None:
                 tmp = self._data_formatter(tmp)
             data[self.name] = tmp
 
     def validate(self, data):
         if self.name in data:
             d = data[self.name]
-            for f in self._validators:
-                f(d)
+            if d is not None:
+                for f in self._validators:
+                    f(d)
+            elif self._required:
+                raise ValidateError("field is required")
         elif self._required:
             raise ValidateError("field is required")
 
@@ -171,10 +174,8 @@ class StrType(BaseType):
 
 
 class BaseHelper(object):
-    _data = {}
-    _raw = None
-
     def __init__(self, data=None, **kw):
+        self._data = {}
         _dict = self.__class__.__dict__
         self._var = tuple((_dict[name]._setnameandreturn(name) for name in _dict if isinstance(_dict[name], BaseType)))
         self._raw = data if data else {}
