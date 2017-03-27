@@ -81,6 +81,28 @@ function freq_change() {
 	});
 }
 
+function state_change() {
+    $("form#newqso #state_info").val(null)
+    var dxcc = $("form#newqso #dxcc").val();
+    var state = $("form#newqso #state").val().trim();
+    if(dxcc > 0 && state != '') {
+        $.ajax({
+            type:'POST',
+            url: '/api/get_state',
+            data: JSON.stringify({"dxcc": dxcc, "state": state}),
+            contentType: 'application/json; charset=utf-8',
+            success: function(jsn) {
+                if( jsn.status != 'ok')
+                    return;
+                $("form#newqso #state_info").val(jsn.state.name);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert( "Bad request: " + jqXHR.responseText);
+            },
+        });
+	}
+}
+
 function form_to_json() {
     var obj = {};
     if($("form#newqso #date_on").val().trim() != "" && $("form#newqso #time_on").val().trim() != "")
@@ -226,6 +248,8 @@ $(document).ready(function() {
 
 	$("form#newqso #freq").change(freq_change);
 
+    $("form#newqso #state").change(state_change);
+
     $("form#newqso #profile").change(function() {
         $("form#newqso #gridsquare_info").val($("form#newqso #profile").find(':selected').data('gridsquare'));
         $("form#newqso #gridsquare").trigger("change");
@@ -236,8 +260,10 @@ $(document).ready(function() {
         if($("form#newqso #gridsquare").val().trim() == '') {
             $("form#newqso #loc_info").val("-- km, -- °");
         }
-		var tmp = calcdisazi($("form#newqso #gridsquare_info").val().trim(), $("form#newqso #gridsquare").val().trim());
-		$("form#newqso #loc_info").val(" " + tmp.dis + "km, " + tmp.az + "°");
+        else if ($("form#newqso #gridsquare_info").val().trim() != '') {
+		    var tmp = calcdisazi($("form#newqso #gridsquare_info").val().trim(), $("form#newqso #gridsquare").val().trim());
+		    $("form#newqso #loc_info").val(" " + tmp.dis + "km, " + tmp.az + "°");
+		}
 	});
 
 	$("form#newqso #add_button").click(qso_add);
