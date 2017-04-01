@@ -2,12 +2,8 @@
     float: left;
 }
 
-#tabs {
-    margin-left: 10px;
-}
-
-#tabs > div {
-    display: none;
+tr:nth-child(even) {
+    background-color: #eee;
 }
 
 .green {

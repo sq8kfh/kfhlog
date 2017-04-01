@@ -1,64 +1,82 @@
 {% extends "base.jinja2" %}
 
 {% block head %}
-    <script src="{{request.static_url('kfhlog:static/js/jquery.tablesorter.js')}}"></script>
-    <script src="{{request.static_url('kfhlog:static/js/jquery.tablesorter.widgets.js')}}"></script>
-    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/theme.table.css')}}" />
-    <script src="{{request.static_url('kfhlog:static/js/jquery.tablesorter.pager.js')}}"></script>
-    <script>
-    $(function(){
-      $("table")
-        .tablesorter({
-          sortList: [[1,1]],
-          widthFixed: true,
-          widgets: ['zebra', 'filter']
-        })
-        .tablesorterPager({
-          // target the pager markup - see the HTML block below
-          container: $(".pager"),
-          output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
-        });
-    });
-    </script>
+    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/log.css')}}" />
+    <script src="{{request.static_url('kfhlog:static/js/log.js')}}"></script>
 {% endblock %}
 
 {% block content %}
-<table class="tablesorter">
-    <thead>
-        <tr>
-            <th>Call</th>
-            <th>Date</th>
-            <th class="filter-select">Band</th>
-            <th class="filter-select filter-onlyAvail">Mode</th>
-            <th class="filter-false sorter-false">RST Rcvd</th>
-            <th class="filter-false sorter-false">RST Sent</th>
-            <th class="filter-select filter-onlyAvail">DXCC</th>
-    </tr>
-  </thead>
-  <tfoot>
-    <tr class="dark-row">
-      <th colspan="7">
-        <div class="pager">
-          <button type="button" class="first"><<</button>
-          <button type="button" class="prev"><</button>
-          <span class="pagedisplay"></span>
-          <button type="button" class="next">></button>
-          <button type="button" class="last">>></button>
-          <select class="pagesize" title="Select page size">
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="75">75</option>
-            <option value="100">100</option>
-          </select>
-          <select class="gotoPage" title="Select page number"></select>
-        </div>
-      </th>
-    </tr>
-  </tfoot>
-    <tbody>
-        {% for qso in qsos %}
-            <tr><td>{{ qso.call }}</td><td>{{ qso.datetime_on }}</td><td>{{ qso.band_obj.name }}</td><td>{{ qso.mode_obj.name }}</td><td>{{ qso.rst_rcvd }}</td><td>{{ qso.rst_sent }}</td><td>{{ qso.dxcc_obj.name }}</td></tr>
-        {% endfor %}
-    </tbody>
-</table>
+
+    <table id="log" class="stdtable">
+        <thead>
+            <tr id="headers">
+                <th onclick="changesort('call')"><span id="call_sort"></span>Call</th>
+                <th onclick="changesort('datetime_off')"><span id="datetime_off_sort"></span> Date</th>
+                <th onclick="changesort('band')"><span id="band_sort"></span> Band</th>
+                <th onclick="changesort('mode')"><span id="mode_sort"></span> Mode</th>
+                <th>RST Rcvd</th>
+                <th>RST Sent</th>
+                <th onclick="changesort('dxcc')"><span id="dxcc_sort"></span> DXCC</th>
+            </tr>
+            <tr id="filters">
+                <th><input id="call_filter" type="text" /></th>
+                <th><input id="datetime_off_filter" type="text" /></th>
+                <th>
+                    <select id="band_filter">
+                        <option value=""></option>
+                        {% for band in band_all %}
+                            <option value="{{ band.id }}">{{ band.name }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th>
+                    <select id="mode_filter">
+                        <option value=""></option>
+                        {% for mode in mode_all %}
+                            <option value="{{ mode.id }}">{{ mode.name }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th></th>
+                <th></th>
+                <th>
+                    <select id="dxcc_filter">
+                        <option value=""></option>
+                        {% for dxcc in dxcc_all %}
+                            <option value="{{ dxcc.id }}">{{ dxcc.name }} [{{ dxcc.id }}]</option>
+                        {% endfor %}
+                    </select>
+                </th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th colspan="7">
+                    <div class="pager">
+                        <input type="hidden" id="sortby" />
+                        <button type="button" id="first"><<</button>
+                        <button type="button" id="prev"><</button>
+                        <span class="pagedisplay"></span>
+                        <button type="button" id="next">></button>
+                        <button type="button" id="last">>></button>
+                        <input id="page" type="number" min="1" step="1" value="1" title="Page" />
+                        <select id="pagesize" title="Page size">
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="75">75</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </th>
+            </tr>
+        </tfoot>
+        <tbody class="trhover">
+        </tbody>
+    </table>
+
+<div id="qso_modal" class="modal">
+    <div class="modal-content">
+        {% include 'qso_form.jinja2' %}
+    </div>
+</div>
 {% endblock content %}

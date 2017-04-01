@@ -20,7 +20,7 @@ function show_award(award) {
 		        tr = $('<tr>');
 		        $.each(r, function(colIndex, c) {
 		            td = $("<t"+(colIndex == 0 ?  "h" : "d")+"/>").text(c);
-		            if(colIndex > 1 && c != null) {
+		            if(colIndex > 0 && c != null) {
 		                if(c === "")
 		                    td.addClass('green');
 		                else

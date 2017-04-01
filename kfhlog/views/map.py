@@ -15,7 +15,7 @@ def _made_itu(dbsession, data):
         group = data['group']
 
 
-    itu = dbsession.query(Qso.ituz)
+    itu = dbsession.query(Qso.ituz).filter(Qso.ituz.isnot(None))
     if profile:
         itu = itu.filter_by(profile=profile)
     if group:

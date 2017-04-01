@@ -26,7 +26,7 @@ def _award_general(dbsession, data):
     if group:
         qsl = qsl.filter_by(group=group)
 
-    qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
+    qsl = qsl.filter(Qso.cont.isnot(None), Qso.band <= _band_high, Qso.band >= _band_low).\
         group_by(Qso.cont, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd).all()
 
     cont = [a.name for a in ContinentEnum]
@@ -61,7 +61,7 @@ def _award_general(dbsession, data):
     if group:
         qsl = qsl.filter_by(group=group)
 
-    qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
+    qsl = qsl.filter(Qso.cont.isnot(None), Qso.band <= _band_high, Qso.band >= _band_low).\
         join(Qso.mode_obj).group_by(Qso.cont, Mode.mode_cat, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd).all()
     for q in qsl:
         if q.cont.name not in res:
