@@ -349,12 +349,8 @@ def _award_itu(dbsession, data):
     return {'status': 'ok', 'itu': list(res.values())}
 
 
-@view_config(route_name='awards', renderer='awards.jinja2')
+@view_config(route_name='awards', renderer='awards.jinja2', permission='authenticated')
 def awards_view(request):
-    user = request.user
-    if user is None:
-        raise HTTPForbidden
-
     _band_low = 4
     _band_high = 13
 

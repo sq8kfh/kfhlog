@@ -2,6 +2,10 @@
     float: left;
 }
 
+.logcol {
+    margin-left: 10px;
+}
+
 tr:nth-child(even) {
     background-color: #eee;
 }
@@ -17,3 +21,9 @@ tr:nth-child(even) {
 select {
     width: 131px;
 }
+
+/*tr td:nth-child(1), tr th:nth-child(1)
+{
+ display: none;
+ visibility: hidden;
+}*/

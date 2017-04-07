@@ -26,10 +26,6 @@ def _made_itu(dbsession, data):
     return {'status': 'ok', 'itu': itu}
 
 
-@view_config(route_name='map', renderer='map.jinja2')
+@view_config(route_name='map', renderer='map.jinja2', permission='authenticated')
 def index_view(request):
-    user = request.user
-    if user is None:
-        raise HTTPForbidden
-
     return {}

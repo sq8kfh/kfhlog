@@ -6,21 +6,80 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="column">
+    <ul class="submenu">
+        <li>
+            <label for="profile">Profile:</label>
+        </li>
+        <li>
+            <select id="profile">
+                <option value="">All</option>
+                {% for profile in profiles %}
+                <option value="{{ profile.id }}">{{ profile.name }}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li>
+            <label for="group">Group:</label>
+        </li>
+        <li>
+            <select id="group">
+                <option value="">All</option>
+                {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li></li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_datetime_on"/> <label for="show_datetime_on">Datetime on</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_band"/> <label for="show_band">Band</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_mode"/> <label for="show_mode">Mode</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_rst_rcvd"/> <label for="show_rst_rcvd">RST Rcvd</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_rst_send"/> <label for="show_rst_send">RST Send</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_dxcc"/> <label for="show_dxcc">DXCC name</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_cont"/> <label for="show_cont">Cont</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_ituz"/> <label for="show_ituz">ITU Zone</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_cqz"/> <label for="show_cqz">CQ Zone</label>
+        </li>
+    </ul>
+</div>
+<div class="column logcol">
     <table id="log" class="stdtable">
         <thead>
             <tr id="headers">
                 <th onclick="changesort('call')"><span id="call_sort"></span>Call</th>
-                <th onclick="changesort('datetime_off')"><span id="datetime_off_sort"></span> Date</th>
+                <th onclick="changesort('datetime_on')"><span id="datetime_on_sort"></span> Date on</th>
+                <th onclick="changesort('datetime_off')"><span id="datetime_off_sort"></span> Date off</th>
                 <th onclick="changesort('band')"><span id="band_sort"></span> Band</th>
                 <th onclick="changesort('mode')"><span id="mode_sort"></span> Mode</th>
                 <th>RST Rcvd</th>
                 <th>RST Sent</th>
-                <th onclick="changesort('dxcc')"><span id="dxcc_sort"></span> DXCC</th>
+                <th onclick="changesort('dxcc')"><span id="dxcc_sort"></span> DXCC name</th>
+                <th onclick="changesort('cont')"><span id="cont_sort"></span> Cont</th>
+                <th onclick="changesort('ituz')"><span id="ituz_sort"></span> ITU zone</th>
+                <th onclick="changesort('cqz')"><span id="cqz_sort"></span> CQ zone</th>
             </tr>
             <tr id="filters">
                 <th><input id="call_filter" type="text" /></th>
                 <th><input id="datetime_off_filter" type="text" /></th>
+                <th><input id="datetime_on_filter" type="text" /></th>
                 <th>
                     <select id="band_filter">
                         <option value=""></option>
@@ -47,11 +106,21 @@
                         {% endfor %}
                     </select>
                 </th>
+                <th>
+                    <select id="cont_filter">
+                        <option value=""></option>
+                        {% for cont in cont_all %}
+                            <option>{{ cont }}</option>
+                        {% endfor %}
+                    </select>
+                </th>
+                <th><input id="ituz_filter" type="text" /></th>
+                <th><input id="cqz_filter" type="text" /></th>
             </tr>
         </thead>
         <tfoot>
             <tr>
-                <th colspan="7">
+                <th colspan="11">
                     <div class="pager">
                         <input type="hidden" id="sortby" />
                         <button type="button" id="first"><<</button>
@@ -59,7 +128,7 @@
                         <span class="pagedisplay"></span>
                         <button type="button" id="next">></button>
                         <button type="button" id="last">>></button>
-                        <input id="page" type="number" min="1" step="1" value="1" title="Page" />
+                        <input id="page" type="number" min="1" step="1" value="1" title="Page" />/<output id="pagecount" title="Page count"></output>
                         <select id="pagesize" title="Page size">
                             <option value="25">25</option>
                             <option value="50">50</option>
@@ -73,7 +142,7 @@
         <tbody class="trhover">
         </tbody>
     </table>
-
+</div>
 <div id="qso_modal" class="modal">
     <div class="modal-content">
         {% include 'qso_form.jinja2' %}

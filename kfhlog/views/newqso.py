@@ -18,12 +18,8 @@ def _get_state(dbsession, data):
     return {'status': 'error', 'response': 'dxcc/state not set'}
 
 
-@view_config(route_name='newqso', renderer='newqso.jinja2')
+@view_config(route_name='newqso', renderer='newqso.jinja2', permission='authenticated')
 def newqso_view(request):
-    user = request.user
-    if user is None:
-        raise HTTPForbidden
-
     return {'profiles': request.dbsession.query(Profile).all(),
             'groups': request.dbsession.query(Group).all(),
             'modes': request.dbsession.query(Mode).filter(Mode.hide == False).all(),

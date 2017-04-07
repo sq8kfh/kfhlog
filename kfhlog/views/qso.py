@@ -42,11 +42,8 @@ def _del_qso(dbsession, data):
     return {'status': 'error', 'response': 'qso id not set'}
 
 
-@view_config(route_name='qso', renderer='qso.jinja2')
+@view_config(route_name='qso', renderer='qso.jinja2', permission='authenticated')
 def qso_view(request):
-    user = request.user
-    if user is None:
-        raise HTTPForbidden
     qsoid = request.matchdict['qsoid']
 
     return {'qsoid': qsoid,
