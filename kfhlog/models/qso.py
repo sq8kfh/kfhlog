@@ -56,7 +56,7 @@ class Qso(Base):
     def datetime_off(self):
         return self._datetime_off
 
-    @datetime_on.setter
+    @datetime_off.setter
     def datetime_off(self, value):
         if isinstance(value, datetime.datetime):
             self._datetime_off = value

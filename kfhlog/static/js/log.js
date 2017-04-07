@@ -91,8 +91,8 @@ function changesort(sort_by) {
 }
 
 $(document).ready(function() {
-    changesort('datetime_off');
-    changesort('datetime_off');
+    changesort('datetime_on');
+    changesort('datetime_on');
     $('#page').val(1);
 
     $("#profile").change(load_log);
@@ -143,7 +143,7 @@ $(document).ready(function() {
         $(selector).attr("checked", default_val);
     }
 
-    make_show_checkbox("#show_datetime_on", 2, false);
+    make_show_checkbox("#show_datetime_off", 3, false);
     make_show_checkbox("#show_band", 4, true);
     make_show_checkbox("#show_mode", 5, true);
     make_show_checkbox("#show_rst_rcvd", 6, true);
