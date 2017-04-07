@@ -22,6 +22,7 @@ requires = [
     'hamtools',
     'docutils',
     'pyramid_rpc',
+    'python-dateutil',
 ]
 
 tests_require = [
