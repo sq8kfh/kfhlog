@@ -12,6 +12,9 @@ from sqlalchemy import (
     Text,
 )
 
+import datetime
+import dateutil.parser
+
 from .meta import Base
 from .dbtools import datatypes
 from .dbtools import formatters
@@ -34,8 +37,32 @@ class Qso(Base):
     def call(self, value):
         self._call = formatters.call_formatter(value)
 
-    datetime_on = Column(DateTime(timezone=False), nullable=False)
-    datetime_off = Column(DateTime(timezone=False), nullable=True)
+    _datetime_on = Column('datetime_on', DateTime(timezone=False), nullable=False)
+
+    @hybrid_property
+    def datetime_on(self):
+        return self._datetime_on
+
+    @datetime_on.setter
+    def datetime_on(self, value):
+        if isinstance(value, datetime.datetime):
+            self._datetime_on = value
+        else:
+            self._datetime_on = dateutil.parser.parse(value)
+
+    _datetime_off = Column('datetime_off', DateTime(timezone=False), nullable=True)
+
+    @hybrid_property
+    def datetime_off(self):
+        return self._datetime_off
+
+    @datetime_on.setter
+    def datetime_off(self, value):
+        if isinstance(value, datetime.datetime):
+            self._datetime_off = value
+        else:
+            self._datetime_off = dateutil.parser.parse(value)
+
     rst_rcvd = Column(String(length=10), nullable=False)
     rst_sent = Column(String(length=10), nullable=False)
 
@@ -85,18 +112,90 @@ class Qso(Base):
 
     tx_pwr = Column(Float)
 
-    lotw_qslrdate = Column(DateTime(timezone=False))
-    lotw_qslsdate = Column(DateTime(timezone=False))
+    _lotw_qslrdate = Column('lotw_qslrdate', DateTime(timezone=False))
+
+    @hybrid_property
+    def lotw_qslrdate(self):
+        return self._lotw_qslrdate
+
+    @lotw_qslrdate.setter
+    def lotw_qslrdate(self, value):
+        if isinstance(value, datetime.datetime):
+            self._lotw_qslrdate = value
+        else:
+            self._lotw_qslrdate = dateutil.parser.parse(value)
+
+    _lotw_qslsdate = Column('lotw_qslsdate', DateTime(timezone=False))
+
+    @hybrid_property
+    def lotw_qslsdate(self):
+        return self._lotw_qslsdate
+
+    @lotw_qslsdate.setter
+    def lotw_qslsdate(self, value):
+        if isinstance(value, datetime.datetime):
+            self._lotw_qslsdate = value
+        else:
+            self._lotw_qslsdate = dateutil.parser.parse(value)
+
     lotw_qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
     lotw_qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
 
-    eqsl_qslrdate = Column(DateTime(timezone=False))
-    eqsl_qslsdate = Column(DateTime(timezone=False))
+    _eqsl_qslrdate = Column('eqsl_qslrdate', DateTime(timezone=False))
+
+    @hybrid_property
+    def eqsl_qslrdate(self):
+        return self._eqsl_qslrdate
+
+    @eqsl_qslrdate.setter
+    def eqsl_qslrdate(self, value):
+        if isinstance(value, datetime.datetime):
+            self._eqsl_qslrdate = value
+        else:
+            self._eqsl_qslrdate = dateutil.parser.parse(value)
+
+    _eqsl_qslsdate = Column('eqsl_qslsdate', DateTime(timezone=False))
+
+    @hybrid_property
+    def eqsl_qslsdate(self):
+        return self._eqsl_qslsdate
+
+    @eqsl_qslsdate.setter
+    def eqsl_qslsdate(self, value):
+        if isinstance(value, datetime.datetime):
+            self._eqsl_qslsdate = value
+        else:
+            self._eqsl_qslsdate = dateutil.parser.parse(value)
+
     eqsl_qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
     eqsl_qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
 
-    qslrdate = Column(DateTime(timezone=False))
-    qslsdate = Column(DateTime(timezone=False))
+    _qslrdate = Column('qslrdate', DateTime(timezone=False))
+
+    @hybrid_property
+    def qslrdate(self):
+        return self._qslrdate
+
+    @qslrdate.setter
+    def qslrdate(self, value):
+        if isinstance(value, datetime.datetime):
+            self._qslrdate = value
+        else:
+            self._qslrdate = dateutil.parser.parse(value)
+
+    _qslsdate = Column('qslsdate', DateTime(timezone=False))
+
+    @hybrid_property
+    def qslsdate(self):
+        return self._qslsdate
+
+    @qslsdate.setter
+    def qslsdate(self, value):
+        if isinstance(value, datetime.datetime):
+            self._qslsdate = value
+        else:
+            self._qslsdate = dateutil.parser.parse(value)
+
     qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
     qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
     qsl_via = Column(String(length=30), nullable=False, server_default='')
