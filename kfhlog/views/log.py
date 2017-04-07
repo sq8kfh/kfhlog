@@ -57,8 +57,8 @@ def _get_log(dbsession, data):
         order_map = {
             'call': Qso.call,
             '-call': Qso.call.desc(),
-            'datetime_on': Qso.datetime_off,
-            '-datetime_on': Qso.datetime_off.desc(),
+            'datetime_on': Qso.datetime_on,
+            '-datetime_on': Qso.datetime_on.desc(),
             'datetime_off': Qso.datetime_off,
             '-datetime_off': Qso.datetime_off.desc(),
             'band': Qso.band,
