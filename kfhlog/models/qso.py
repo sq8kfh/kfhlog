@@ -1,5 +1,6 @@
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import relationship
+from sqlalchemy.orm import class_mapper
 from sqlalchemy import (
     Column,
     ForeignKey,
@@ -45,7 +46,7 @@ class Qso(Base):
     mode = Column(ForeignKey('mode.id'), nullable=False)
     mode_obj = relationship("Mode", foreign_keys=mode)
     mode_rx = Column(ForeignKey('mode.id'), nullable=True)
-    band_rx_obj = relationship("Mode", foreign_keys=mode_rx)
+    mode_rx_obj = relationship("Mode", foreign_keys=mode_rx)
 
     freq = Column(Float)  # MHz
     freq_rx = Column(Float)
@@ -104,3 +105,20 @@ class Qso(Base):
     k_index = Column(Integer)
     sfi = Column(Integer)
     comment = Column(Text, nullable=False, server_default='')  # notes
+
+    def to_dict(self):
+        return dict((col.name, getattr(self, col.name)) for col in class_mapper(self.__class__).mapped_table.c)
+
+    def ext_to_dict(self):
+        tmp = self.to_dict()
+        if self.band_obj:
+            tmp['band_name'] = self.band_obj.name
+        if self.mode_obj:
+            tmp['mode_name'] = self.mode_obj.name
+        if self.band_rx_obj:
+            tmp['band_rx_name'] = self.band_rx_obj.name
+        if self.mode_rx_obj:
+            tmp['mode_rx_name'] = self.mode_rx_obj.name
+        if self.dxcc_obj:
+            tmp['dxcc_name'] = self.dxcc_obj.name
+        return tmp

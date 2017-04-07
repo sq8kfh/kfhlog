@@ -5,17 +5,18 @@
     <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/newqso.css')}}" />
     <script src="{{request.static_url('kfhlog:static/js/chosen.jquery.min.js')}}"></script>
     <script src="{{request.static_url('kfhlog:static/js/newqso.js')}}"></script>
+    <script src="{{request.static_url('kfhlog:static/js/locator.js')}}"></script>
 {% endblock %}
 
 {% block content %}
 <div class="center">
-<form id="addqso_form">
+<form id="newqso">
 <div id="col1">
     <div class="divTable">
         <div class="tr">
             <div class="tdl"><label for="call">Call:</label></div>
             <div class="tdr">
-                <input type="text" id="call" maxlength="20" size="20" /> <a id="qrz" href="https://www.qrz.com/db/" target="_blank"><span class="icon-link"></span></a>
+                <input type="text" id="call" maxlength="20" size="20" autofocus /> <a id="qrz" href="https://www.qrz.com/db/" target="_blank"><span class="icon-link"></span></a>
             </div>
         </div>
         <div class="tr">
@@ -27,13 +28,13 @@
         <div class="tr">
             <div class="tdl"><label for="rst_sent">RST Send:</label></div>
             <div class="tdr">
-                <input type="text" id="rst_sent" size="10" /><input type="text" id="stx_string" size="10" placeholder="[01] - auto incrementat" />
+                <input type="text" id="rst_sent" size="10" /><input type="text" id="stx_string" size="10" placeholder="[01] - auto incrementat" /> <a id="rst_sent_button" href="javascript:void(0)"><span class="icon-edit"></span></a>
             </div>
         </div>
         <div class="tr">
             <div class="tdl"><label for="rst_rcvd">RST Recv:</label></div>
             <div class="tdr">
-                <input type="text" id="rst_rcvd" size="10" /><input type="text" id="srx_string" size="10" />
+                <input type="text" id="rst_rcvd" size="10" /><input type="text" id="srx_string" size="10" /> <a id="rst_rcvd_button" href="javascript:void(0)"><span class="icon-edit"></span></a>
             </div>
         </div>
         <div class="tr">
@@ -81,7 +82,7 @@
                 <select id="mode" data-placeholder="Select">
                     <option value=""></option>
                     {% for mode in modes %}
-                    <option value="{{ mode.id }}">{{ mode.name }}</option>
+                    <option value="{{ mode.id }}" data-def_rst="{{ mode.def_rst }}">{{ mode.name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -128,6 +129,17 @@
             </div>
         </div>
         <div class="tr">
+            <div class="tdl"><label for="cont">Cont:</label></div>
+            <div class="tdr">
+                <select id="cont" data-placeholder="Select">
+                    <option value=""></option>
+                    {% for cont in conts %}
+                    <option>{{ cont }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="tr">
             <div class="tdl"><label for="iota">IOTA:</label></div>
             <div class="tdr">
                 <input type="text" id="iota" maxlength="6" pattern="([Aa][Ff]|[Aa][Nn]|[Aa][Ss]|[Ee][Uu]|[Nn][Aa]|[Oo][Cc]|[Ss][Aa])-[0-9]{3}" />
@@ -162,10 +174,14 @@
             <div class="tdr">
                 <select id="profile" data-placeholder="Select">
                     {% for profile in profiles %}
-                    <option value="{{ profile.id }}">{{ profile.name }}</option>
+                    <option value="{{ profile.id }}" data-gridsquare="{{ profile.gridsquare }}">{{ profile.name }}</option>
                     {% endfor %}
                 </select>
             </div>
+        </div>
+        <div class="tr">
+            <div class="tdl"><label for="gridsquare_info">My locator:</label></div>
+            <div class="tdr"><output id="gridsquare_info"></output></div>
         </div>
         <div class="tr">
             <div class="tdl"><label for="group">Group:</label></div>
@@ -179,14 +195,18 @@
         </div>
         <div class="tr">
             <div class="tdl"><label for="loc_info">Distance:</label></div>
-            <div class="tdr"><output id="loc_info">0.00km, 0.0&deg;</output></div>
+            <div class="tdr"><output id="loc_info">-- km, -- &deg;</output></div>
         </div>
-                <div class="tr">
+        <div class="tr">
+            <div class="tdl"><label for="state_info">State:</label></div>
+            <div class="tdr"><output id="state_info"></output></div>
+        </div>
+        <div class="tr">
             <div class="tdl"></div>
             <div class="tdr"></div>
         </div>
     </div>
-    <table id="previou_table" class="checkresult">
+    <table id="previou_table" class="stdtable">
         <thead>
             <tr>
                 <th>Date</th>
@@ -194,10 +214,15 @@
                 <th>Mode</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="trhover">
         </tbody>
     </table>
 </div>
 </form>
+</div>
+<div id="qso_modal" class="modal">
+    <div class="modal-content">
+        {% include 'qso_form.jinja2' %}
+    </div>
 </div>
 {% endblock content %}

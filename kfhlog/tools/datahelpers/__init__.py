@@ -31,8 +31,8 @@ class QsoHelper(BaseHelper):
     rst_sent = StrType(required=True)
 
     band = IntType(required=True, min_value=1, autocomplete_func=_band_autocomplete)
-    band_rx = IntType(min_value=1)
-    mode = IntType(required=True, min_value=1, autocomplete_func=_bandrx_autocomplete)
+    band_rx = IntType(min_value=1, autocomplete_func=_bandrx_autocomplete)
+    mode = IntType(required=True, min_value=1)
     mode_rx = IntType(min_value=1)
 
     freq = FloatType(min_value=0.000001)

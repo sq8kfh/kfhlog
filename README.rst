@@ -1,6 +1,11 @@
 kfhlog
 ======
 
+Demo (heroku branch)
+--------------------
+
+http://kfhlog.herokuapp.com (user/password: test/test)
+
 Getting Started
 ---------------
 
@@ -28,6 +33,8 @@ Getting Started
 
     env/bin/pytest
 
+- Change auth.secret in production.ini
+
 - Run your project.
 
-    env/bin/pserve development.ini
+    env/bin/pserve production.ini

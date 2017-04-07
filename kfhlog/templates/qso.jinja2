@@ -1,0 +1,8 @@
+{% extends "base.jinja2" %}
+
+{% block content %}
+    <div class="center">
+        {% include 'qso_form.jinja2' %}
+    </div>
+    <script type="text/javascript">load_qso({{ qsoid }});</script>
+{% endblock content %}

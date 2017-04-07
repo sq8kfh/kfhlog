@@ -2,12 +2,12 @@
     float: left;
 }
 
-#tabs {
+.logcol {
     margin-left: 10px;
 }
 
-#tabs > div {
-    display: none;
+tr:nth-child(even) {
+    background-color: #eee;
 }
 
 .green {
@@ -21,3 +21,9 @@
 select {
     width: 131px;
 }
+
+/*tr td:nth-child(1), tr th:nth-child(1)
+{
+ display: none;
+ visibility: hidden;
+}*/

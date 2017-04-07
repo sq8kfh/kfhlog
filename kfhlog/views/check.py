@@ -18,7 +18,7 @@ def _check(dbsession, call, profile=None):
     else:
         req_type = Profile
         addrowlink = True
-        tmp = dbsession.query(Qso.profile, Qso.band).group_by(Qso.profile, Qso.band).filter_by(call=call).all() #filter_by(call='SP3CFM').all()
+        tmp = dbsession.query(Qso.profile, Qso.band).group_by(Qso.profile, Qso.band).filter_by(call=call).all()
     if not tmp:
         return {'message': 'Call %s is not in the log...' % call}
     col = {x[1] for x in tmp}

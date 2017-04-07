@@ -17,6 +17,7 @@ _function_dic = {}
 
 def json_api_config(*, name):
     def decorator(func):
+        assert name not in _function_dic
         _function_dic[name] = func
         return func
     return decorator
@@ -34,7 +35,7 @@ def _get_band(dbsession, data):
 @json_api_config(name='get_previous')
 def _get_previous(dbsession, data):
     call = dbtools.formatters.call_formatter(data['call'])
-    qso = dbsession.query(Qso.datetime_on, Band.name, Mode.name)
+    qso = dbsession.query(Qso.id, Qso.datetime_on, Band.name, Mode.name)
     if 'profile' in data:
         qso = qso.filter_by(profile=data['profile'])
     if 'group' in data:
@@ -49,7 +50,7 @@ def _get_previous(dbsession, data):
 @json_api_config(name='find_prefix')
 def _find_prefix(dbsession, data):
     call = dbtools.formatters.call_formatter(data['call'])
-    prefix = dbsession.query(Prefix.dxcc, Prefix.ituz, Prefix.cqz, Prefix.continent).\
+    prefix = dbsession.query(Prefix.dxcc, Prefix.ituz, Prefix.cqz, Prefix.cont).\
         filter(text(':param_call LIKE %s' % Prefix.prefix.name)).\
         params(param_call=call).order_by(func.length(Prefix.prefix).desc()).first()
 
@@ -58,7 +59,7 @@ def _find_prefix(dbsession, data):
                 'dxcc': prefix.dxcc,
                 'ituz': prefix.ituz,
                 'cqz': prefix.cqz,
-                'continent': prefix.continent}
+                'cont': prefix.cont}
     return {'status': 'error', 'response': 'prefix not match'}
 
 
@@ -73,8 +74,10 @@ def _addqso(dbsession, data):
     vr = qsoh.validate()
 
     if vr['error']:
-        print(vr)
-        return {'status': 'error', 'wrong_values': list(vr.keys())}
+#        print(vr)
+#        print(data)
+#        print(qsoh._data)
+        return {'status': 'error', 'wrong_values': list(vr['error'].keys())}
 
     qn = qsoh.native()
     q = Qso(**qn)

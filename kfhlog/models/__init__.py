@@ -13,6 +13,7 @@ from .group import Group
 from .qso import Qso
 from .user import User
 from .prefix import Prefix
+from .state import State
 
 __all__ = ['dbtools']
 

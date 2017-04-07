@@ -104,47 +104,6 @@ ul.mainmenu li.active, ul.mainmenu li.active:hover {
 	background: #d64635;
 }
 
-/*div.row {
-	text-align: center;
-}
-
-div.dashboard-box {
-	margin: 10px;
-	width: 200px;
-	height: 80px;
-	background: #578ebe;
-	display:inline-block;
-}
-
-div.dashboard-box div.visual {
-	float: left;
-	display: block;
-	font-size: 90px;
-	opacity: 0.3;
-	width: 1px;
-	height: 1px;
-	padding-top: 5px;
-	padding-left: 5px;
-
-	color: white;
-}
-
-div.dashboard-box div.details {
-	right: 15px;
-	padding-top: 15px;
-	padding-right: 15px;
-	text-align: right;
-	color: white;
-}
-
-div.dashboard-box div.details div.number {
-	font-size: 28px;
-}
-
-div.dashboard-box div.details div.desc {
-	font-size: 16px;
-}*/
-
 div.center {
     text-align: center;
 }
@@ -166,20 +125,43 @@ div.document ul.simple {
     margin-left: 2em;
 }
 
-/*check*/
-table.checkresult {
+/* std */
+
+table.stdtable {
     border-collapse: collapse;
 }
 
-table.checkresult th, table.checkresult td {
+.stdtable th, .stdtable td {
+    /*border-left: 1px solid;
+    border-right: 1px solid;*/
     border-style: solid;
     border-width: 1px;
     padding: 3px;
     text-align: center;
 }
 
-table.checkresult th {
+/*.stdtable tr:last-child {
+    border-bottom: 1px solid;
+}*/
+
+.stdtable th {
     background-color: #ddd;
+    /*border-style: solid;
+    border-width: 1px;*/
+}
+
+.stdtable tr:nth-child(even) {
+    background-color: #eee;
+}
+
+.trhover tr:hover {
+    color: #d9d9d9;
+    background-color: #d64635;
+    cursor: pointer;
+}
+
+.textleft * {
+    text-align: left;
 }
 
 a:link, a:visited, a:active  {

@@ -1,5 +1,4 @@
 #col1, #col2, #col3 {
-    //border: 1px solid #999999;
     display: inline-block;
     vertical-align: top;
     text-align: left;
@@ -7,7 +6,6 @@
 
 .divTable{
 	display: table;
-	//width: 100%;
 }
 .tr, .trc {
 	display: table-row;
@@ -19,7 +17,6 @@
 }
 
 .tdl, .tdr {
-	//border: 1px solid #999999;
 	display: table-cell;
 	padding: 3px 10px;
 	vertical-align: middle;
@@ -29,39 +26,38 @@
 	text-align: right;
 }
 
-div#col1 > div > div > div > input[type=number], div#col1 > div > div > div > input[type=text] {
+form#newqso div#col1 input[type=number], form#newqso div#col1 input[type=text] {
     width: 227px;
-    //box-shadow: 0 0 1.5px 1px red;
 }
 
-#date_on {
+form#newqso #date_on {
     width: 113px;
 }
 
-#time_on {
+form#newqso #time_on {
     width: 87px;
 }
 
-div#col1 > div > div > div > #call {
+form#newqso div#col1 #call {
     width: 210px;
 }
 
-div#col1 > div > div > div > #rst_sent[type=text],
-div#col1 > div > div > div > #rst_rcvd[type=text] {
-    width: 80px;
+form#newqso div#col1 input#rst_sent[type=text],
+form#newqso div#col1 input#rst_rcvd[type=text] {
+    width: 63px;
 }
 
-div#col1 > div > div > div > #stx_string[type=text],
-div#col1 > div > div > div > #srx_string[type=text] {
+form#newqso div#col1 #stx_string[type=text],
+form#newqso div#col1 #srx_string[type=text] {
     width: 131px;
     margin-left: 10px;
 }
 
-div#col2 > div > div > div > input[type=number], div#col2 > div > div > div > input[type=text] {
+form#newqso div#col2 input[type=number], form#newqso div#col2 input[type=text] {
     width: 134px;
 }
 
-textarea {
+form#newqso textarea {
   width: 230px;
   height: 84px;
   resize: none;

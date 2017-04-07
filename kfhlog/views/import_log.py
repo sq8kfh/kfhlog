@@ -45,12 +45,8 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
     return qsos, wqso
 
 
-@view_config(route_name='import', renderer='import.jinja2')
+@view_config(route_name='import', renderer='import.jinja2', permission='authenticated')
 def import_view(request):
-    user = request.user
-    if user is None:
-        raise HTTPForbidden
-
     if 'profile' in request.params and 'group' in request.params and 'file' in request.params:
         file = request.params['file'].file
 
