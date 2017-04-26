@@ -23,6 +23,8 @@ requires = [
     'docutils',
     'pyramid_rpc',
     'python-dateutil',
+    'redis',
+    'hamutils',
 ]
 
 tests_require = [
@@ -50,6 +52,7 @@ setup(
     url='https://github.com/sq8kfh/kfhlog',
     keywords='web pyramid pylons ham',
     packages=find_packages(),
+    python_requires='>=3.4',
     include_package_data=True,
     zip_safe=False,
     extras_require={

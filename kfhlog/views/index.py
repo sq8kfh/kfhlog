@@ -1,19 +1,36 @@
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.view import view_config
+from ..space_weather import Space_weather
 
+from ..tasks import update_sfi_kp
 
 @view_config(route_name='index', renderer='index.jinja2', permission='authenticated')
 def index_view(request):
-    """try:
+    if 'space_weather' in request.redis:
+        sp = request.redis['space_weather']
+    else:
+        sp = Space_weather()
+
+    update_sfi_kp(request.dbsession, request.redis)
+
+    pre = sp.predictions
+    sol = sp.solar[-3:]
+    geo = sp.geomagnetic[-3:]
+
+    request.redis['space_weather'] = sp
+
+    return {'predictions': pre,
+            'solar': sol,
+            'geomagnetic': geo}
+
+
+db_err_msg = """\
+    try:
         query = request.dbsession.query(MyModel)
         one = query.filter(MyModel.name == 'one').first()
     except DBAPIError:
         return Response(db_err_msg, content_type='text/plain', status=500)
-    return {'one': one, 'project': 'kfhlog'}"""
-    return {}
-
-
-db_err_msg = """\
+    return {'one': one, 'project': 'kfhlog'}
 Pyramid is having a problem using your SQL database.  The problem
 might be caused by one of the following things:
 

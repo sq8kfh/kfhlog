@@ -173,3 +173,24 @@ a:hover {
     color: #d64635;
     text-decoration: none;
 }
+
+.dashboard {
+    display: flex;
+}
+
+.grid {
+  //position: absolute;
+  display: none; // hide by default
+  overflow: hidden;
+}
+
+.grid--from-b1 {
+    display: block;
+    left: 25%;
+    top: 0%;
+}
+
+.grid--to-c1 {
+    right: 25%;
+    bottom: 66.6666666667%;
+}

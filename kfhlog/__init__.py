@@ -27,5 +27,6 @@ def main(global_config, **settings):
     config.include('.models')
     config.include('.routes')
     config.include('.security')
+    config.include('.redis')
     config.scan()
     return config.make_wsgi_app()
