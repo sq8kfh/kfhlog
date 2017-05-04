@@ -6,7 +6,8 @@ from .api import json_api_config
 
 
 @json_api_config(name='made_itu')
-def _made_itu(dbsession, data):
+def _made_itu(request, data):
+    dbsession = request.dbsession
     profile = None
     group = None
     if 'profile' in data:

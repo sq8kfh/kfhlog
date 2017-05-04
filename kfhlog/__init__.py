@@ -23,10 +23,13 @@ def main(global_config, **settings):
     config.add_renderer('extjson', renderer)
 
     config.include('pyramid_rpc.xmlrpc')
+    config.add_settings({'redis.sessions.client_callable': 'kfhlog.redis.get_redis_client'})
+    config.include('pyramid_redis_sessions')
 
     config.include('.models')
     config.include('.routes')
     config.include('.security')
     config.include('.redis')
+    config.include('.userconfig')
     config.scan()
     return config.make_wsgi_app()

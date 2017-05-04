@@ -30,6 +30,7 @@ def login_view(request):
 
 @view_config(route_name='logout')
 def logout_view(request):
+    request.session.invalidate()
     headers = forget(request)
     next_url = request.route_url('login')
     return HTTPFound(location=next_url, headers=headers)

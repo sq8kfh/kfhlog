@@ -9,7 +9,8 @@ from .api import json_api_config
 
 
 @json_api_config(name='award_general')
-def _award_general(dbsession, data):
+def _award_general(request, data):
+    dbsession = request.dbsession
     profile = None
     group = None
     if 'profile' in data:
@@ -97,7 +98,8 @@ def _award_general(dbsession, data):
 
 
 @json_api_config(name='award_dxcc')
-def _award_dxcc(dbsession, data):
+def _award_dxcc(request, data):
+    dbsession = request.dbsession
     profile = None
     group = None
     if 'profile' in data:
@@ -178,7 +180,8 @@ def _award_dxcc(dbsession, data):
 
 
 @json_api_config(name='award_cq')
-def _award_cq(dbsession, data):
+def _award_cq(request, data):
+    dbsession = request.dbsession
     profile = None
     group = None
     if 'profile' in data:
@@ -264,7 +267,8 @@ def _award_cq(dbsession, data):
 
 
 @json_api_config(name='award_itu')
-def _award_itu(dbsession, data):
+def _award_itu(request, data):
+    dbsession = request.dbsession
     profile = None
     group = None
     if 'profile' in data:

@@ -10,7 +10,8 @@ from .api import json_api_config
 
 
 @json_api_config(name='get_log')
-def _get_log(dbsession, data):
+def _get_log(request, data):
+    dbsession = request.dbsession
     qsos = dbsession.query(Qso)
     count = dbsession.query(func.count(Qso.id))
     if 'call_filter' in data:

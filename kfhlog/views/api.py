@@ -9,8 +9,6 @@ from sqlalchemy.sql import text
 from ..models import dbtools
 from ..models import Qso, Mode, Band, Prefix
 
-from ..tools import datahelpers
-
 
 _function_dic = {}
 
@@ -24,7 +22,8 @@ def json_api_config(*, name):
 
 
 @json_api_config(name='get_band')
-def _get_band(dbsession, data):
+def _get_band(request, data):
+    dbsession = request.dbsession
     freq = data['freq']
     band = dbsession.query(Band).filter(Band.lowerfreq <= freq, Band.upperfreq >= freq).first()
     if band:
@@ -33,7 +32,8 @@ def _get_band(dbsession, data):
 
 
 @json_api_config(name='get_previous')
-def _get_previous(dbsession, data):
+def _get_previous(request, data):
+    dbsession = request.dbsession
     call = dbtools.formatters.call_formatter(data['call'])
     qso = dbsession.query(Qso.id, Qso.datetime_on, Band.name, Mode.name)
     if 'profile' in data:
@@ -48,7 +48,8 @@ def _get_previous(dbsession, data):
 
 
 @json_api_config(name='find_prefix')
-def _find_prefix(dbsession, data):
+def _find_prefix(request, data):
+    dbsession = request.dbsession
     call = dbtools.formatters.call_formatter(data['call'])
     prefix = dbsession.query(Prefix.dxcc, Prefix.ituz, Prefix.cqz, Prefix.cont).\
         filter(text(':param_call LIKE %s' % Prefix.prefix.name)).\
@@ -61,51 +62,6 @@ def _find_prefix(dbsession, data):
                 'cqz': prefix.cqz,
                 'cont': prefix.cont}
     return {'status': 'error', 'response': 'prefix not match'}
-
-
-@json_api_config(name='addqso')
-def _addqso(dbsession, data):
-    stx_string_org = None
-    if 'stx_string' in data:
-        stx_string_org = data['stx_string']
-        data['stx_string'] = stx_string_org.replace("[", "").replace("]", "")
-    qsoh = datahelpers.QsoHelper(data)
-
-    vr = qsoh.validate()
-
-    if vr['error']:
-#        print(vr)
-#        print(data)
-#        print(qsoh._data)
-        return {'status': 'error', 'wrong_values': list(vr['error'].keys())}
-
-    qn = qsoh.native()
-    q = Qso(**qn)
-    dbsession.add(q)
-
-    preset = {}
-
-    if 'profile' in qn:
-        preset['profile'] = qn['profile']
-    if 'group' in qn:
-        preset['group'] = qn['group']
-    if 'rst_rcvd' in qn:
-        preset['rst_rcvd'] = qn['rst_rcvd']
-    if 'rst_sent' in qn:
-        preset['rst_sent'] = qn['rst_sent']
-    if stx_string_org:
-        stx_string_org = re.sub('\[([0-9]+)\]',
-                                lambda x: ("[%0" + str(len(x.group(1))) + "d]") % (int(x.group(1)) + 1),
-                                stx_string_org)
-        preset['stx_string'] = stx_string_org
-    if 'band' in qn:
-        preset['band'] = qn['band']
-    if 'mode' in qn:
-        preset['mode'] = qn['mode']
-    if 'freq' in qn:
-        preset['freq'] = qn['freq']
-
-    return {'status': 'ok', 'preset': preset}
 
 
 @view_config(route_name='api', request_method='POST', renderer='extjson')
@@ -122,7 +78,7 @@ def api_view(request):
         return {'status': 'error', 'message': e.msg}
 
     if api_func in _function_dic:
-        return _function_dic[api_func](request.dbsession, query_data)
+        return _function_dic[api_func](request, query_data)
 
     request.response.status = 404
     return {'status': 'error', 'message': 'function not found'}
@@ -144,7 +100,7 @@ def mapi_view(request):
     res = {'status': 'ok'}
     for api_func in query_data:
         if api_func in _function_dic:
-            res[api_func] = _function_dic[api_func](request.dbsession, query_data[api_func])
+            res[api_func] = _function_dic[api_func](request, query_data[api_func])
         else:
             res[api_func] = {'status': 'error', 'message': 'function not found'}
 

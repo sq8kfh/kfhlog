@@ -2,6 +2,7 @@ import os
 import sys
 import transaction
 import getpass
+import datetime
 
 from pyramid.paster import (
     get_appsettings,
@@ -21,9 +22,12 @@ from ..models import (
     Profile,
     Group,
     User,
+    Setting,
     )
 
 from ..models import fixtures
+
+import kfhlog
 
 def usage(argv):
     cmd = os.path.basename(argv[0])
@@ -64,7 +68,8 @@ def main(argv=sys.argv):
         tmp = User(name=user)
         tmp.set_password(password)
         dbsession.add(tmp)
-
+        dbsession.add(Setting(key='kfhlog.version', value=kfhlog.__version__))
+        dbsession.add(Setting(key='kfhlog.db_create_date', value=datetime.datetime.utcnow().isoformat()))
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
 

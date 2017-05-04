@@ -19,12 +19,14 @@ requires = [
     'zope.sqlalchemy',
     'waitress',
     'bcrypt',
+    'pycrypto',
     'hamtools',
     'docutils',
     'pyramid_rpc',
     'python-dateutil',
     'redis',
     'hamutils',
+    'pyramid_redis_sessions',
 ]
 
 tests_require = [

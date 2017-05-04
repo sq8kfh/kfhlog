@@ -12,7 +12,7 @@ from .dbtools import datatypes
 
 class Prefix(Base):
     """ The SQLAlchemy declarative model class for a DXCC object. """
-    __tablename__ = 'prefix'
+    __tablename__ = 'prefixes'
     prefix = Column(String(length=20), primary_key=True)
     dxcc = Column(ForeignKey('dxcc.id'), nullable=True)
     # dxcc_obj = relationship("Dxcc", foreign_keys=dxcc)

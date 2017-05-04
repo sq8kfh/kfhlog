@@ -22,10 +22,10 @@ from .dbtools import formatters
 
 class Qso(Base):
     """ The SQLAlchemy declarative model class for a Qso object. """
-    __tablename__ = 'qso'
+    __tablename__ = 'qsos'
     id = Column(Integer, primary_key=True)
-    profile = Column(ForeignKey('profile.id'), nullable=False)
-    group = Column(ForeignKey('group.id'), nullable=False)
+    profile = Column(ForeignKey('profiles.id'), nullable=False)
+    group = Column(ForeignKey('groups.id'), nullable=False)
 
     _call = Column('call', String(length=20), nullable=False)
 
@@ -66,13 +66,13 @@ class Qso(Base):
     rst_rcvd = Column(String(length=10), nullable=False)
     rst_sent = Column(String(length=10), nullable=False)
 
-    band = Column(ForeignKey('band.id'), nullable=False)
+    band = Column(ForeignKey('bands.id'), nullable=False)
     band_obj = relationship("Band", foreign_keys=band)
-    band_rx = Column(ForeignKey('band.id'), nullable=True)
+    band_rx = Column(ForeignKey('bands.id'), nullable=True)
     band_rx_obj = relationship("Band", foreign_keys=band_rx)
-    mode = Column(ForeignKey('mode.id'), nullable=False)
+    mode = Column(ForeignKey('modes.id'), nullable=False)
     mode_obj = relationship("Mode", foreign_keys=mode)
-    mode_rx = Column(ForeignKey('mode.id'), nullable=True)
+    mode_rx = Column(ForeignKey('modes.id'), nullable=True)
     mode_rx_obj = relationship("Mode", foreign_keys=mode_rx)
 
     freq = Column(Float)  # MHz

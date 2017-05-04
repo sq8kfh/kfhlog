@@ -40,9 +40,15 @@ function update_date_on() {
 function call_change() {
     call = $("form#newqso #call").val().trim();
     if(!call) {
-        $("#previou_table > tbody").empty();
-        $("form#newqso a#qrz").attr("href", "https://www.qrz.com/db/");
-		set_dxcc({"status": "error"});
+        preset = {}
+        preset['stx_string'] = $("form#newqso #stx_string").val()
+        preset['mode'] = $("form#newqso #mode").val()
+        preset['band'] = $("form#newqso #band").val()
+        preset['freq'] = $("form#newqso #freq").val()
+        reset_form(preset)
+        //$("#previou_table > tbody").empty();
+        //$("form#newqso a#qrz").attr("href", "https://www.qrz.com/db/");
+		//set_dxcc({"status": "error"});
         return;
     }
     $("form#newqso a#qrz").attr("href", "https://www.qrz.com/db/" + call)
@@ -54,6 +60,27 @@ function call_change() {
 		success: function(jsn) {
 			set_previous_qso(jsn.get_previous);
 			set_dxcc(jsn.find_prefix);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+      		alert( "Bad request: " + jqXHR.responseText);
+    	},
+	});
+	$.ajax({
+	    type:'POST',
+		url: '/api/qrz_search',
+		data: JSON.stringify({"call": call}),
+		contentType: 'application/json; charset=utf-8',
+		success: function(jsn) {
+			if( jsn.status != 'ok')
+	            return;
+	        if(jsn['qth'])
+	            $("form#newqso #qth").val(jsn['qth']);
+	        if(jsn['state'])
+	            $("form#newqso #state").val(jsn['state']);
+	        if(jsn['name'])
+	            $("form#newqso #name").val(jsn['name']);
+            //$("form#newqso #band").val(jsn.band);
+            //$("form#newqso #band").trigger("chosen:updated");
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
       		alert( "Bad request: " + jqXHR.responseText);
@@ -184,9 +211,43 @@ function qso_add(set_dxcc=false) {
 	});
 }
 
+function qso_get_preset() {
+	$.ajax({
+	    type:'POST',
+		url: '/api/get_newqso_preset',
+		data: JSON.stringify({}),
+		contentType: 'application/json; charset=utf-8',
+		success: function(jsn) {
+			if( jsn.status != 'ok') {
+	            return;
+	        }
+	        reset_form(jsn.preset);
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+      		console.log( "Bad request: " + jqXHR.responseText);
+    	},
+	});
+}
+
 function update_time_and_add_qso() {
 	update_date_on();
 	qso_add();
+}
+
+function qso_reset() {
+    reset_form();
+    $.ajax({
+	    type:'POST',
+		url: '/api/reset_newqso_preset',
+		data: JSON.stringify({}),
+		contentType: 'application/json; charset=utf-8',
+		success: function(jsn) {
+			return;
+		},
+		error: function(jqXHR, textStatus, errorThrown) {
+      		console.log( "Bad request: " + jqXHR.responseText);
+    	},
+	});
 }
 
 function call_enter_key_press() {
@@ -268,4 +329,7 @@ $(document).ready(function() {
 
 	$("form#newqso #add_button").click(qso_add);
 	$("form#newqso #updatetimeandadd_button").click(update_time_and_add_qso);
+    $("form#newqso #reset_button").click(qso_reset);
+
+	qso_get_preset();
 });

@@ -14,6 +14,7 @@ from .qso import Qso
 from .user import User
 from .prefix import Prefix
 from .state import State
+from .setting import Setting
 
 __all__ = ['dbtools']
 

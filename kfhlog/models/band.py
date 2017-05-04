@@ -11,7 +11,7 @@ from .meta import Base
 
 class Band(Base):
     """ The SQLAlchemy declarative model class for a Band object. """
-    __tablename__ = 'band'
+    __tablename__ = 'bands'
     id = Column(Integer, primary_key=True)
     name = Column(String(length=20), nullable=False, unique=True)
     lowerfreq = Column(Float, nullable=False)

@@ -7,7 +7,8 @@ from .api import json_api_config
 
 
 @json_api_config(name='get_qso')
-def _get_qso(dbsession, data):
+def _get_qso(request, data):
+    dbsession = request.dbsession
     if 'id' in data:
         id = data['id']
         qso = dbsession.query(Qso).get(id)
@@ -18,7 +19,8 @@ def _get_qso(dbsession, data):
 
 
 @json_api_config(name='update_qso')
-def _update_qso(dbsession, data):
+def _update_qso(request, data):
+    dbsession = request.dbsession
     if 'id' in data:
         id = data.pop('id')
         qso = dbsession.query(Qso).get(id)
@@ -34,7 +36,8 @@ def _update_qso(dbsession, data):
 
 
 @json_api_config(name='del_qso')
-def _del_qso(dbsession, data):
+def _del_qso(request, data):
+    dbsession = request.dbsession
     if 'id' in data:
         id = data['id']
         dbsession.query(Qso).filter_by(id=id).delete()
