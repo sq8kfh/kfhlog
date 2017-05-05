@@ -5,8 +5,38 @@
 {% endblock %}
 
 {% block content %}
-    <label for="itu_zone">ITU zone: </label><output id="itu_zone"></output>
-    <div class="center">
+<div class="column">
+    <ul class="submenu">
+        <li>
+            <label for="profile">Profile:</label>
+        </li>
+        <li>
+            <select id="profile">
+                <option value="">All</option>
+                {% for profile in profiles %}
+                <option value="{{ profile.id }}">{{ profile.name }}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li>
+            <label for="group">Group:</label>
+        </li>
+        <li>
+            <select id="group">
+                <option value="">All</option>
+                {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </li>
+        <li>
+            <label for="itu_zone">ITU zone: </label><output id="itu_zone"></output>
+        </li>
+    </ul>
+</div>
+<div>
+    <div id="tabs" class="inline_block_wrapper">
         <object id="map" onload="map_load()" data="{{request.static_url('kfhlog:static/map/itu.svg')}}" type="image/svg+xml"></object>
     </div>
+</div>
 {% endblock content %}

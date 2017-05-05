@@ -1,11 +1,3 @@
-.column {
-    float: left;
-}
-
-#tabs {
-    margin-left: 10px;
-}
-
 #tabs > div {
     display: none;
 }
@@ -16,8 +8,4 @@
 
 .red {
     background-color: #d64635;
-}
-
-select {
-    width: 131px;
 }

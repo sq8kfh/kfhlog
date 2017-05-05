@@ -15,7 +15,7 @@
             <select id="profile">
                 <option value="">All</option>
                 {% for profile in profiles %}
-                <option value="{{ profile.id }}">{{ profile.name }}</option>
+                <option value="{{ profile.id }}"{% if profile.id == preset['profile'] %} selected{% endif %}>{{ profile.name }}</option>
                 {% endfor %}
             </select>
         </li>
@@ -26,122 +26,124 @@
             <select id="group">
                 <option value="">All</option>
                 {% for group in groups %}
-                <option value="{{ group.id }}">{{ group.name }}</option>
+                <option value="{{ group.id }}"{% if group.id == preset['group'] %} selected{% endif %}>{{ group.name }}</option>
                 {% endfor %}
             </select>
         </li>
         <li></li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_datetime_off"/> <label for="show_datetime_off">Datetime off</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_datetime_off"{% if preset['show_datetime_off'] %} checked{% endif %} /> <label for="show_datetime_off">Datetime off</label>
         </li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_band"/> <label for="show_band">Band</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_band"{% if preset['show_band'] %} checked{% endif %} /> <label for="show_band">Band</label>
         </li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_mode"/> <label for="show_mode">Mode</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_mode"{% if preset['show_mode'] %} checked{% endif %} /> <label for="show_mode">Mode</label>
         </li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_rst_rcvd"/> <label for="show_rst_rcvd">RST Rcvd</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_rst_rcvd"{% if preset['show_rst_rcvd'] %} checked{% endif %} /> <label for="show_rst_rcvd">RST Rcvd</label>
         </li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_rst_send"/> <label for="show_rst_send">RST Send</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_rst_send"{% if preset['show_rst_send'] %} checked{% endif %} /> <label for="show_rst_send">RST Send</label>
         </li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_dxcc"/> <label for="show_dxcc">DXCC name</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_dxcc"{% if preset['show_dxcc'] %} checked{% endif %} /> <label for="show_dxcc">DXCC name</label>
         </li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_cont"/> <label for="show_cont">Cont</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_cont"{% if preset['show_cont'] %} checked{% endif %} /> <label for="show_cont">Cont</label>
         </li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_ituz"/> <label for="show_ituz">ITU Zone</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_ituz"{% if preset['show_ituz'] %} checked{% endif %} /> <label for="show_ituz">ITU Zone</label>
         </li>
         <li>
-            <input type="checkbox" class="showcolcheckbox" id="show_cqz"/> <label for="show_cqz">CQ Zone</label>
+            <input type="checkbox" class="showcolcheckbox" id="show_cqz"{% if preset['show_cqz'] %} checked{% endif %} /> <label for="show_cqz">CQ Zone</label>
         </li>
     </ul>
 </div>
-<div class="column logcol">
-    <table id="log" class="stdtable">
-        <thead>
-            <tr id="headers">
-                <th onclick="changesort('call')"><span id="call_sort"></span>Call</th>
-                <th onclick="changesort('datetime_on')"><span id="datetime_on_sort"></span> Date on</th>
-                <th onclick="changesort('datetime_off')"><span id="datetime_off_sort"></span> Date off</th>
-                <th onclick="changesort('band')"><span id="band_sort"></span> Band</th>
-                <th onclick="changesort('mode')"><span id="mode_sort"></span> Mode</th>
-                <th>RST Rcvd</th>
-                <th>RST Sent</th>
-                <th onclick="changesort('dxcc')"><span id="dxcc_sort"></span> DXCC name</th>
-                <th onclick="changesort('cont')"><span id="cont_sort"></span> Cont</th>
-                <th onclick="changesort('ituz')"><span id="ituz_sort"></span> ITU zone</th>
-                <th onclick="changesort('cqz')"><span id="cqz_sort"></span> CQ zone</th>
-            </tr>
-            <tr id="filters">
-                <th><input id="call_filter" type="text" /></th>
-                <th><input id="datetime_off_filter" type="text" /></th>
-                <th><input id="datetime_on_filter" type="text" /></th>
-                <th>
-                    <select id="band_filter">
-                        <option value=""></option>
-                        {% for band in band_all %}
-                            <option value="{{ band.id }}">{{ band.name }}</option>
-                        {% endfor %}
-                    </select>
-                </th>
-                <th>
-                    <select id="mode_filter">
-                        <option value=""></option>
-                        {% for mode in mode_all %}
-                            <option value="{{ mode.id }}">{{ mode.name }}</option>
-                        {% endfor %}
-                    </select>
-                </th>
-                <th></th>
-                <th></th>
-                <th>
-                    <select id="dxcc_filter">
-                        <option value=""></option>
-                        {% for dxcc in dxcc_all %}
-                            <option value="{{ dxcc.id }}">{{ dxcc.name }} [{{ dxcc.id }}]</option>
-                        {% endfor %}
-                    </select>
-                </th>
-                <th>
-                    <select id="cont_filter">
-                        <option value=""></option>
-                        {% for cont in cont_all %}
-                            <option>{{ cont }}</option>
-                        {% endfor %}
-                    </select>
-                </th>
-                <th><input id="ituz_filter" type="text" /></th>
-                <th><input id="cqz_filter" type="text" /></th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th colspan="11">
-                    <div class="pager">
-                        <input type="hidden" id="sortby" />
-                        <button type="button" id="first"><<</button>
-                        <button type="button" id="prev"><</button>
-                        <span class="pagedisplay"></span>
-                        <button type="button" id="next">></button>
-                        <button type="button" id="last">>></button>
-                        <input id="page" type="number" min="1" step="1" value="1" title="Page" />/<output id="pagecount" title="Page count"></output>
-                        <select id="pagesize" title="Page size">
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="75">75</option>
-                            <option value="100">100</option>
+<div class="scrolly">
+    <div class="inline_block_wrapper">
+        <table id="log" class="stdtable">
+            <thead>
+                <tr id="headers">
+                    <th onclick="changesort('call')"><span id="call_sort"></span>Call</th>
+                    <th onclick="changesort('datetime_on')"><span id="datetime_on_sort"></span> Date on</th>
+                    <th onclick="changesort('datetime_off')"><span id="datetime_off_sort"></span> Date off</th>
+                    <th onclick="changesort('band')"><span id="band_sort"></span> Band</th>
+                    <th onclick="changesort('mode')"><span id="mode_sort"></span> Mode</th>
+                    <th>RST Rcvd</th>
+                    <th>RST Sent</th>
+                    <th onclick="changesort('dxcc')"><span id="dxcc_sort"></span> DXCC name</th>
+                    <th onclick="changesort('cont')"><span id="cont_sort"></span> Cont</th>
+                    <th onclick="changesort('ituz')"><span id="ituz_sort"></span> ITU zone</th>
+                    <th onclick="changesort('cqz')"><span id="cqz_sort"></span> CQ zone</th>
+                </tr>
+                <tr id="filters">
+                    <th><input id="call_filter" type="text" value="{{ request.GET['call'] }}" /></th>
+                    <th><input id="datetime_on_filter" type="text" value="{{ request.GET['datetime_on'] }}" /></th>
+                    <th><input id="datetime_off_filter" type="text" value="{{ request.GET['datetime_off'] }}" /></th>
+                    <th>
+                        <select id="band_filter">
+                            <option value=""></option>
+                            {% for band in band_all %}
+                                <option value="{{ band.id }}"{% if band.id|string == request.GET['band'] %} selected{% endif %}>{{ band.name }}</option>
+                            {% endfor %}
                         </select>
-                    </div>
-                </th>
-            </tr>
-        </tfoot>
-        <tbody class="trhover">
-        </tbody>
-    </table>
+                    </th>
+                    <th>
+                        <select id="mode_filter">
+                            <option value=""></option>
+                            {% for mode in mode_all %}
+                                <option value="{{ mode.id }}"{% if mode.id|string == request.GET['mode'] %} selected{% endif %}>{{ mode.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </th>
+                    <th></th>
+                    <th></th>
+                    <th>
+                        <select id="dxcc_filter">
+                            <option value=""></option>
+                            {% for dxcc in dxcc_all %}
+                                <option value="{{ dxcc.id }}"{% if dxcc.id|string == request.GET['dxcc'] %} selected{% endif %}>{{ dxcc.name }} [{{ dxcc.id }}]</option>
+                            {% endfor %}
+                        </select>
+                    </th>
+                    <th>
+                        <select id="cont_filter">
+                            <option value=""></option>
+                            {% for cont in cont_all %}
+                                <option{% if cont == request.GET['cont'] %} selected{% endif %}>{{ cont }}</option>
+                            {% endfor %}
+                        </select>
+                    </th>
+                    <th><input id="ituz_filter" type="text" value="{{ request.GET['ituz'] }}" /></th>
+                    <th><input id="cqz_filter" type="text" value="{{ request.GET['cqz'] }}" /></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th colspan="11">
+                        <div class="pager">
+                            <input type="hidden" id="sortby" />
+                            <button type="button" id="first"><<</button>
+                            <button type="button" id="prev"><</button>
+                            <span class="pagedisplay"></span>
+                            <button type="button" id="next">></button>
+                            <button type="button" id="last">>></button>
+                            <input id="page" type="number" min="1" step="1" value="1" title="Page" />/<output id="pagecount" title="Page count"></output>
+                            <select id="pagesize" title="Page size">
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="75">75</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                    </th>
+                </tr>
+            </tfoot>
+            <tbody class="trhover">
+            </tbody>
+        </table>
+    </div>
 </div>
 <div id="qso_modal" class="modal">
     <div class="modal-content">

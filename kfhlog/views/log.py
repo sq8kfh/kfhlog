@@ -92,11 +92,57 @@ def _get_log(request, data):
     return {'status': 'ok', 'log': qsos.all(), 'count': count, 'pagecount': math.ceil(count/pagesize)}
 
 
+@json_api_config(name='set_log_preset')
+def _set_log_preset(request, data):
+    preset = {}
+    if 'profile' in data:
+        preset['profile'] = data['profile']
+    if 'group' in data:
+        preset['group'] = data['group']
+
+    if 'show_datetime_off' in data:
+        preset['show_datetime_off'] = data['show_datetime_off']
+    if 'show_band' in data:
+        preset['show_band'] = data['show_band']
+    if 'show_mode' in data:
+        preset['show_mode'] = data['show_mode']
+    if 'show_rst_rcvd' in data:
+        preset['show_rst_rcvd'] = data['show_rst_rcvd']
+    if 'show_rst_send' in data:
+        preset['show_rst_send'] = data['show_rst_send']
+    if 'show_dxcc' in data:
+        preset['show_dxcc'] = data['show_dxcc']
+    if 'show_cont' in data:
+        preset['show_cont'] = data['show_cont']
+    if 'show_ituz' in data:
+        preset['show_ituz'] = data['show_ituz']
+    if 'show_cqz' in data:
+        preset['show_cqz'] = data['show_cqz']
+
+    request.session['log_preset'] = preset
+    return {'status': 'ok'}
+
+
 @view_config(route_name='log', renderer='log.jinja2', permission='authenticated')
 def log_view(request):
+    preset = {
+        'show_datetime_off': False,
+        'show_band': True,
+        'show_mode': True,
+        'show_rst_rcvd': True,
+        'show_rst_send': True,
+        'show_dxcc': True,
+        'show_cont': False,
+        'show_ituz': False,
+        'show_cqz': False,
+    }
+    if 'log_preset' in request.session:
+        preset.update(request.session['log_preset'])
+
     return {'profiles': request.dbsession.query(Profile).all(),
             'groups': request.dbsession.query(Group).all(),
             'mode_all': request.dbsession.query(Mode).all(),
             'band_all': request.dbsession.query(Band).all(),
             'dxcc_all': request.dbsession.query(Dxcc.id, Dxcc.name).order_by(Dxcc.name).all(),
-            'cont_all': [a.name for a in ContinentEnum]}
+            'cont_all': [a.name for a in ContinentEnum],
+            'preset': preset}

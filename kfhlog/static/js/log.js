@@ -1,3 +1,9 @@
+function null_formatter(val) {
+    if ( typeof(val) !== "undefined" && val !== null )
+        return val;
+    return '';
+}
+
 function load_log() {
     obj = {}
     /*if($("form#newqso #date_on").val().trim() != "" && $("form#newqso #time_on").val().trim() != "")
@@ -51,20 +57,21 @@ function load_log() {
             $.each(jsn.log, function(i, item) {
                 $('#log > tbody').append('<tr onclick="open_qso(' + item.id+ ')"><td>' +
                 item.call + '</td><td>' +
-                item.datetime_on + '</td><td>' +
-                item.datetime_off + '</td><td>' +
+                null_formatter(item.datetime_on).replace('T', ' ')  + '</td><td>' +
+                null_formatter(item.datetime_off).replace('T', ' ') + '</td><td>' +
                 item.band_name + '</td><td>' +
                 item.mode_name + '</td><td>' +
                 item.rst_rcvd + '</td><td>' +
                 item.rst_sent + '</td><td>' +
-                item.dxcc_name + '</td><td>' +
-                item.cont + '</td><td>' +
-                item.ituz + '</td><td>' +
-                item.cqz + '</td></tr>');
+                null_formatter(item.dxcc_name) + '</td><td>' +
+                null_formatter(item.cont) + '</td><td>' +
+                null_formatter(item.ituz) + '</td><td>' +
+                null_formatter(item.cqz) + '</td></tr>');
             });
             $('#pagecount').val(jsn.pagecount);
             $('.showcolcheckbox').each(function() {
-                $(this).change();
+                var e = jQuery.Event('change');
+                $(this).trigger(e, [false]);
             });
 		},
 		error: function(jqXHR, textStatus, errorThrown) {
@@ -90,13 +97,39 @@ function changesort(sort_by) {
     $("#sortby").change();
 }
 
+function update_preset() {
+    preset = {}
+    preset['profile'] = parseInt($('#profile').val().trim());
+    preset['group'] = parseInt($('#group').val().trim());
+    preset['show_datetime_off'] = $('#show_datetime_off').is(':checked');
+    preset['show_band'] = $('#show_band').is(':checked');
+    preset['show_mode'] = $('#show_mode').is(':checked');
+    preset['show_rst_rcvd'] = $('#show_rst_rcvd').is(':checked');
+    preset['show_rst_send'] = $('#show_rst_send').is(':checked');
+    preset['show_dxcc'] = $('#show_dxcc').is(':checked');
+    preset['show_cont'] = $('#show_cont').is(':checked');
+    preset['show_ituz'] = $('#show_ituz').is(':checked');
+    preset['show_cqz'] = $('#show_cqz').is(':checked');
+    $.ajax({
+	    type:'POST',
+		url: '/api/set_log_preset',
+		data: JSON.stringify(preset),
+		contentType: 'application/json; charset=utf-8',
+	});
+}
+
+function profilegroup_change() {
+    load_log();
+    update_preset();
+}
+
 $(document).ready(function() {
     changesort('datetime_on');
     changesort('datetime_on');
     $('#page').val(1);
 
-    $("#profile").change(load_log);
-    $("#group").change(load_log);
+    $("#profile").change(profilegroup_change);
+    $("#group").change(profilegroup_change);
 
     $('tr#filters input').each(function() {
         $(this).change(load_log);
@@ -129,8 +162,8 @@ $(document).ready(function() {
         $('#page').change();
     });
 
-    function make_show_checkbox(selector, col, default_val) {
-        $(selector).change(function () {
+    function make_show_checkbox(selector, col) {
+        $(selector).change(function (event, up_preset = true) {
             if ($(selector).is(':checked')) {
                 $('#log tr td:nth-child(' + col + ')').show();
                 $('#log tr th:nth-child(' + col + ')').show();
@@ -139,21 +172,23 @@ $(document).ready(function() {
                 $('#log tr td:nth-child(' + col + ')').hide();
                 $('#log tr th:nth-child(' + col + ')').hide();
             }
+            if(up_preset) update_preset();
         });
-        $(selector).attr("checked", default_val);
+        $(selector).attr("checked", $(selector).is(':checked'));
     }
 
-    make_show_checkbox("#show_datetime_off", 3, false);
-    make_show_checkbox("#show_band", 4, true);
-    make_show_checkbox("#show_mode", 5, true);
-    make_show_checkbox("#show_rst_rcvd", 6, true);
-    make_show_checkbox("#show_rst_send", 7, true);
-    make_show_checkbox("#show_dxcc", 8, true);
-    make_show_checkbox("#show_cont", 9, false);
-    make_show_checkbox("#show_ituz", 10, false);
-    make_show_checkbox("#show_cqz", 11, false);
+    make_show_checkbox("#show_datetime_off", 3);
+    make_show_checkbox("#show_band", 4);
+    make_show_checkbox("#show_mode", 5);
+    make_show_checkbox("#show_rst_rcvd", 6);
+    make_show_checkbox("#show_rst_send", 7);
+    make_show_checkbox("#show_dxcc", 8);
+    make_show_checkbox("#show_cont", 9);
+    make_show_checkbox("#show_ituz", 10);
+    make_show_checkbox("#show_cqz", 11);
     $('.showcolcheckbox').each(function() {
-        $(this).change();
+        var e = jQuery.Event('change');
+        $(this).trigger(e, [false]);
     });
 
     load_log();

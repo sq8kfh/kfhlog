@@ -9,7 +9,7 @@ function set_previous_qso(data) {
 	if( data.status != 'ok')
 	    return;
 	$.each(data.qso, function(i, item) {
-		$('#previou_table > tbody').append('<tr onclick="open_qso(' + item[0]+ ')"><td>' + item[1] + '</td><td>' + item[2] + '</td><td>' + item[3] + '</td></tr>');
+		$('#previou_table > tbody').append('<tr onclick="open_qso(' + item[0]+ ')"><td>' + item[1].replace('T', ' ') + '</td><td>' + item[2] + '</td><td>' + item[3] + '</td></tr>');
 	});
 }
 

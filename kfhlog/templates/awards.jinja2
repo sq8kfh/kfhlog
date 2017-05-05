@@ -38,81 +38,83 @@
         <li><a href="#" onclick="open_tab('sota')"><span class="icon-check"></span> SOTA</a></li>
     </ul>
 </div>
-<div id="tabs" class="column">
-    <div id="general">
-        <table class="stdtable">
-            <thead>
-                <tr>
-                    <th>Cont</th>
-                    {% for band in bands %}
-                    <th>{{ band.name }}</th>
-                    {% endfor %}
-                    <th>CW</th>
-                    <th>Phone</th>
-                    <th>Digital</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div id="dxcc">
-        <table class="stdtable">
-            <thead>
-                <tr>
-                    <th>DXCC</th>
-                    <th>Name</th>
-                    {% for band in bands %}
-                    <th>{{ band.name }}</th>
-                    {% endfor %}
-                    <th>CW</th>
-                    <th>Phone</th>
-                    <th>Digital</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div id="cq">
-        <table class="stdtable">
-            <thead>
-                <tr>
-                    <th>CQ</th>
-                    {% for band in bands %}
-                    <th>{{ band.name }}</th>
-                    {% endfor %}
-                    <th>CW</th>
-                    <th>Phone</th>
-                    <th>Digital</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div id="itu">
-        <table class="stdtable">
-            <thead>
-                <tr>
-                    <th>ITU</th>
-                    {% for band in bands %}
-                    <th>{{ band.name }}</th>
-                    {% endfor %}
-                    <th>CW</th>
-                    <th>Phone</th>
-                    <th>Digital</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div id="iota">
-        iota
-    </div>
-    <div id="sota">
-        sota
+<div>
+    <div id="tabs" class="inline_block_wrapper">
+        <div id="general">
+            <table class="stdtable">
+                <thead>
+                    <tr>
+                        <th>Cont</th>
+                        {% for band in bands %}
+                        <th>{{ band.name }}</th>
+                        {% endfor %}
+                        <th>CW</th>
+                        <th>Phone</th>
+                        <th>Digital</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="dxcc">
+            <table class="stdtable">
+                <thead>
+                    <tr>
+                        <th>DXCC</th>
+                        <th>Name</th>
+                        {% for band in bands %}
+                        <th>{{ band.name }}</th>
+                        {% endfor %}
+                        <th>CW</th>
+                        <th>Phone</th>
+                        <th>Digital</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="cq">
+            <table class="stdtable">
+                <thead>
+                    <tr>
+                        <th>CQ</th>
+                        {% for band in bands %}
+                        <th>{{ band.name }}</th>
+                        {% endfor %}
+                        <th>CW</th>
+                        <th>Phone</th>
+                        <th>Digital</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="itu">
+            <table class="stdtable">
+                <thead>
+                    <tr>
+                        <th>ITU</th>
+                        {% for band in bands %}
+                        <th>{{ band.name }}</th>
+                        {% endfor %}
+                        <th>CW</th>
+                        <th>Phone</th>
+                        <th>Digital</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div id="iota">
+            iota
+        </div>
+        <div id="sota">
+            sota
+        </div>
     </div>
 </div>
 {% endblock content %}

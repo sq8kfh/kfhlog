@@ -19,8 +19,11 @@ function show_award(award) {
 	        $.each(jsn[award], function(rowIndex, r) {
 		        tr = $('<tr>');
 		        $.each(r, function(colIndex, c) {
-		            td = $("<t"+(colIndex == 0 ?  "h" : "d")+"/>").text(c);
-		            if(colIndex > 0 && c != null) {
+		            ch = 0;
+		            if (award == 'dxcc') ch = 1;
+		            td = $("<t"+(colIndex <= 0 ?  "h" : "d")+"/>").text(c);
+
+		            if(colIndex > ch && c != null) {
 		                if(c === "")
 		                    td.addClass('green');
 		                else

@@ -178,9 +178,29 @@ a:hover {
     display: flex;
 }
 
+
+div.column {
+    float: left;
+    margin-right: 10px;
+}
+
+ul.submenu select {
+    width: 131px;
+}
+
+div.scrolly {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+div.inline_block_wrapper {
+    display: inline-block;
+}
+
+
 .grid {
-  //position: absolute;
-  display: none; // hide by default
+  display: none;
   overflow: hidden;
 }
 
