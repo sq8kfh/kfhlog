@@ -14,7 +14,7 @@
             <select id="profile">
                 <option value="">All</option>
                 {% for profile in profiles %}
-                <option value="{{ profile.id }}">{{ profile.name }}</option>
+                <option value="{{ profile.id }}"{% if profile.id == preset['profile'] %} selected{% endif %}>{{ profile.name }}</option>
                 {% endfor %}
             </select>
         </li>
@@ -25,7 +25,7 @@
             <select id="group">
                 <option value="">All</option>
                 {% for group in groups %}
-                <option value="{{ group.id }}">{{ group.name }}</option>
+                <option value="{{ group.id }}"{% if group.id == preset['group'] %} selected{% endif %}>{{ group.name }}</option>
                 {% endfor %}
             </select>
         </li>

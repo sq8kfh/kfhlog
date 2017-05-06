@@ -22,10 +22,13 @@ def _award_general(request, data):
     _band_high = 13
 
     qsl = dbsession.query(Qso.cont, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd)
-    if profile:
+    url_query = {}
+    if profile is not None:
         qsl = qsl.filter_by(profile=profile)
-    if group:
+        url_query['profile'] = profile
+    if group is not None:
         qsl = qsl.filter_by(group=group)
+        url_query['group'] = group
 
     qsl = qsl.filter(Qso.cont.isnot(None), Qso.band <= _band_high, Qso.band >= _band_low).\
         group_by(Qso.cont, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd).all()
@@ -36,30 +39,34 @@ def _award_general(request, data):
 
     for c in cont:
         res[c] = [None] * (_band_high - _band_low + 2 + 3)
-        res[c][0] = c
+        tq = url_query.copy()
+        tq.update({'cont': c})
+        res[c][0] = {'data': c, 'href': request.route_url('log', _query=tq)}
+
 
     for q in qsl:
-        print(q.cont.name, type(q.cont))
         if q.cont.name not in res:
             continue
         tmp = res[q.cont.name][q.band - _band_low + 1]
         if not tmp:
-            tmp = ""
-        if 'e' not in tmp:
+            tq = url_query.copy()
+            tq.update({'cont': q.cont.name, 'band': q.band})
+            tmp = {'data': '', 'href': request.route_url('log', _query=tq)}
+        if 'e' not in tmp['data']:
             if q.eqsl_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'e'
-        if 'q' not in tmp:
+                tmp['data'] += 'e'
+        if 'q' not in tmp['data']:
             if q.qsl_rcvd == RcvdEnum.Y:
-                tmp += 'q'
-        if 'l' not in tmp:
+                tmp['data'] += 'q'
+        if 'l' not in tmp['data']:
             if q.lotw_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'l'
+                tmp['data'] += 'l'
         res[q.cont.name][q.band - _band_low + 1] = tmp
 
     qsl = dbsession.query(Qso.cont, Mode.mode_cat, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd)
-    if profile:
+    if profile is not None:
         qsl = qsl.filter_by(profile=profile)
-    if group:
+    if group is not None:
         qsl = qsl.filter_by(group=group)
 
     qsl = qsl.filter(Qso.cont.isnot(None), Qso.band <= _band_high, Qso.band >= _band_low).\
@@ -77,16 +84,16 @@ def _award_general(request, data):
         else:
             continue
         if not tmp:
-            tmp = ""
-        if 'e' not in tmp:
+            tmp = {'data': ''}
+        if 'e' not in tmp['data']:
             if q.eqsl_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'e'
-        if 'q' not in tmp:
+                tmp['data'] += 'e'
+        if 'q' not in tmp['data']:
             if q.qsl_rcvd == RcvdEnum.Y:
-                tmp += 'q'
-        if 'l' not in tmp:
+                tmp['data'] += 'q'
+        if 'l' not in tmp['data']:
             if q.lotw_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'l'
+                tmp['data'] += 'l'
         if q.mode_cat == ModeEnum.CW:
             res[q.cont.name][-3] = tmp
         elif q.mode_cat == ModeEnum.PHONE:
@@ -111,10 +118,13 @@ def _award_dxcc(request, data):
     _band_high = 13
 
     qsl = dbsession.query(Qso.dxcc, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd)
-    if profile:
+    url_query = {}
+    if profile is not None:
         qsl = qsl.filter_by(profile=profile)
-    if group:
+        url_query['profile'] = profile
+    if group is not None:
         qsl = qsl.filter_by(group=group)
+        url_query['group'] = group
 
     qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
         group_by(Qso.dxcc, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd).all()
@@ -124,27 +134,31 @@ def _award_dxcc(request, data):
 
     for dx in dxcc:
         res[dx.id] = [None]*(_band_high-_band_low+3+3)
-        res[dx.id][0] = dx.id
-        res[dx.id][1] = dx.name
+        tq = url_query.copy()
+        tq.update({'dxcc': dx.id})
+        res[dx.id][0] = {'data': dx.id, 'href': request.route_url('log', _query=tq)}
+        res[dx.id][1] = {'data': dx.name, 'href': request.route_url('log', _query=tq)}
 
     for q in qsl:
         if q.dxcc not in res:
             continue
         tmp = res[q.dxcc][q.band-_band_low+2]
         if not tmp:
-            tmp = ""
-        if 'q' not in tmp:
+            tq = url_query.copy()
+            tq.update({'dxcc': q.dxcc, 'band': q.band})
+            tmp = {'data': '', 'href': request.route_url('log', _query=tq)}
+        if 'q' not in tmp['data']:
             if q.qsl_rcvd == RcvdEnum.Y:
-                tmp += 'q'
-        if 'l' not in tmp:
+                tmp['data'] += 'q'
+        if 'l' not in tmp['data']:
             if q.lotw_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'l'
+                tmp['data'] += 'l'
         res[q.dxcc][q.band - _band_low + 2] = tmp
 
     qsl = dbsession.query(Qso.dxcc, Mode.mode_cat, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd)
-    if profile:
+    if profile is not None:
         qsl = qsl.filter_by(profile=profile)
-    if group:
+    if group is not None:
         qsl = qsl.filter_by(group=group)
 
     qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
@@ -162,13 +176,13 @@ def _award_dxcc(request, data):
         else:
             continue
         if not tmp:
-            tmp = ""
-        if 'q' not in tmp:
+            tmp = {'data': ''}
+        if 'q' not in tmp['data']:
             if q.qsl_rcvd == RcvdEnum.Y:
-                tmp += 'q'
-        if 'l' not in tmp:
+                tmp['data'] += 'q'
+        if 'l' not in tmp['data']:
             if q.lotw_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'l'
+                tmp['data'] += 'l'
         if q.mode_cat == ModeEnum.CW:
             res[q.dxcc][-3] = tmp
         elif q.mode_cat == ModeEnum.PHONE:
@@ -193,10 +207,13 @@ def _award_cq(request, data):
     _band_high = 13
 
     qsl = dbsession.query(Qso.cqz, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd)
-    if profile:
+    url_query = {}
+    if profile is not None:
         qsl = qsl.filter_by(profile=profile)
-    if group:
+        url_query['profile'] = profile
+    if group is not None:
         qsl = qsl.filter_by(group=group)
+        url_query['group'] = group
 
     qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
         group_by(Qso.cqz, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd).all()
@@ -206,29 +223,33 @@ def _award_cq(request, data):
 
     for cq in cqz:
         res[cq] = [None]*(_band_high-_band_low+2+3)
-        res[cq][0] = cq
+        tq = url_query.copy()
+        tq.update({'cqz': cq})
+        res[cq][0] = {'data': cq, 'href': request.route_url('log', _query=tq)}
 
     for q in qsl:
         if q.cqz not in res:
             continue
         tmp = res[q.cqz][q.band-_band_low+1]
         if not tmp:
-            tmp = ""
-        if 'e' not in tmp:
+            tq = url_query.copy()
+            tq.update({'cqz': q.cqz, 'band': q.band})
+            tmp = {'data': '', 'href': request.route_url('log', _query=tq)}
+        if 'e' not in tmp['data']:
             if q.eqsl_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'e'
-        if 'q' not in tmp:
+                tmp['data'] += 'e'
+        if 'q' not in tmp['data']:
             if q.qsl_rcvd == RcvdEnum.Y:
-                tmp += 'q'
-        if 'l' not in tmp:
+                tmp['data'] += 'q'
+        if 'l' not in tmp['data']:
             if q.lotw_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'l'
+                tmp['data'] += 'l'
         res[q.cqz][q.band - _band_low + 1] = tmp
 
     qsl = dbsession.query(Qso.cqz, Mode.mode_cat, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd)
-    if profile:
+    if profile is not None:
         qsl = qsl.filter_by(profile=profile)
-    if group:
+    if group is not None:
         qsl = qsl.filter_by(group=group)
 
     qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
@@ -246,16 +267,16 @@ def _award_cq(request, data):
         else:
             continue
         if not tmp:
-            tmp = ""
-        if 'e' not in tmp:
+            tmp = {'data': ''}
+        if 'e' not in tmp['data']:
             if q.eqsl_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'e'
-        if 'q' not in tmp:
+                tmp['data'] += 'e'
+        if 'q' not in tmp['data']:
             if q.qsl_rcvd == RcvdEnum.Y:
-                tmp += 'q'
-        if 'l' not in tmp:
+                tmp['data'] += 'q'
+        if 'l' not in tmp['data']:
             if q.lotw_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'l'
+                tmp['data'] += 'l'
         if q.mode_cat == ModeEnum.CW:
             res[q.cqz][-3] = tmp
         elif q.mode_cat == ModeEnum.PHONE:
@@ -280,10 +301,13 @@ def _award_itu(request, data):
     _band_high = 13
 
     qsl = dbsession.query(Qso.ituz, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd)
-    if profile:
+    url_query = {}
+    if profile is not None:
         qsl = qsl.filter_by(profile=profile)
-    if group:
+        url_query['profile'] = profile
+    if group is not None:
         qsl = qsl.filter_by(group=group)
+        url_query['group'] = group
 
     qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
         group_by(Qso.ituz, Qso.band, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd).all()
@@ -293,29 +317,32 @@ def _award_itu(request, data):
 
     for itu in ituz:
         res[itu] = [None]*(_band_high-_band_low+2+3)
-        res[itu][0] = itu
-
+        tq = url_query.copy()
+        tq.update({'ituz': itu})
+        res[itu][0] = {'data': itu, 'href': request.route_url('log', _query=tq)}
     for q in qsl:
         if q.ituz not in res:
             continue
         tmp = res[q.ituz][q.band-_band_low+1]
         if not tmp:
-            tmp = ""
-        if 'e' not in tmp:
+            tq = url_query.copy()
+            tq.update({'ituz': q.ituz, 'band': q.band})
+            tmp = {'data': '', 'href': request.route_url('log', _query=tq)}
+        if 'e' not in tmp['data']:
             if q.eqsl_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'e'
-        if 'q' not in tmp:
+                tmp['data'] += 'e'
+        if 'q' not in tmp['data']:
             if q.qsl_rcvd == RcvdEnum.Y:
-                tmp += 'q'
-        if 'l' not in tmp:
+                tmp['data'] += 'q'
+        if 'l' not in tmp['data']:
             if q.lotw_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'l'
+                tmp['data'] += 'l'
         res[q.ituz][q.band - _band_low + 1] = tmp
 
     qsl = dbsession.query(Qso.ituz, Mode.mode_cat, Qso.lotw_qsl_rcvd, Qso.qsl_rcvd, Qso.eqsl_qsl_rcvd)
-    if profile:
+    if profile is not None:
         qsl = qsl.filter_by(profile=profile)
-    if group:
+    if group is not None:
         qsl = qsl.filter_by(group=group)
 
     qsl = qsl.filter(Qso.band <= _band_high, Qso.band >= _band_low).\
@@ -333,16 +360,16 @@ def _award_itu(request, data):
         else:
             continue
         if not tmp:
-            tmp = ""
-        if 'e' not in tmp:
+            tmp = {'data': ''}
+        if 'e' not in tmp['data']:
             if q.eqsl_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'e'
-        if 'q' not in tmp:
+                tmp['data'] += 'e'
+        if 'q' not in tmp['data']:
             if q.qsl_rcvd == RcvdEnum.Y:
-                tmp += 'q'
-        if 'l' not in tmp:
+                tmp['data'] += 'q'
+        if 'l' not in tmp['data']:
             if q.lotw_qsl_rcvd == RcvdEnum.Y:
-                tmp += 'l'
+                tmp['data'] += 'l'
         if q.mode_cat == ModeEnum.CW:
             res[q.ituz][-3] = tmp
         elif q.mode_cat == ModeEnum.PHONE:
@@ -351,6 +378,16 @@ def _award_itu(request, data):
             res[q.ituz][-1] = tmp
 
     return {'status': 'ok', 'itu': list(res.values())}
+
+
+@json_api_config(name='set_awards_preset')
+def _set_awards_preset(request, data):
+    if 'profile' in data:
+        request.session['profile_preset'] = data['profile']
+    if 'group' in data:
+        request.session['group_preset'] = data['group']
+
+    return {'status': 'ok'}
 
 
 @view_config(route_name='awards', renderer='awards.jinja2', permission='authenticated')
@@ -384,6 +421,13 @@ def awards_view(request):
                 tmp += 4
         res[q.dxcc][q.band - _band_low + 2] = tmp
 
+    preset = {}
+    if 'profile_preset' in request.session:
+        preset['profile'] = request.session['profile_preset']
+    if 'group_preset' in request.session:
+        preset['group'] = request.session['group_preset']
+
     return {'profiles': request.dbsession.query(Profile).all(),
             'groups': request.dbsession.query(Group).all(),
-            'bands': request.dbsession.query(Band.name).filter(Band.id <= _band_high, Band.id >= _band_low).all()}
+            'bands': request.dbsession.query(Band.name).filter(Band.id <= _band_high, Band.id >= _band_low).all(),
+            'preset': preset}

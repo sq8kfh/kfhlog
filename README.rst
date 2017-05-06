@@ -27,13 +27,14 @@ Getting Started
 
 - Configure the database.
 
-    env/bin/initialize_kfhlog_db development.ini
+    env/bin/initialize_kfhlog_db production.ini
+    env/bin/load_country_files production.ini
 
 - Run your project's tests.
 
     env/bin/pytest
 
-- Change auth.secret in production.ini
+- Change auth.secret, dbsetting.secret and redis.sessions.secret in production.ini
 
 - Run your project.
 

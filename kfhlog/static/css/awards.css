@@ -9,3 +9,8 @@
 .red {
     background-color: #d64635;
 }
+
+td a, th a {
+    width:100%;
+    display:block;
+}

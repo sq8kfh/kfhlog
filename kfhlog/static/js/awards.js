@@ -18,11 +18,27 @@ function show_award(award) {
 	        }
 	        $.each(jsn[award], function(rowIndex, r) {
 		        tr = $('<tr>');
-		        $.each(r, function(colIndex, c) {
+		        $.each(r, function(colIndex, d) {
+		            c = null;
+		            l = null;
+		            if (d != null) {
+		                c = d['data']
+		                l = d['href']
+		            }
 		            ch = 0;
 		            if (award == 'dxcc') ch = 1;
-		            td = $("<t"+(colIndex <= 0 ?  "h" : "d")+"/>").text(c);
 
+		            td = $("<t"+(colIndex <= 0 ?  "h" : "d")+"/>")
+		            if (l != null) {
+		                href = $("<a href=\""+l+"\" />")
+		                if (c === "") href.text("?")
+		                else href.text(c);
+		                td.append(href);
+		            }
+		            else {
+		                if (c === "") td.text("?")
+		                else td.text(c);
+                    }
 		            if(colIndex > ch && c != null) {
 		                if(c === "")
 		                    td.addClass('green');
@@ -61,6 +77,26 @@ function open_tab(tab) {
     }
 }
 
+function update_preset() {
+    preset = {}
+    preset['profile'] = parseInt($('#profile').val().trim());
+    preset['group'] = parseInt($('#group').val().trim());
+    $.ajax({
+	    type:'POST',
+		url: '/api/set_awards_preset',
+		data: JSON.stringify(preset),
+		contentType: 'application/json; charset=utf-8',
+	});
+}
+
+function profilegroup_change() {
+    open_tab('general');
+    update_preset();
+}
+
 $(document).ready(function() {
+    $("#profile").change(profilegroup_change);
+    $("#group").change(profilegroup_change);
+
     open_tab('general');
 });

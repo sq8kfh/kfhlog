@@ -96,9 +96,9 @@ def _get_log(request, data):
 def _set_log_preset(request, data):
     preset = {}
     if 'profile' in data:
-        preset['profile'] = data['profile']
+        request.session['profile_preset'] = data['profile']
     if 'group' in data:
-        preset['group'] = data['group']
+        request.session['group_preset'] = data['group']
 
     if 'show_datetime_off' in data:
         preset['show_datetime_off'] = data['show_datetime_off']
@@ -138,6 +138,15 @@ def log_view(request):
     }
     if 'log_preset' in request.session:
         preset.update(request.session['log_preset'])
+
+    if 'profile' in request.GET:
+        preset['profile'] = int(request.GET['profile'])
+    elif 'profile_preset' in request.session:
+        preset['profile'] = request.session['profile_preset']
+    if 'group' in request.GET:
+        preset['group'] = int(request.GET['group'])
+    elif 'group_preset' in request.session:
+        preset['group'] = request.session['group_preset']
 
     return {'profiles': request.dbsession.query(Profile).all(),
             'groups': request.dbsession.query(Group).all(),

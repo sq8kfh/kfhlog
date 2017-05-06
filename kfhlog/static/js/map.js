@@ -1,10 +1,10 @@
 function show_itu() {
     profile = null;
     group = null;
-    //if(parseInt($("#profile").val().trim()) >= 0)
-    //    profile = parseInt($("#profile").val().trim());
-    //if(parseInt($("#group").val().trim()) >= 0)
-    //    group = parseInt($("#group").val().trim());
+    if(parseInt($("#profile").val().trim()) >= 0)
+        profile = parseInt($("#profile").val().trim());
+    if(parseInt($("#group").val().trim()) >= 0)
+        group = parseInt($("#group").val().trim());
     $.ajax({
 	    type:'POST',
 		url: '/api/made_itu',
@@ -29,14 +29,15 @@ function show_itu() {
 
 function map_load() {
     D=document.getElementById("map");
-	//D = $('#map');
 	SVGDoc = D.getSVGDocument();
-    //SVGDoc = $('#map').getSVGDocument();
 	var countryElements = SVGDoc.getElementById('itu').childNodes;
 	var countryCount = countryElements.length;
 	for (var i = 0; i < countryCount; i++) {
 		countryElements[i].onmouseover = function() {
 		    document.getElementById("itu_zone").value = this.getAttribute('data-zone');
+	    }
+	    countryElements[i].onclick = function() {
+	        window.location.href = "log?ituz=" + this.getAttribute('data-zone');
 	    }
 	}
 	//SVGDoc.getElementById('itu_18').classList.add('red');
@@ -44,24 +45,23 @@ function map_load() {
 	show_itu();
 }
 
+function update_preset() {
+    preset = {}
+    preset['profile'] = parseInt($('#profile').val().trim());
+    preset['group'] = parseInt($('#group').val().trim());
+    $.ajax({
+	    type:'POST',
+		url: '/api/set_map_preset',
+		data: JSON.stringify(preset),
+		contentType: 'application/json; charset=utf-8',
+	});
+}
+
+function profilegroup_change() {
+    update_preset();
+}
+
 $(document).ready(function() {
-	//D=document.getElementById("map");
-
-	/*D = $('#map');
-
-	SVGDoc = D.getSVGDocument();
-    //SVGDoc = $('#map').getSVGDocument();
-	var countryElements = SVGDoc.getElementById('itu').childNodes;
-	var countryCount = countryElements.length;
-	for (var i = 0; i < countryCount; i++) {
-		countryElements[i].onmouseover = function() {
-		    document.getElementById("itu_zone").value = this.getAttribute('data-zone');
-	    }
-	}*/
-	//SVGDoc.getElementById('itu_18').classList.add('red');
-	//SVGDoc.getElementById('itu_33').classList.add('red');
-
-    //$('#map').addEventListener('load', map_load);
-
-    //show_itu();
+    $("#profile").change(profilegroup_change);
+    $("#group").change(profilegroup_change);
 });
