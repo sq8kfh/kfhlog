@@ -32,6 +32,12 @@
         </li>
         <li></li>
         <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_profile"{% if preset['show_profile'] %} checked{% endif %} /> <label for="show_profile">Profile</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_group"{% if preset['show_group'] %} checked{% endif %} /> <label for="show_group">Group</label>
+        </li>
+        <li>
             <input type="checkbox" class="showcolcheckbox" id="show_datetime_off"{% if preset['show_datetime_off'] %} checked{% endif %} /> <label for="show_datetime_off">Datetime off</label>
         </li>
         <li>
@@ -41,10 +47,22 @@
             <input type="checkbox" class="showcolcheckbox" id="show_mode"{% if preset['show_mode'] %} checked{% endif %} /> <label for="show_mode">Mode</label>
         </li>
         <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_freq"{% if preset['show_freq'] %} checked{% endif %} /> <label for="show_freq">Freq</label>
+        </li>
+        <li>
             <input type="checkbox" class="showcolcheckbox" id="show_rst_rcvd"{% if preset['show_rst_rcvd'] %} checked{% endif %} /> <label for="show_rst_rcvd">RST Rcvd</label>
         </li>
         <li>
             <input type="checkbox" class="showcolcheckbox" id="show_rst_send"{% if preset['show_rst_send'] %} checked{% endif %} /> <label for="show_rst_send">RST Send</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_name"{% if preset['show_name'] %} checked{% endif %} /> <label for="show_name">Name</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_qth"{% if preset['show_qth'] %} checked{% endif %} /> <label for="show_qth">QTH</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_gridsquare"{% if preset['show_gridsquare'] %} checked{% endif %} /> <label for="show_gridsquare">Gridsquare</label>
         </li>
         <li>
             <input type="checkbox" class="showcolcheckbox" id="show_dxcc"{% if preset['show_dxcc'] %} checked{% endif %} /> <label for="show_dxcc">DXCC name</label>
@@ -58,6 +76,36 @@
         <li>
             <input type="checkbox" class="showcolcheckbox" id="show_cqz"{% if preset['show_cqz'] %} checked{% endif %} /> <label for="show_cqz">CQ Zone</label>
         </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_iota"{% if preset['show_iota'] %} checked{% endif %} /> <label for="show_iota">IOTA</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_sota_ref"{% if preset['show_sota_ref'] %} checked{% endif %} /> <label for="show_sota_ref">SOTA</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_state"{% if preset['show_state'] %} checked{% endif %} /> <label for="show_state">State</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_cnty"{% if preset['show_cnty'] %} checked{% endif %} /> <label for="show_cnty">Cnty</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_a_index"{% if preset['show_a_index'] %} checked{% endif %} /> <label for="show_a_index">Ap</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_k_index"{% if preset['show_k_index'] %} checked{% endif %} /> <label for="show_k_index">Kp</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_sfi"{% if preset['show_sfi'] %} checked{% endif %} /> <label for="show_sfi">SFI</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_lotw_qsl_rcvd"{% if preset['show_lotw_qsl_rcvd'] %} checked{% endif %} /> <label for="show_lotw_qsl_rcvd">LOTW</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_eqsl_qsl_rcvd"{% if preset['show_eqsl_qsl_rcvd'] %} checked{% endif %} /> <label for="show_eqsl_qsl_rcvd">eQSL</label>
+        </li>
+        <li>
+            <input type="checkbox" class="showcolcheckbox" id="show_qsl_rcvd"{% if preset['show_qsl_rcvd'] %} checked{% endif %} /> <label for="show_qsl_rcvd">QSL</label>
+        </li>
     </ul>
 </div>
 <div class="scrolly">
@@ -65,19 +113,37 @@
         <table id="log" class="stdtable">
             <thead>
                 <tr id="headers">
+                    <th onclick="changesort('profile')"><span id="profile_sort"></span> Profile</th>
+                    <th onclick="changesort('group')"><span id="group_sort"></span> Group</th>
                     <th onclick="changesort('call')"><span id="call_sort"></span>Call</th>
                     <th onclick="changesort('datetime_on')"><span id="datetime_on_sort"></span> Date on</th>
                     <th onclick="changesort('datetime_off')"><span id="datetime_off_sort"></span> Date off</th>
                     <th onclick="changesort('band')"><span id="band_sort"></span> Band</th>
                     <th onclick="changesort('mode')"><span id="mode_sort"></span> Mode</th>
+                    <th onclick="changesort('freq')"><span id="freq_sort"></span> Freq</th>
                     <th>RST Rcvd</th>
                     <th>RST Sent</th>
+                    <th onclick="changesort('name')"><span id="name_sort"></span> Name</th>
+                    <th onclick="changesort('qth')"><span id="qth_sort"></span> QTH</th>
+                    <th onclick="changesort('gridsquare')"><span id="gridsquare_sort"></span> Gridsquare</th>
                     <th onclick="changesort('dxcc')"><span id="dxcc_sort"></span> DXCC name</th>
                     <th onclick="changesort('cont')"><span id="cont_sort"></span> Cont</th>
                     <th onclick="changesort('ituz')"><span id="ituz_sort"></span> ITU zone</th>
                     <th onclick="changesort('cqz')"><span id="cqz_sort"></span> CQ zone</th>
+                    <th onclick="changesort('iota')"><span id="iota_sort"></span> IOTA</th>
+                    <th onclick="changesort('sota_ref')"><span id="sota_ref_sort"></span> SOTA</th>
+                    <th onclick="changesort('state')"><span id="state_sort"></span> State</th>
+                    <th onclick="changesort('cnty')"><span id="cnty_sort"></span> Cnty</th>
+                    <th onclick="changesort('a_index')"><span id="a_index_sort"></span> Ap</th>
+                    <th onclick="changesort('k_index')"><span id="k_index_sort"></span> Kp</th>
+                    <th onclick="changesort('sfi')"><span id="sfi_sort"></span> SFI</th>
+                    <th onclick="changesort('lotw_qsl_rcvd')"><span id="lotw_qsl_rcvd_sort"></span> LOTW</th>
+                    <th onclick="changesort('eqsl_qsl_rcvd')"><span id="eqsl_qsl_rcvd_sort"></span> eQSL</th>
+                    <th onclick="changesort('qsl_rcvd')"><span id="qsl_rcvd_sort"></span> QSL</th>
                 </tr>
                 <tr id="filters">
+                    <th></th>
+                    <th></th>
                     <th><input id="call_filter" type="text" value="{{ request.GET['call'] }}" /></th>
                     <th><input id="datetime_on_filter" type="text" value="{{ request.GET['datetime_on'] }}" /></th>
                     <th><input id="datetime_off_filter" type="text" value="{{ request.GET['datetime_off'] }}" /></th>
@@ -97,8 +163,12 @@
                             {% endfor %}
                         </select>
                     </th>
+                    <th><input id="freq_filter" type="text" value="{{ request.GET['freq'] }}" /></th>
                     <th></th>
                     <th></th>
+                    <th><input id="name_filter" type="text" value="{{ request.GET['name'] }}" /></th>
+                    <th><input id="qth_filter" type="text" value="{{ request.GET['qth'] }}" /></th>
+                    <th><input id="gridsquare_filter" type="text" value="{{ request.GET['gridsquare'] }}" /></th>
                     <th>
                         <select id="dxcc_filter">
                             <option value=""></option>
@@ -117,11 +187,21 @@
                     </th>
                     <th><input id="ituz_filter" type="text" value="{{ request.GET['ituz'] }}" /></th>
                     <th><input id="cqz_filter" type="text" value="{{ request.GET['cqz'] }}" /></th>
+                    <th><input id="iota_filter" type="text" value="{{ request.GET['iota'] }}" /></th>
+                    <th><input id="sota_ref_filter" type="text" value="{{ request.GET['sota_ref'] }}" /></th>
+                    <th><input id="state_filter" type="text" value="{{ request.GET['state'] }}" /></th>
+                    <th><input id="cnty_filter" type="text" value="{{ request.GET['cnty'] }}" /></th>
+                    <th><input id="a_index_filter" type="text" value="{{ request.GET['a_index'] }}" /></th>
+                    <th><input id="k_index_filter" type="text" value="{{ request.GET['k_index'] }}" /></th>
+                    <th><input id="sfi_filter" type="text" value="{{ request.GET['sfi'] }}" /></th>
+                    <th><input id="lotw_qsl_rcvd_filter" type="text" value="{{ request.GET['lotw_qsl_rcvd'] }}" /></th>
+                    <th><input id="eqsl_qsl_rcvd_filter" type="text" value="{{ request.GET['eqsl_qsl_rcvd'] }}" /></th>
+                    <th><input id="qsl_rcvd_filter" type="text" value="{{ request.GET['qsl_rcvd'] }}" /></th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
-                    <th colspan="11">
+                    <th colspan="27">
                         <div class="pager">
                             <input type="hidden" id="sortby" />
                             <button type="button" id="first"><<</button>

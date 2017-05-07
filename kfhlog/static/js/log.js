@@ -56,17 +56,33 @@ function load_log() {
 	        $("#log > tbody").empty();
             $.each(jsn.log, function(i, item) {
                 $('#log > tbody').append('<tr onclick="open_qso(' + item.id+ ')"><td>' +
+                item.profile_name + '</td><td>' +
+                item.group_name + '</td><td>' +
                 item.call + '</td><td>' +
                 null_formatter(item.datetime_on).replace('T', ' ')  + '</td><td>' +
                 null_formatter(item.datetime_off).replace('T', ' ') + '</td><td>' +
                 item.band_name + '</td><td>' +
                 item.mode_name + '</td><td>' +
+                item.freq + '</td><td>' +
                 item.rst_rcvd + '</td><td>' +
                 item.rst_sent + '</td><td>' +
+                item.name + '</td><td>' +
+                item.qth + '</td><td>' +
+                item.gridsquare + '</td><td>' +
                 null_formatter(item.dxcc_name) + '</td><td>' +
                 null_formatter(item.cont) + '</td><td>' +
                 null_formatter(item.ituz) + '</td><td>' +
-                null_formatter(item.cqz) + '</td></tr>');
+                null_formatter(item.cqz) + '</td><td>' +
+                item.iota + '</td><td>' +
+                item.sota_ref + '</td><td>' +
+                item.state + '</td><td>' +
+                item.cnty + '</td><td>' +
+                null_formatter(item.a_index) + '</td><td>' +
+                null_formatter(item.k_index) + '</td><td>' +
+                null_formatter(item.sfi) + '</td><td>' +
+                item.lotw_qsl_rcvd + '</td><td>' +
+                item.eqsl_qsl_rcvd + '</td><td>' +
+                item.qsl_rcvd + '</td></tr>');
             });
             $('#pagecount').val(jsn.pagecount);
             $('.showcolcheckbox').each(function() {
@@ -101,15 +117,31 @@ function update_preset() {
     preset = {}
     preset['profile'] = parseInt($('#profile').val().trim());
     preset['group'] = parseInt($('#group').val().trim());
+    preset['show_profile'] = $('#show_profile').is(':checked');
+    preset['show_group'] = $('#show_group').is(':checked');
     preset['show_datetime_off'] = $('#show_datetime_off').is(':checked');
     preset['show_band'] = $('#show_band').is(':checked');
     preset['show_mode'] = $('#show_mode').is(':checked');
+    preset['show_freq'] = $('#show_freq').is(':checked');
     preset['show_rst_rcvd'] = $('#show_rst_rcvd').is(':checked');
     preset['show_rst_send'] = $('#show_rst_send').is(':checked');
+    preset['show_name'] = $('#show_name').is(':checked');
+    preset['show_qth'] = $('#show_qth').is(':checked');
+    preset['show_gridsquare'] = $('#show_gridsquare').is(':checked');
     preset['show_dxcc'] = $('#show_dxcc').is(':checked');
     preset['show_cont'] = $('#show_cont').is(':checked');
     preset['show_ituz'] = $('#show_ituz').is(':checked');
     preset['show_cqz'] = $('#show_cqz').is(':checked');
+    preset['show_iota'] = $('#show_iota').is(':checked');
+    preset['show_sota_ref'] = $('#show_sota_ref').is(':checked');
+    preset['show_state'] = $('#show_state').is(':checked');
+    preset['show_cnty'] = $('#show_cnty').is(':checked');
+    preset['show_a_index'] = $('#show_a_index').is(':checked');
+    preset['show_k_index'] = $('#show_k_index').is(':checked');
+    preset['show_sfi'] = $('#show_sfi').is(':checked');
+    preset['show_lotw_qsl_rcvd'] = $('#show_lotw_qsl_rcvd').is(':checked');
+    preset['show_eqsl_qsl_rcvd'] = $('#show_eqsl_qsl_rcvd').is(':checked');
+    preset['show_qsl_rcvd'] = $('#show_qsl_rcvd').is(':checked');
     $.ajax({
 	    type:'POST',
 		url: '/api/set_log_preset',
@@ -177,15 +209,33 @@ $(document).ready(function() {
         $(selector).attr("checked", $(selector).is(':checked'));
     }
 
-    make_show_checkbox("#show_datetime_off", 3);
-    make_show_checkbox("#show_band", 4);
-    make_show_checkbox("#show_mode", 5);
-    make_show_checkbox("#show_rst_rcvd", 6);
-    make_show_checkbox("#show_rst_send", 7);
-    make_show_checkbox("#show_dxcc", 8);
-    make_show_checkbox("#show_cont", 9);
-    make_show_checkbox("#show_ituz", 10);
-    make_show_checkbox("#show_cqz", 11);
+    col=1
+    make_show_checkbox("#show_profile", col++);
+    make_show_checkbox("#show_group", col++);
+    col+=2
+    make_show_checkbox("#show_datetime_off", col++);
+    make_show_checkbox("#show_band", col++);
+    make_show_checkbox("#show_mode", col++);
+    make_show_checkbox("#show_freq", col++);
+    make_show_checkbox("#show_rst_rcvd", col++);
+    make_show_checkbox("#show_rst_send", col++);
+    make_show_checkbox("#show_name", col++);
+    make_show_checkbox("#show_qth", col++);
+    make_show_checkbox("#show_gridsquare", col++);
+    make_show_checkbox("#show_dxcc", col++);
+    make_show_checkbox("#show_cont", col++);
+    make_show_checkbox("#show_ituz", col++);
+    make_show_checkbox("#show_cqz", col++);
+    make_show_checkbox("#show_iota", col++);
+    make_show_checkbox("#show_sota_ref", col++);
+    make_show_checkbox("#show_state", col++);
+    make_show_checkbox("#show_cnty", col++);
+    make_show_checkbox("#show_a_index", col++);
+    make_show_checkbox("#show_k_index", col++);
+    make_show_checkbox("#show_sfi", col++);
+    make_show_checkbox("#show_lotw_qsl_rcvd", col++);
+    make_show_checkbox("#show_eqsl_qsl_rcvd", col++);
+    make_show_checkbox("#show_qsl_rcvd", col++);
     $('.showcolcheckbox').each(function() {
         var e = jQuery.Event('change');
         $(this).trigger(e, [false]);

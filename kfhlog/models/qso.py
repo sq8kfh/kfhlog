@@ -25,7 +25,9 @@ class Qso(Base):
     __tablename__ = 'qsos'
     id = Column(Integer, primary_key=True)
     profile = Column(ForeignKey('profiles.id'), nullable=False)
+    profile_obj = relationship("Profile", foreign_keys=profile)
     group = Column(ForeignKey('groups.id'), nullable=False)
+    group_obj = relationship("Group", foreign_keys=group)
 
     _call = Column('call', String(length=20), nullable=False)
 
@@ -210,6 +212,10 @@ class Qso(Base):
 
     def ext_to_dict(self):
         tmp = self.to_dict()
+        if self.band_obj:
+            tmp['profile_name'] = self.profile_obj.name
+        if self.mode_obj:
+            tmp['group_name'] = self.group_obj.name
         if self.band_obj:
             tmp['band_name'] = self.band_obj.name
         if self.mode_obj:
