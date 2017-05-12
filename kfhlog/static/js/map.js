@@ -5,6 +5,15 @@ function show_itu() {
         profile = parseInt($("#profile").val().trim());
     if(parseInt($("#group").val().trim()) >= 0)
         group = parseInt($("#group").val().trim());
+
+    D=document.getElementById("map");
+    SVGDoc = D.getSVGDocument();
+    SVGDoc.getElementById("itu").childNodes.forEach(function(item) {
+        if (item.nodeType == Node.ELEMENT_NODE) {
+            item.classList.remove('red');
+        }
+    });
+
     $.ajax({
 	    type:'POST',
 		url: '/api/made_itu',
@@ -59,6 +68,7 @@ function update_preset() {
 
 function profilegroup_change() {
     update_preset();
+    show_itu();
 }
 
 $(document).ready(function() {

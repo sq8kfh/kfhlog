@@ -17,7 +17,7 @@ def main(global_config, **settings):
     config.add_jinja2_search_path('kfhlog:templates')
 
     renderer = JSON()
-    renderer.add_adapter(datetime, lambda obj, request: obj.isoformat())
+    renderer.add_adapter(datetime, lambda obj, request: obj.isoformat()+'Z')
     renderer.add_adapter(date, lambda obj, request: obj.isoformat())
     renderer.add_adapter(Enum, lambda obj, request: obj.name)
     renderer.add_adapter(Qso, lambda obj, request: obj.ext_to_dict())

@@ -59,8 +59,8 @@ function load_log() {
                 item.profile_name + '</td><td>' +
                 item.group_name + '</td><td>' +
                 item.call + '</td><td>' +
-                null_formatter(item.datetime_on).replace('T', ' ')  + '</td><td>' +
-                null_formatter(item.datetime_off).replace('T', ' ') + '</td><td>' +
+                null_formatter(item.datetime_on).replace('T', ' ').replace('Z', '')  + '</td><td>' +
+                null_formatter(item.datetime_off).replace('T', ' ').replace('Z', '') + '</td><td>' +
                 item.band_name + '</td><td>' +
                 item.mode_name + '</td><td>' +
                 item.freq + '</td><td>' +
