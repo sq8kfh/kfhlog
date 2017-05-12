@@ -38,6 +38,7 @@
                     <li {% if request.matched_route.name == "map" %}class="active"{% endif %}><a href="{{request.route_url('map')}}"><span class="icon-globe"></span> Map</a></li>
                     <li {% if request.matched_route.name == "awards" %}class="active"{% endif %}><a href="{{request.route_url('awards')}}"><span class="icon-trophy"></span> Awards</a></li>
                     <li {% if request.matched_route.name == "import" %}class="active"{% endif %}><a href="{{request.route_url('import')}}"><span class="icon-download"></span> Import</a></li>
+                    <li {% if request.matched_route.name == "export" %}class="active"{% endif %}><a href="{{request.route_url('export')}}"><span class="icon-upload"></span> Export</a></li>
                     <li {% if request.matched_route.name == "settings" %}class="active"{% endif %}><a href="{{request.route_url('index')}}"><span class="icon-cogs"></span> Settings</a></li>
                 {% endif %}
                 <li {% if request.matched_route.name == "about" %}class="active"{% endif %}><a href="{{request.route_url('about')}}"><span class="icon-info-with-circle"></span> About</a></li>

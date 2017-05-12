@@ -8,6 +8,9 @@ class RcvdEnum(enum.Enum):
     I = 4
     V = 5
 
+    def __str__(self):
+        return self.name
+
 
 class SendEnum(enum.Enum):
     Y = 1
@@ -15,6 +18,9 @@ class SendEnum(enum.Enum):
     R = 3
     Q = 4
     I = 5
+
+    def __str__(self):
+        return self.name
 
 
 class ContinentEnum(enum.Enum):
@@ -26,8 +32,14 @@ class ContinentEnum(enum.Enum):
     AS = 6
     AN = 7
 
+    def __str__(self):
+        return self.name
+
 
 class ModeEnum(enum.Enum):
     CW = 1
     PHONE = 2
     DIGITAL = 3
+
+    def __str__(self):
+        return self.name

@@ -1,9 +1,8 @@
 import os
 import uuid
 import shutil
-from hamtools import adif
 
-from pyramid.httpexceptions import HTTPForbidden
+from hamutils.adif import ADIReader, ADXReader
 from pyramid.view import view_config
 
 from ..models import Qso, Profile, Group
@@ -30,8 +29,8 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
         qh = kfhlog.tools.datahelpers.QsoHelper(data,
                                                 profile=qsoprofile,
                                                 group=qsogroup,
-                                                datetime_on=r['app_datetime_on'],
-                                                datetime_off=r['app_datetime_off'])
+                                                datetime_on=r['datetime_on'],
+                                                datetime_off=r['datetime_off'])
         res = qh.validate(delete_incorrect=True)
         qh.autocomplete(dbsession)
         if res['error']:
@@ -40,7 +39,6 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
         else:
             if res['warning']:
                 log.warning("Import %s, %s - %s", qh.native()['call'], qh.native()['datetime_on'], res['warning'])
-            print(qh.native())
             qsos.append(Qso(**qh.native()))
     return qsos, wqso
 
@@ -48,6 +46,7 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
 @view_config(route_name='import', renderer='import.jinja2', permission='authenticated')
 def import_view(request):
     if 'profile' in request.params and 'group' in request.params and 'file' in request.params:
+        filename = request.params['file'].filename.lower()
         file = request.params['file'].file
 
         tmp_file_path = os.path.join('/tmp', '%s' % uuid.uuid4())
@@ -55,15 +54,22 @@ def import_view(request):
         with open(tmp_file_path, 'wb') as tmp_file:
             shutil.copyfileobj(file, tmp_file)
 
-        with open(tmp_file_path, 'r', encoding="cp1250") as adif_file:
-            adif_data = adif.Reader(adif_file)
-            dbsession = request.dbsession
+        if filename.endswith('.adx'):
+            with open(tmp_file_path, 'r') as adif_file:
+                adif_data = ADXReader(adif_file)
+                dbsession = request.dbsession
 
-            qsos = _adif2qso(request.params['profile'], request.params['group'], adif_data, dbsession)
+                qsos = _adif2qso(request.params['profile'], request.params['group'], adif_data, dbsession)
 
-            dbsession.add_all(qsos[0])
-            # dbsession.bulk_insert_mappings(Qso, qsos) #nie commituje tranzakcji - dlaczego?
-            # dbsession.flush()
+                dbsession.add_all(qsos[0])
+        else:
+            with open(tmp_file_path, 'r', encoding="cp1250") as adif_file:
+                adif_data = ADIReader(adif_file)
+                dbsession = request.dbsession
+
+                qsos = _adif2qso(request.params['profile'], request.params['group'], adif_data, dbsession)
+
+                dbsession.add_all(qsos[0])
         return {'message': qsos[1], 'profiles': request.dbsession.query(Profile).all(),
                 'groups': request.dbsession.query(Group).all()}
     return {'profiles': request.dbsession.query(Profile).all(), 'groups': request.dbsession.query(Group).all()}

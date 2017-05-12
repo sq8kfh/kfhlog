@@ -197,12 +197,16 @@ $(document).ready(function() {
     function make_show_checkbox(selector, col) {
         $(selector).change(function (event, up_preset = true) {
             if ($(selector).is(':checked')) {
-                $('#log tr td:nth-child(' + col + ')').show();
-                $('#log tr th:nth-child(' + col + ')').show();
+                $('#log thead tr td:nth-child(' + col + ')').show();
+                $('#log thead tr th:nth-child(' + col + ')').show();
+                $('#log tbody tr td:nth-child(' + col + ')').show();
+                $('#log tbody tr th:nth-child(' + col + ')').show();
             }
             else {
-                $('#log tr td:nth-child(' + col + ')').hide();
-                $('#log tr th:nth-child(' + col + ')').hide();
+                $('#log thead tr td:nth-child(' + col + ')').hide();
+                $('#log thead tr th:nth-child(' + col + ')').hide();
+                $('#log tbody tr td:nth-child(' + col + ')').hide();
+                $('#log tbody tr th:nth-child(' + col + ')').hide();
             }
             if(up_preset) update_preset();
         });

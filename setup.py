@@ -20,12 +20,11 @@ requires = [
     'waitress',
     'bcrypt',
     'pycrypto',
-    'hamtools',
     'docutils',
     'pyramid_rpc',
     'python-dateutil',
     'redis',
-    'hamutils',
+    'hamutils >= 0.2.0',
     'pyramid_redis_sessions',
 ]
 
@@ -52,7 +51,7 @@ setup(
     author='SQ8KFH',
     author_email='sq8kfh@gmail.com',
     url='https://github.com/sq8kfh/kfhlog',
-    keywords='web pyramid pylons ham',
+    keywords='web pyramid ham logbook',
     packages=find_packages(),
     python_requires='>=3.4',
     include_package_data=True,

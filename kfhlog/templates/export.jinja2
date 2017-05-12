@@ -3,10 +3,11 @@
 {% block content %}
 <div class="center">
 {{message}}
-<form action="/import" method="post" enctype="multipart/form-data">
+<form action="/export" method="post">
     <ul>
         <li>
             <label>Profile: <select name="profile">
+                <option value="">All</option>
                 {% for profile in profiles %}
                 <option value="{{ profile.id }}">{{ profile.name }}</option>
                 {% endfor %}
@@ -14,13 +15,19 @@
         </li>
         <li>
             <label>Group: <select name="group">
+                <option value="">All</option>
                 {% for group in groups %}
                 <option value="{{ group.id }}">{{ group.name }}</option>
                 {% endfor %}
             </select></label>
         </li>
-        <li><input type="file" id="file" name="file" accept=".adi,.adx"/></li>
-        <li><input type="submit" value="Import" /></li>
+        <li>
+            <label>Format:
+                <input type="radio" name="adif_type" value="adx" checked> ADX
+                <input type="radio" name="adif_type" value="adi"> ADI
+            </label>
+        </li>
+        <li><input type="submit" value="Export" /></li>
     </ul>
 </form>
 </div>

@@ -70,6 +70,11 @@ class EnumType(BaseType):
         super(EnumType, self).__init__(enum_type, lambda x: enum_type[x], **kw)
 
 
+class DateType(BaseType):
+    def __init__(self, **kw):
+        super(DateType, self).__init__(datetime.date, lambda x: datetime.datetime.strptime(x, "%Y-%m-%d").date(), **kw)
+
+
 class DatetimeType(BaseType):
     def __init__(self, date_field=None, time_field=None, **kw):
         self.date_field = date_field
@@ -80,6 +85,7 @@ class DatetimeType(BaseType):
         if self.date_field in raw:
             tmp = raw[self.date_field]
             if not isinstance(tmp, self._vtype):
+                print(self.date_field, self.time_field)
                 date_str = tmp
                 if self.time_field in raw:
                     date_str = date_str + 'T' + raw[self.time_field]
@@ -195,6 +201,7 @@ class BaseHelper(object):
             for c in self._var:
                 ew = err if c._required else wrr
                 try:
+                    print(c)
                     c.tonative(self._data, self._raw)
                 except ValueError as e:
                     ew[c.name] = str(e)

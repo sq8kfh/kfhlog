@@ -1,4 +1,4 @@
-from .helper import BaseHelper, DatetimeType, IntType, FloatType, StrType
+from .helper import BaseHelper, DatetimeType, DateType, IntType, FloatType, StrType
 from kfhlog.models.dbtools import formatters, dbhelpers, datatypes
 
 def _dxcc_autocomplete(data, dbsession):
@@ -61,18 +61,18 @@ class QsoHelper(BaseHelper):
 
     tx_pwr = FloatType(min_value=0.001)
 
-    lotw_qslrdate = DatetimeType()
-    lotw_qslsdate = DatetimeType()
+    lotw_qslrdate = DateType()
+    lotw_qslsdate = DateType()
     lotw_qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
     lotw_qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
 
-    eqsl_qslrdate = DatetimeType()
-    eqsl_qslsdate = DatetimeType()
+    eqsl_qslrdate = DateType()
+    eqsl_qslsdate = DateType()
     eqsl_qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
     eqsl_qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
 
-    qslrdate = DatetimeType()
-    qslsdate = DatetimeType()
+    qslrdate = DateType()
+    qslsdate = DateType()
     qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
     qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
     qsl_via = StrType()

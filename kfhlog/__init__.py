@@ -1,7 +1,7 @@
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
 
-from datetime import datetime
+from datetime import datetime, date
 from enum import Enum
 
 from .models import Qso
@@ -18,6 +18,7 @@ def main(global_config, **settings):
 
     renderer = JSON()
     renderer.add_adapter(datetime, lambda obj, request: obj.isoformat())
+    renderer.add_adapter(date, lambda obj, request: obj.isoformat())
     renderer.add_adapter(Enum, lambda obj, request: obj.name)
     renderer.add_adapter(Qso, lambda obj, request: obj.ext_to_dict())
     config.add_renderer('extjson', renderer)
