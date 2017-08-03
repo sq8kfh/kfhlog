@@ -142,7 +142,7 @@ class Qso(Base):
             self._lotw_qslsdate = dateutil.parser.parse(value)
 
     lotw_qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
-    lotw_qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
+    lotw_qsl_sent = Column(Enum(datatypes.SentEnum), nullable=False, server_default='N')
 
     _eqsl_qslrdate = Column('eqsl_qslrdate', Date)
 
@@ -171,7 +171,7 @@ class Qso(Base):
             self._eqsl_qslsdate = dateutil.parser.parse(value)
 
     eqsl_qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
-    eqsl_qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
+    eqsl_qsl_sent = Column(Enum(datatypes.SentEnum), nullable=False, server_default='N')
 
     _qslrdate = Column('qslrdate', Date)
 
@@ -200,7 +200,7 @@ class Qso(Base):
             self._qslsdate = dateutil.parser.parse(value)
 
     qsl_rcvd = Column(Enum(datatypes.RcvdEnum), nullable=False, server_default='N')
-    qsl_sent = Column(Enum(datatypes.SendEnum), nullable=False, server_default='N')
+    qsl_sent = Column(Enum(datatypes.SentEnum), nullable=False, server_default='N')
     qsl_via = Column(String(length=30), nullable=False, server_default='')
 
     a_index = Column(Integer)

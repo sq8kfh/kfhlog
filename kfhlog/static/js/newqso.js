@@ -9,7 +9,7 @@ function set_previous_qso(data) {
 	if( data.status != 'ok')
 	    return;
 	$.each(data.qso, function(i, item) {
-		$('#previou_table > tbody').append('<tr onclick="open_qso(' + item[0]+ ')"><td>' + item[1].replace('T', ' ') + '</td><td>' + item[2] + '</td><td>' + item[3] + '</td></tr>');
+		$('#previou_table > tbody').append('<tr onclick="open_qso(' + item[0]+ ')"><td>' + item[1].replace('T', ' ').replace('Z', '')  + '</td><td>' + item[2] + '</td><td>' + item[3] + '</td></tr>');
 	});
 }
 
@@ -312,10 +312,13 @@ $(document).ready(function() {
     $("form#newqso #state").change(state_change);
 
     $("form#newqso #profile").change(function() {
+        console.log('hmm')
         $("form#newqso #gridsquare_info").val($("form#newqso #profile").find(':selected').data('gridsquare'));
+        $("form#newqso #call_info").val($("form#newqso #profile").find(':selected').data('call'));
         $("form#newqso #gridsquare").trigger("change");
     });
     $("form#newqso #gridsquare_info").val($("form#newqso #profile").find(':selected').data('gridsquare'));
+    $("form#newqso #call_info").val($("form#newqso #profile").find(':selected').data('call'));
 
     $("form#newqso #gridsquare").change(function() {
         if($("form#newqso #gridsquare").val().trim() == '') {

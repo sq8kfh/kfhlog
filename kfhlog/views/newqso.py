@@ -4,7 +4,7 @@ import hamutils.qrz
 from pyramid.view import view_config
 
 from ..models import Profile, Group, Mode, Band, Dxcc, State, Qso
-from ..models.dbtools.datatypes import ContinentEnum
+from ..models.dbtools.datatypes import RcvdEnum, SentEnum, ContinentEnum
 
 from .api import json_api_config
 
@@ -122,8 +122,10 @@ def newqso_view(request):
             'groups': request.dbsession.query(Group).all(),
             'modes': request.dbsession.query(Mode).filter(Mode.hide == False).all(),
             'bands': request.dbsession.query(Band).filter(Band.hide == False).all(),
-            'conts': [a.name for a in ContinentEnum],
             'dxccs': request.dbsession.query(Dxcc.id, Dxcc.name).filter(Dxcc.deleted == False).order_by(Dxcc.name).all(),
+            'cont_all': [a.name for a in ContinentEnum],
             'mode_all': request.dbsession.query(Mode).all(),
             'band_all': request.dbsession.query(Band).all(),
-            'dxcc_all': request.dbsession.query(Dxcc.id, Dxcc.name).order_by(Dxcc.name).all()}
+            'dxcc_all': request.dbsession.query(Dxcc.id, Dxcc.name).order_by(Dxcc.name).all(),
+            'qsl_rcvd_enum_all': [a.name for a in RcvdEnum],
+            'qsl_sent_enum_all': [a.name for a in SentEnum]}

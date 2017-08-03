@@ -54,7 +54,7 @@ class UserConfig(object):
         return new_str
 
     def setpassword(self, key, value):
-        p = self._pad_string(value)
+        p = UserConfig._pad_string(value)
 
         crypt_obj = Blowfish.new(self._cipher_key, Blowfish.MODE_ECB)
         c = crypt_obj.encrypt(p.encode('ascii'))

@@ -1,44 +1,45 @@
 <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/qso.css')}}" />
 <script src="{{request.static_url('kfhlog:static/js/qso.js')}}"></script>
+<script src="{{request.static_url('kfhlog:static/js/locator.js')}}"></script>
 
 <form id="qso">
     <div>
         <div id="col1">
             <div class="divTable">
                 <div class="tr">
-                    <div class="tdl"><label for="call">Call:</label></div>
+                    <div class="tdl"><label for="qso_call">Call:</label></div>
                     <div class="tdr">
-                        <input type="text" id="call" maxlength="20" size="20" /> <a id="qrz" href="https://www.qrz.com/db/" target="_blank"><span class="icon-link"></span></a>
+                        <input type="text" id="qso_call" maxlength="20" size="20" /> <a id="qso_qrz" href="https://www.qrz.com/db/" target="_blank"><span class="icon-link"></span></a>
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="date_on">Date:</label></div>
+                    <div class="tdl"><label for="qso_date_on">Date:</label></div>
                     <div class="tdr">
-                        <input type="date" id="date_on" size="10" placeholder="yyyy-mm-dd" /> <input type="time" id="time_on" size="8" placeholder="hh:mm[:ss]" />
+                        <input type="date" id="qso_date_on" size="10" placeholder="yyyy-mm-dd" /> <input type="time" id="qso_time_on" size="8" placeholder="hh:mm[:ss]" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="rst_sent">RST Send:</label></div>
+                    <div class="tdl"><label for="qso_rst_sent">RST Send:</label></div>
                     <div class="tdr">
-                        <input type="text" id="rst_sent" size="10" /><input type="text" id="stx_string" size="10" />
+                        <input type="text" id="qso_rst_sent" size="10" /><input type="text" id="qso_stx_string" size="10" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="rst_rcvd">RST Recv:</label></div>
+                    <div class="tdl"><label for="qso_rst_rcvd">RST Recv:</label></div>
                     <div class="tdr">
-                        <input type="text" id="rst_rcvd" size="10" /><input type="text" id="srx_string" size="10" />
+                        <input type="text" id="qso_rst_rcvd" size="10" /><input type="text" id="qso_srx_string" size="10" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="gridsquare">Locator:</label></div>
+                    <div class="tdl"><label for="qso_gridsquare">Locator:</label></div>
                     <div class="tdr">
-                        <input type="text" id="gridsquare" maxlength="8" pattern="[A-Ra-r]{2}([0-9]{2}([A-Xa-x]{2}([0-9]{2})?)?)?" />
+                        <input type="text" id="qso_gridsquare" maxlength="8" pattern="[A-Ra-r]{2}([0-9]{2}([A-Xa-x]{2}([0-9]{2})?)?)?" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="dxcc">Dxcc:</label></div>
+                    <div class="tdl"><label for="qso_dxcc">Dxcc:</label></div>
                     <div class="tdr">
-                        <select id="dxcc" data-placeholder="Select">
+                        <select id="qso_dxcc" data-placeholder="Select">
                             <option value=""></option>
                             {% for dxcc in dxcc_all %}
                             <option value="{{ dxcc.id }}">{{ dxcc.name }} [{{ dxcc.id }}]</option>
@@ -47,21 +48,21 @@
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="name">Name:</label></div>
+                    <div class="tdl"><label for="qso_name">Name:</label></div>
                     <div class="tdr">
-                        <input type="text" id="name" />
+                        <input type="text" id="qso_name" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="qth">QTH:</label></div>
+                    <div class="tdl"><label for="qso_qth">QTH:</label></div>
                     <div class="tdr">
-                        <input type="text" id="qth" />
+                        <input type="text" id="qso_qth" />
                     </div>
                 </div>
                 <div class="trc">
-                    <div class="tdl"><label for="comment">Remarks:</label></div>
+                    <div class="tdl"><label for="qso_comment">Remarks:</label></div>
                     <div class="tdr">
-                        <textarea id="comment"></textarea>
+                        <textarea id="qso_comment"></textarea>
                     </div>
                 </div>
             </div>
@@ -69,10 +70,9 @@
         <div id="col2">
             <div class="divTable">
                 <div class="tr">
-                    <div class="tdl"><label for="mode">Mode:</label></div>
+                    <div class="tdl"><label for="qso_mode">Mode:</label></div>
                     <div class="tdr">
-                        <select id="mode" data-placeholder="Select">
-                            <option value=""></option>
+                        <select id="qso_mode" data-placeholder="Select">
                             {% for mode in mode_all %}
                             <option value="{{ mode.id }}">{{ mode.name }}</option>
                             {% endfor %}
@@ -80,10 +80,9 @@
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="band">Band:</label></div>
+                    <div class="tdl"><label for="qso_band">Band:</label></div>
                     <div class="tdr">
-                        <select id="band" data-placeholder="Select">
-                            <option value=""></option>
+                        <select id="qso_band" data-placeholder="Select">
                             {% for band in band_all %}
                             <option value="{{ band.id }}">{{ band.name }}</option>
                             {% endfor %}
@@ -91,62 +90,62 @@
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="freq">Freq:</label></div>
+                    <div class="tdl"><label for="qso_freq">Freq:</label></div>
                     <div class="tdr">
-                        <input type="number" id="freq" placeholder="MHz" step="0.000001" min="0.000001"/>
+                        <input type="number" id="qso_freq" placeholder="MHz" step="0.000001" min="0.000001"/>
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="state">State:</label></div>
+                    <div class="tdl"><label for="qso_state">State:</label></div>
                     <div class="tdr">
-                        <input type="text" id="state" maxlength="20" />
+                        <input type="text" id="qso_state" maxlength="20" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="cnty">Cnty:</label></div>
+                    <div class="tdl"><label for="qso_cnty">Cnty:</label></div>
                     <div class="tdr">
-                        <input type="text" id="cnty" maxlength="20" />
+                        <input type="text" id="qso_cnty" maxlength="20" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="cqz">WAZ:</label></div>
+                    <div class="tdl"><label for="qso_cqz">WAZ:</label></div>
                     <div class="tdr">
-                        <input type="number" id="cqz" min="1" max="40" />
+                        <input type="number" id="qso_cqz" min="1" max="40" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="ituz">ITU:</label></div>
+                    <div class="tdl"><label for="qso_ituz">ITU:</label></div>
                     <div class="tdr">
-                        <input type="number" id="ituz" min="1" max="75" />
+                        <input type="number" id="qso_ituz" min="1" max="75" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="cont">Cont:</label></div>
+                    <div class="tdl"><label for="qso_cont">Cont:</label></div>
                     <div class="tdr">
-                        <select id="cont" data-placeholder="Select">
+                        <select id="qso_cont" data-placeholder="Select">
                             <option value=""></option>
-                            {% for cont in conts %}
+                            {% for cont in cont_all %}
                             <option>{{ cont }}</option>
                             {% endfor %}
                         </select>
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="iota">IOTA:</label></div>
+                    <div class="tdl"><label for="qso_iota">IOTA:</label></div>
                     <div class="tdr">
-                        <input type="text" id="iota" maxlength="6" pattern="([Aa][Ff]|[Aa][Nn]|[Aa][Ss]|[Ee][Uu]|[Nn][Aa]|[Oo][Cc]|[Ss][Aa])-[0-9]{3}" />
+                        <input type="text" id="qso_iota" maxlength="6" pattern="([Aa][Ff]|[Aa][Nn]|[Aa][Ss]|[Ee][Uu]|[Nn][Aa]|[Oo][Cc]|[Ss][Aa])-[0-9]{3}" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="sota_ref">SOTA:</label></div>
+                    <div class="tdl"><label for="qso_sota_ref">SOTA:</label></div>
                     <div class="tdr">
-                        <input type="text" id="sota_ref" maxlength="20" pattern="[A-Za-z0-9]{1,3}/[A-Za-z]{2}-[0-9]{3}" />
+                        <input type="text" id="qso_sota_ref" maxlength="20" pattern="[A-Za-z0-9]{1,3}/[A-Za-z]{2}-[0-9]{3}" />
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="qsl_via">QSL via:</label></div>
+                    <div class="tdl"><label for="qso_qsl_via">QSL via:</label></div>
                     <div class="tdr">
-                        <input type="text" id="qsl_via" maxlength="20" />
+                        <input type="text" id="qso_qsl_via" maxlength="20" />
                     </div>
                 </div>
             </div>
@@ -154,19 +153,80 @@
         <div id="col3">
             <div class="divTable">
                 <div class="tr">
-                    <div class="tdl"><label for="profile">Profile:</label></div>
+                    <div class="tdl"></div>
+                    <div class="tdr"> Rcvd / Sent</div>
+                </div>
+                 <div class="tr">
+                    <div class="tdl"><label for="qso_lotw_qsl_rcvd">LOTW:</label></div>
                     <div class="tdr">
-                        <select id="profile" data-placeholder="Select">
+                        <select id="qso_lotw_qsl_rcvd">
+                            {% for r in qsl_rcvd_enum_all %}
+                            <option>{{ r }}</option>
+                            {% endfor %}
+                        </select> /
+                        <select id="qso_lotw_qsl_sent">
+                            {% for r in qsl_sent_enum_all %}
+                            <option>{{ r }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                 <div class="tr">
+                    <div class="tdl"><label for="qso_eqsl_qsl_rcvd">eQSL:</label></div>
+                    <div class="tdr">
+                        <select id="qso_eqsl_qsl_rcvd">
+                            {% for r in qsl_rcvd_enum_all %}
+                            <option>{{ r }}</option>
+                            {% endfor %}
+                        </select> /
+                        <select id="qso_eqsl_qsl_sent">
+                            {% for r in qsl_sent_enum_all %}
+                            <option>{{ r }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                 <div class="tr">
+                    <div class="tdl"><label for="qso_qsl_rcvd">QSL:</label></div>
+                    <div class="tdr">
+                        <select id="qso_qsl_rcvd">
+                            {% for r in qsl_rcvd_enum_all %}
+                            <option>{{ r }}</option>
+                            {% endfor %}
+                        </select> /
+                        <select id="qso_qsl_sent">
+                            {% for r in qsl_sent_enum_all %}
+                            <option>{{ r }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="col4">
+            <div class="divTable">
+                <div class="tr">
+                    <div class="tdl"><label for="qso_profile">Profile:</label></div>
+                    <div class="tdr">
+                        <select id="qso_profile" data-placeholder="Select">
                             {% for profile in profiles %}
-                            <option value="{{ profile.id }}" data-gridsquare="{{ profile.gridsquare }}">{{ profile.name }}</option>
+                            <option value="{{ profile.id }}" data-gridsquare="{{ profile.gridsquare }}" data-call="{{ profile.call }}" data-op_name="{{ profile.op_name }}">{{ profile.name }}</option>
                             {% endfor %}
                         </select>
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="group">Group:</label></div>
+                    <div class="tdl"><label for="qso_call_info">My call:</label></div>
+                    <div class="tdr"><output id="qso_call_info"></output></div>
+                </div>
+                <div class="tr">
+                    <div class="tdl"><label for="qso_gridsquare_info">My locator:</label></div>
+                    <div class="tdr"><output id="qso_gridsquare_info"></output></div>
+                </div>
+                <div class="tr">
+                    <div class="tdl"><label for="qso_group">Group:</label></div>
                     <div class="tdr">
-                        <select id="group" data-placeholder="Select">
+                        <select id="qso_group" data-placeholder="Select">
                             {% for group in groups %}
                             <option value="{{ group.id }}">{{ group.name }}</option>
                             {% endfor %}
@@ -174,19 +234,15 @@
                     </div>
                 </div>
                 <div class="tr">
-                    <div class="tdl"><label for="loc_info">Distance:</label></div>
-                    <div class="tdr"><output id="loc_info">0.00km, 0.0&deg;</output></div>
-                </div>
-                <div class="tr">
-                    <div class="tdl"></div>
-                    <div class="tdr"></div>
+                    <div class="tdl"><label for="qso_loc_info">Distance:</label></div>
+                    <div class="tdr"><output id="qso_loc_info">0.00km, 0.0&deg;</output></div>
                 </div>
             </div>
         </div>
     </div>
-    <input type="hidden" id="id" />
-    <input type="button" id="update_button" value="Update" /> <input type="button" id="cancel_button" value="Cancel"/>
+    <input type="hidden" id="qso_id" />
+    <input type="button" id="qso_update_button" value="Update" /> <input type="button" id="qso_cancel_button" value="Cancel"/>
     {% if request.matched_route.name != "qso" %}
-    <input type="button" id="opennewwindow_button" value="Open in new window"/>
+    <input type="button" id="qso_opennewwindow_button" value="Open in new window"/>
     {% endif %}
 </form>

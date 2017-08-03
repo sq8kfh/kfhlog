@@ -133,7 +133,7 @@
             <div class="tdr">
                 <select id="cont" data-placeholder="Select">
                     <option value=""></option>
-                    {% for cont in conts %}
+                    {% for cont in cont_all %}
                     <option>{{ cont }}</option>
                     {% endfor %}
                 </select>
@@ -166,10 +166,14 @@
             <div class="tdr">
                 <select id="profile" data-placeholder="Select">
                     {% for profile in profiles %}
-                    <option value="{{ profile.id }}" data-gridsquare="{{ profile.gridsquare }}">{{ profile.name }}</option>
+                    <option value="{{ profile.id }}" data-gridsquare="{{ profile.gridsquare }}" data-call="{{ profile.call }}" data-op_name="{{ profile.op_name }}">{{ profile.name }}</option>
                     {% endfor %}
                 </select>
             </div>
+        </div>
+        <div class="tr">
+            <div class="tdl"><label for="call_info">My call:</label></div>
+            <div class="tdr"><output id="call_info"></output></div>
         </div>
         <div class="tr">
             <div class="tdl"><label for="gridsquare_info">My locator:</label></div>

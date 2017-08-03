@@ -4,7 +4,7 @@ from pyramid.view import view_config
 from sqlalchemy import func
 
 from ..models import Profile, Group, Qso, Mode, Band, Dxcc
-from ..models.dbtools.datatypes import RcvdEnum, ModeEnum, ContinentEnum
+from ..models.dbtools.datatypes import RcvdEnum, SentEnum, ContinentEnum
 
 from .api import json_api_config
 
@@ -290,4 +290,6 @@ def log_view(request):
             'band_all': request.dbsession.query(Band).all(),
             'dxcc_all': request.dbsession.query(Dxcc.id, Dxcc.name).order_by(Dxcc.name).all(),
             'cont_all': [a.name for a in ContinentEnum],
+            'qsl_rcvd_enum_all': [a.name for a in RcvdEnum],
+            'qsl_sent_enum_all': [a.name for a in SentEnum],
             'preset': preset}

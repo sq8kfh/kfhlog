@@ -19,7 +19,7 @@
     width: 80%; /* Could be more or less, depending on screen size */
 }
 
-form#qso #col1, form#qso #col2, form#qso #col3 {
+form#qso #col1, form#qso #col2, form#qso #col3, form#qso #col4 {
     display: inline-block;
     vertical-align: top;
     text-align: left;
@@ -47,39 +47,51 @@ form#qso #col1, form#qso #col2, form#qso #col3 {
 	text-align: right;
 }
 
-form#qso div#col1 input[type=number], form#qso div#col1 input[type=text] {
-    width: 227px;
-}
-
-form#qso #date_on {
-    width: 113px;
-}
-
-form#qso #time_on {
-    width: 87px;
-}
-
-form#qso div#col1 #call {
+form#qso div#col1 input[type=number], form#qso div#col1 input[type=text], form#qso div#col1 select {
     width: 210px;
 }
 
-form#qso div#col1 #rst_sent[type=text],
-form#qso div#col1 #rst_rcvd[type=text] {
-    width: 80px;
+form#qso div#col1 select {
+    width: 215px;
 }
 
-form#qso div#col1 #stx_string[type=text],
-form#qso div#col1 #srx_string[type=text] {
+form#qso #qso_date_on {
+    width: 113px;
+}
+
+form#qso #qso_time_on {
+    width: 87px;
+}
+
+form#qso div#col1 #qso_call {
+    width: 193px;
+}
+
+form#qso div#col1 #qso_rst_sent[type=text],
+form#qso div#col1 #qso_rst_rcvd[type=text] {
+    width: 63px;
+}
+
+form#qso div#col1 #qso_stx_string[type=text],
+form#qso div#col1 #qso_srx_string[type=text] {
     width: 131px;
     margin-left: 10px;
 }
 
-form#qso div#col2 input[type=number], form#qso div#col2 input[type=text] {
-    width: 134px;
+form#qso div#col2 input[type=number], form#qso div#col2 input[type=text], form#qso div#col2 select  {
+    width: 110px;
+}
+
+form#qso div#col2 select  {
+    width: 115px;
+}
+
+form#qso div#col4 select {
+    width: 130px;
 }
 
 form#qso textarea {
-  width: 230px;
+  width: 214px;
   height: 84px;
   resize: none;
 }

@@ -12,7 +12,7 @@ class RcvdEnum(enum.Enum):
         return self.name
 
 
-class SendEnum(enum.Enum):
+class SentEnum(enum.Enum):
     Y = 1
     N = 2
     R = 3

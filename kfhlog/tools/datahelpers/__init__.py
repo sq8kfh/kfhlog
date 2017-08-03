@@ -64,17 +64,17 @@ class QsoHelper(BaseHelper):
     lotw_qslrdate = DateType()
     lotw_qslsdate = DateType()
     lotw_qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
-    lotw_qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
+    lotw_qsl_sent = StrType(one_of=[a.name for a in datatypes.SentEnum])
 
     eqsl_qslrdate = DateType()
     eqsl_qslsdate = DateType()
     eqsl_qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
-    eqsl_qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
+    eqsl_qsl_sent = StrType(one_of=[a.name for a in datatypes.SentEnum])
 
     qslrdate = DateType()
     qslsdate = DateType()
     qsl_rcvd = StrType(one_of=[a.name for a in datatypes.RcvdEnum])
-    qsl_sent = StrType(one_of=[a.name for a in datatypes.SendEnum])
+    qsl_sent = StrType(one_of=[a.name for a in datatypes.SentEnum])
     qsl_via = StrType()
 
     a_index = IntType(min_value=0)
