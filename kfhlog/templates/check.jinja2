@@ -13,7 +13,7 @@
         {% for r in row %}
         <tr>
             {% if addrowlink %}
-            <th><a href="{{request.route_url('check')}}?profile={{r}}&call={{call}}">{{ rowh[r] }}</a></th>
+            <th><a href="{{request.route_path('check')}}?profile={{r}}&call={{call}}">{{ rowh[r] }}</a></th>
             {% else %}
             <th>{{ rowh[r] }}</th>
             {% endif %}

@@ -1,11 +1,11 @@
 {% extends "base.jinja2" %}
 
 {% block head %}
-    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/chosen.min.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{request.static_url('kfhlog:static/css/newqso.css')}}" />
-    <script src="{{request.static_url('kfhlog:static/js/chosen.jquery.min.js')}}"></script>
-    <script src="{{request.static_url('kfhlog:static/js/newqso.js')}}"></script>
-    <script src="{{request.static_url('kfhlog:static/js/locator.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{request.static_path('kfhlog:static/css/chosen.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{request.static_path('kfhlog:static/css/newqso.css')}}" />
+    <script src="{{request.static_path('kfhlog:static/js/chosen.jquery.min.js')}}"></script>
+    <script src="{{request.static_path('kfhlog:static/js/newqso.js')}}"></script>
+    <script src="{{request.static_path('kfhlog:static/js/locator.js')}}"></script>
 {% endblock %}
 
 {% block content %}
