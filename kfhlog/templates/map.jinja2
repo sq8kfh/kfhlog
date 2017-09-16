@@ -1,7 +1,7 @@
 {% extends "base.jinja2" %}
 
 {% block head %}
-    <script src="{{request.static_url('kfhlog:static/js/map.js')}}"></script>
+    <script src="{{request.static_path('kfhlog:static/js/map.js')}}"></script>
 {% endblock %}
 
 {% block content %}
@@ -36,7 +36,7 @@
 </div>
 <div>
     <div id="tabs" class="inline_block_wrapper">
-        <object id="map" onload="map_load()" data="{{request.static_url('kfhlog:static/map/itu.svg')}}" type="image/svg+xml"></object>
+        <object id="map" onload="map_load()" data="{{request.static_path('kfhlog:static/map/itu.svg')}}" type="image/svg+xml"></object>
     </div>
 </div>
 {% endblock content %}

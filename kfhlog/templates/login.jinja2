@@ -3,7 +3,7 @@
 {% block content %}
 {{message}}
 <div class="center">
-<form action="/login" method="post">
+<form action="{{request.route_path('login')}}" method="post">
     <input type="hidden" name="next" value="{{next_url}}" />
     <ul>
         <li><input type="text" name="login" placeholder="Username" /></li>

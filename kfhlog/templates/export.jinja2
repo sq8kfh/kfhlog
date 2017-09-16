@@ -3,7 +3,7 @@
 {% block content %}
 <div class="center">
 {{message}}
-<form action="/export" method="post">
+<form action="{{request.route_path('export')}}" method="post">
     <ul>
         <li>
             <label>Profile: <select name="profile">

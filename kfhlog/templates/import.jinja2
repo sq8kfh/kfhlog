@@ -3,7 +3,7 @@
 {% block content %}
 <div class="center">
 {{message}}
-<form action="/import" method="post" enctype="multipart/form-data">
+<form action="{{request.route_path('import')}}" method="post" enctype="multipart/form-data">
     <ul>
         <li>
             <label>Profile: <select name="profile">

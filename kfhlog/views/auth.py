@@ -15,7 +15,7 @@ from ..models import User
 def login_view(request):
     next_url = request.params.get('next')
     if not next_url:
-        next_url = request.route_url('index')
+        next_url = request.route_path('index')
     message = ''
     if 'login' in request.params and 'password' in request.params:
         login = request.params['login']
@@ -32,11 +32,11 @@ def login_view(request):
 def logout_view(request):
     request.session.invalidate()
     headers = forget(request)
-    next_url = request.route_url('login')
+    next_url = request.route_url('login', _scheme='https')
     return HTTPFound(location=next_url, headers=headers)
 
 
 @forbidden_view_config()
 def forbidden_view(request):
-    next_url = request.route_url('login', _query={'next': request.url})
+    next_url = request.route_url('login', _query={'next': request.url}, _scheme='https')
     return HTTPFound(location=next_url)
