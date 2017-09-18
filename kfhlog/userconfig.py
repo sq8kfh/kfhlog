@@ -2,6 +2,14 @@ from Crypto.Cipher import Blowfish
 from .models import Setting
 import base64
 
+settings_list = {
+    #<name>: (<read only>, <password field>, <desc>)
+    'kfhlog.version': (True, False, 'KFHlog database version'),
+    'kfhlog.db_create_date': (True, False, 'Database creation date'),
+    'qrzdotcom.username': (False, False, 'qrz.com account username'),
+    'qrzdotcom.password': (False, True, 'qrz.com account password'),
+}
+
 class UserConfig(object):
     def __init__(self, dbsession, cipher_key):
         self._dbsession = dbsession
@@ -17,8 +25,13 @@ class UserConfig(object):
         return tmp.value
 
     def __setitem__(self, key, value):
-        con = Setting(key=key, value=value)
-        self._dbsession.add(con)
+        con = self._dbsession.query(Setting).get(key)
+        if not con:
+            con = Setting(key=key, value=value)
+            self._dbsession.save(con)
+        else:
+            con.value = value
+            self._dbsession.flush()
 
     def __delitem__(self, key):
         if self.__contains__(key):
@@ -52,6 +65,9 @@ class UserConfig(object):
         if pad_chars != 0:
             new_str += '\0' * pad_chars
         return new_str
+
+    def set(self, key, value):
+        self.__setitem__(key, value)
 
     def setpassword(self, key, value):
         p = UserConfig._pad_string(value)

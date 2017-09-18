@@ -39,7 +39,7 @@
                     <li {% if request.matched_route.name == "awards" %}class="active"{% endif %}><a href="{{request.route_path('awards')}}"><span class="icon-trophy"></span> Awards</a></li>
                     <li {% if request.matched_route.name == "import" %}class="active"{% endif %}><a href="{{request.route_path('import')}}"><span class="icon-download"></span> Import</a></li>
                     <li {% if request.matched_route.name == "export" %}class="active"{% endif %}><a href="{{request.route_path('export')}}"><span class="icon-upload"></span> Export</a></li>
-                    <li {% if request.matched_route.name == "settings" %}class="active"{% endif %}><a href="{{request.route_path('index')}}"><span class="icon-cogs"></span> Settings</a></li>
+                    <li {% if request.matched_route.name == "settings" %}class="active"{% endif %}><a href="{{request.route_path('settings')}}"><span class="icon-cogs"></span> Settings</a></li>
                 {% endif %}
                 <li {% if request.matched_route.name == "about" %}class="active"{% endif %}><a href="{{request.route_path('about')}}"><span class="icon-info-with-circle"></span> About</a></li>
             </ul>

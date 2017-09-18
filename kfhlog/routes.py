@@ -18,4 +18,5 @@ def includeme(config):
     config.add_route('awards', '/awards')
     config.add_route('import', '/import')
     config.add_route('export', '/export')
+    config.add_route('settings', '/settings')
     config.add_route('about', '/about')
