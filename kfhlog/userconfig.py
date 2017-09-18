@@ -8,6 +8,7 @@ settings_list = {
     'kfhlog.db_create_date': (True, False, 'Database creation date'),
     'qrzdotcom.username': (False, False, 'qrz.com account username'),
     'qrzdotcom.password': (False, True, 'qrz.com account password'),
+    'qrzdotcom.username2': (False, False, 'qrz.com account username'),
 }
 
 class UserConfig(object):
@@ -28,7 +29,7 @@ class UserConfig(object):
         con = self._dbsession.query(Setting).get(key)
         if not con:
             con = Setting(key=key, value=value)
-            self._dbsession.save(con)
+            self._dbsession.add(con)
         else:
             con.value = value
             self._dbsession.flush()
