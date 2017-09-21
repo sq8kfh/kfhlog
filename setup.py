@@ -26,6 +26,7 @@ requires = [
     'redis',
     'hamutils >= 0.2.0',
     'pyramid_redis_sessions',
+    'pyramid_celery',
 ]
 
 tests_require = [

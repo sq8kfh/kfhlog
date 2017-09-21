@@ -2,7 +2,6 @@ from pyramid.httpexceptions import HTTPForbidden
 from pyramid.view import view_config
 from ..space_weather import Space_weather
 
-from ..tasks import update_sfi_kp
 
 @view_config(route_name='index', renderer='index.jinja2', permission='authenticated')
 def index_view(request):
@@ -10,8 +9,6 @@ def index_view(request):
         sp = request.redis['space_weather']
     else:
         sp = Space_weather()
-
-    update_sfi_kp(request.dbsession, request.redis)
 
     pre = sp.predictions
     sol = sp.solar[-3:]

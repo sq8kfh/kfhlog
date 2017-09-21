@@ -8,7 +8,6 @@ settings_list = {
     'kfhlog.db_create_date': (True, False, 'Database creation date'),
     'qrzdotcom.username': (False, False, 'qrz.com account username'),
     'qrzdotcom.password': (False, True, 'qrz.com account password'),
-    'qrzdotcom.username2': (False, False, 'qrz.com account username'),
 }
 
 class UserConfig(object):

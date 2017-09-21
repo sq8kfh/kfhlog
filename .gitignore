@@ -4,6 +4,9 @@
 *.pyc
 *$py.class
 *~
+celerybeat.pid
+celerybeat-schedule.db
+dump.rdb
 .coverage
 coverage.xml
 build/

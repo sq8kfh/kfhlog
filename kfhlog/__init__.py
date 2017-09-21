@@ -27,6 +27,9 @@ def main(global_config, **settings):
     config.add_settings({'redis.sessions.client_callable': 'kfhlog.redis.get_redis_client'})
     config.include('pyramid_redis_sessions')
 
+    config.include('pyramid_celery')
+    config.configure_celery(global_config['__file__'])
+
     config.include('.models')
     config.include('.routes')
     config.include('.security')
