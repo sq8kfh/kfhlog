@@ -7,19 +7,17 @@ from ..space_weather import Space_weather
 def index_view(request):
     if 'space_weather' in request.redis:
         sp = request.redis['space_weather']
+        pre = sp.predictions
+        sol = sp.solar[-3:]
+        geo = sp.geomagnetic[-3:]
+
+        return {'predictions': pre,
+                'solar': sol,
+                'geomagnetic': geo}
     else:
-        sp = Space_weather()
-
-    pre = sp.predictions
-    sol = sp.solar[-3:]
-    geo = sp.geomagnetic[-3:]
-
-    request.redis['space_weather'] = sp
-
-    return {'predictions': pre,
-            'solar': sol,
-            'geomagnetic': geo}
-
+        return {'predictions': [],
+                'solar': [],
+                'geomagnetic': []}
 
 db_err_msg = """\
     try:

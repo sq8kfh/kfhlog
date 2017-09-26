@@ -29,8 +29,6 @@ class BaseTask(celery_app.Task):
         return session_factory
 
     def get_redis(self):
-        print("get redis")
         settings = celery_app.conf['PYRAMID_REGISTRY'].settings
-
         tmp = redis._get_raw_redis_factory(settings['redis.host'], settings['redis.port'], settings['redis.db'])
-        return redis.RedisStore(tmp)
+        return redis.RedisStore(tmp(None))
