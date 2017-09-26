@@ -1,3 +1,5 @@
+__all__ = ['tasks']
+
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
 

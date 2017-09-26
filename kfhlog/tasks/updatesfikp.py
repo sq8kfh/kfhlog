@@ -1,32 +1,27 @@
-from pyramid_celery import celery_app as app
-import transaction
-from .models import (
-    get_engine,
-    get_session_factory,
-    get_tm_session,
-    )
+from .basetask import BaseTask
 
-from .models import Qso
-from . import space_weather
+from ..models import get_tm_session, Qso
+from .. import space_weather
+
 import datetime
+import transaction
 
-@app.task
-def update_sfi_kp():
-    settings = app.conf['PYRAMID_REGISTRY'].settings
-    engine = get_engine(settings)
-    session_factory = get_session_factory(engine)
+from pyramid_celery import celery_app
 
-    sp = space_weather.Space_weather()
-
+@celery_app.task(base=BaseTask, bind=True)
+def update_sfi_kp(self):
+    session_factory = self.get_db()
     with transaction.manager:
         dbsession = get_tm_session(session_factory, transaction.manager)
+
+        sp = space_weather.Space_weather()
+
         solar = sp.solar
         for qso in dbsession.query(Qso).filter(Qso.datetime_on >= solar[0]['date'], Qso.sfi == None):
             for s in solar:
                 if qso.datetime_on.date() == s['date']:
                     qso.sfi = s['sfi']
                     break
-
         geo = sp.geomagnetic[:-1]
         for qso in dbsession.query(Qso).filter(Qso.datetime_on >= geo[0]['date'], Qso.k_index == None):
             for g in geo:
