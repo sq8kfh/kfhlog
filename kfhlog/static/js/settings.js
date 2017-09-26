@@ -1,12 +1,12 @@
-function set_setting(name) {
+function set_setting(inp, name) {
     $.ajax({
         type:'POST',
         url: '/api/set_setting',
-        data: JSON.stringify({"name": name, "value": $("#setting_value").val()}),
+        data: JSON.stringify({"name": name, "value": inp.value}),
         contentType: 'application/json; charset=utf-8',
         success: function(jsn) {
             if( jsn.status != 'ok') {
-                edit_setting(name);
+                get_setting(name);
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
@@ -15,7 +15,7 @@ function set_setting(name) {
     });
 }
 
-function edit_setting(name) {
+function get_setting(inp, name) {
     $.ajax({
         type:'POST',
         url: '/api/get_setting',
@@ -24,16 +24,32 @@ function edit_setting(name) {
         success: function(jsn) {
             if( jsn.status != 'ok')
                 return;
-            $("#setting_name").text(jsn.name);
-            $("#setting_value").val(jsn.value);
-            $("#setting_desc").text(jsn.desc);
-            $("#setting_value").off("change");
-            $("#setting_value").on("change", function () {
-                set_setting(name);
-            });
+            inp.value = jsn.value;
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert( "Bad request: " + jqXHR.responseText);
         },
     });
 }
+
+function open_tab(tab) {
+    $('#tabs > div').each(function () {
+        $( this ).css("display", "none");
+    });
+    $('#' + tab).css("display", "block");
+    switch (tab) {
+    case 'profilestab':
+        show_award('general')
+        break;
+    case 'groupstab':
+        show_award('dxcc')
+        break;
+    case 'configtab':
+        show_award('cq')
+        break;
+    }
+}
+
+$(document).ready(function() {
+    open_tab('profilestab');
+});

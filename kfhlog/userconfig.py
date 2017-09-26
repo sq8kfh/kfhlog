@@ -4,10 +4,10 @@ import base64
 
 settings_list = {
     #<name>: (<read only>, <password field>, <desc>)
-    'kfhlog.version': (True, False, 'KFHlog database version'),
-    'kfhlog.db_create_date': (True, False, 'Database creation date'),
-    'qrzdotcom.username': (False, False, 'qrz.com account username'),
-    'qrzdotcom.password': (False, True, 'qrz.com account password'),
+    'kfhlog.version': {'ro': True, 'password': False, 'desc': 'KFHLog database version'},
+    'kfhlog.db_create_date': {'ro': True, 'password': False, 'desc': 'Database creation date'},
+    'qrzdotcom.username': {'ro': False, 'password': False, 'desc': 'qrz.com account username'},
+    'qrzdotcom.password': {'ro': False, 'password': True, 'desc': 'qrz.com account password'},
 }
 
 class UserConfig(object):

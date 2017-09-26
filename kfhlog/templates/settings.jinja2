@@ -7,20 +7,40 @@
 {% block content %}
 <div class="column">
     <ul class="submenu">
-        <li>
-        </li>
-        <li>
-        </li>
-        {% for name, set in settings_list.items() %}
-            <li><a href="#" onclick="edit_setting('{{ name }}')" title="{{ set[-1] }}">{{ name }}</a></li>
-        {% endfor %}
+        <li><a href="#" onclick="open_tab('profilestab')"><span class="icon-check"></span> Profiles</a></li>
+        <li><a href="#" onclick="open_tab('groupstab')"><span class="icon-check"></span> Groups</a></li>
+        <li><a href="#" onclick="open_tab('configtab')"><span class="icon-check"></span> Config</a></li>
     </ul>
 </div>
 <div>
     <div id="tabs" class="inline_block_wrapper">
-        <label for="setting_value" id="setting_name"></label><br />
-        <input type="text" id="setting_value" size="40" autofocus /><br />
-        <span id="setting_desc"></span>
+        <div id="profilestab">
+        </div>
+        <div id="groupstab">
+        </div>
+        <div id="configtab">
+            <table class="stdtable tdleft">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Value</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for i in settings_list %}
+                    <tr>
+                        <td>{{ i[0] }}</td>
+                        <td><input id="{{ i[0] }}" type="{% if i[3] %}password{% else %}text{% endif %}"
+                                   value="{{ i[1] }}"
+                                   {%  if i[2] %}readonly{% else %}onchange="set_setting(this, '{{ i[0] }}')"{% endif %}>
+                        </td>
+                        <td>{{ i[4] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock content %}

@@ -140,6 +140,10 @@ table.stdtable {
     text-align: center;
 }
 
+.tdleft td {
+    text-align: left;
+}
+
 /*.stdtable tr:last-child {
     border-bottom: 1px solid;
 }*/
