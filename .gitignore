@@ -4,6 +4,7 @@
 *.pyc
 *$py.class
 *~
+running.ini
 celerybeat.pid
 celerybeat-schedule.db
 dump.rdb

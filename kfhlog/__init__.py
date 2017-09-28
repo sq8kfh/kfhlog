@@ -1,6 +1,7 @@
 __all__ = ['tasks']
 
 import subprocess
+import os
 from pyramid.config import Configurator
 from pyramid.renderers import JSON
 
@@ -13,12 +14,15 @@ __version__ = None  # http://semver.org/
 
 def set_version():
     global __version__
-    o = subprocess.check_output(['git', 'describe', '--long', '--dirty', '--always']).decode("utf-8").rstrip()
-    print(o)
+    path = os.path.dirname(__file__)
+    o = subprocess.check_output(['git', 'describe', '--long', '--dirty', '--always'], cwd=path).decode("utf-8").rstrip()
     __version__ = o
 
 if not __version__:
-    set_version()
+    try:
+        set_version()
+    except subprocess.CalledProcessError as e:
+        __version__ = '0.0.0'
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
