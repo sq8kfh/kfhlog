@@ -19,6 +19,7 @@ def _check(dbsession, call, profile=None):
         req_type = Profile
         addrowlink = True
         tmp = dbsession.query(Qso.profile, Qso.band).group_by(Qso.profile, Qso.band).filter_by(call=call).all()
+
     if not tmp:
         return {'message': 'Call %s is not in the log...' % call}
     col = {x[1] for x in tmp}
@@ -30,7 +31,10 @@ def _check(dbsession, call, profile=None):
     for r, c in tmp:
         res[(r, c)] = True
 
-    rowh = {id: dbsession.query(req_type).get(id).name for id in row}
+    if profile:
+        rowh = {id: dbsession.query(Mode).get(id).name for id in row}
+    else:
+        rowh = {id: "%s (%s)" % (dbsession.query(Profile).get(id).call, dbsession.query(Profile).get(id).gridsquare) for id in row}
     colh = [dbsession.query(Band).get(id).name for id in col]
     return {'call': call, 'name': name, 'res': res, 'col': col, 'row': row,
             'rowh': rowh, 'colh': colh, 'addrowlink': addrowlink}
