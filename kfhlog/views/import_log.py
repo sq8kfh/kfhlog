@@ -2,7 +2,7 @@ import os
 import uuid
 import shutil
 
-from hamutils.adif import ADIReader, ADXReader
+from ..hamutils.adif import ADIReader, ADXReader
 from pyramid.view import view_config
 
 from ..models import Qso, Profile, Group
@@ -30,7 +30,7 @@ def _adif2qso(qsoprofile, qsogroup, adif, dbsession):
                                                 profile=qsoprofile,
                                                 group=qsogroup,
                                                 datetime_on=r['datetime_on'],
-                                                datetime_off=r['datetime_off'])
+                                                datetime_off=r['datetime_off'] if 'datetime_off' in r else None)
         res = qh.validate(delete_incorrect=True)
         qh.autocomplete(dbsession)
         if res['error']:

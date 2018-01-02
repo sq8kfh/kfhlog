@@ -110,8 +110,10 @@ $(document).ready(function() {
             else {
                 if(parseInt(this.value.trim()) >= 0)
                     obj[id] = parseInt(this.value.trim());
+                else if (this.value.trim() != '')
+                    obj[id] = this.value.trim();
                 else
-                    obj[id] = null;
+                     obj[id] = null;
             }
         });
         $.ajax({

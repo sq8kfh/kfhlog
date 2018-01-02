@@ -186,7 +186,8 @@ class BaseHelper(object):
         self._var = tuple((_dict[name]._setnameandreturn(name) for name in _dict if isinstance(_dict[name], BaseType)))
         self._raw = data if data else {}
         for name in kw:
-            self._raw[name] = kw[name]
+            if kw[name]:
+                self._raw[name] = kw[name]
 
     def autocomplete(self, dbsession):
         for c in self._var:
