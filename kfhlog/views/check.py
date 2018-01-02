@@ -12,7 +12,7 @@ def _check(dbsession, call, profile=None):
     name = ''
     if profile:
         req_type = Mode
-        name = dbsession.query(Profile).get(profile).name
+        name = "%s (%s)" % (dbsession.query(Profile).get(profile).call, dbsession.query(Profile).get(profile).gridsquare)
         tmp = dbsession.query(Qso.mode, Qso.band).group_by(Qso.mode, Qso.band).\
             filter_by(call=call, profile=profile).all()
     else:
