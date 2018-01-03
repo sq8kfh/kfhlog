@@ -20,7 +20,7 @@
             <div class="usermenu">
                 <ul class="usermenu">
                 {% if request.user is none %}
-                    <li><a href="{{request.route_url('login', _scheme='http')}}"><span class="icon-enter"></span> Login</a></li>
+                    <li><a href="{{request.route_url('login', _scheme='https')}}"><span class="icon-enter"></span> Login</a></li>
                 {% else %}
                     <li><a title="Logout" href="{{request.route_path('logout')}}"><span class="icon-exit"></span> {{request.user.name}}</a></li>
                 {% endif %}
